@@ -2,5 +2,5 @@
 
 ```sh
 pnpm i
-pnpm dev
+pnpm start
 ```
