@@ -1,6 +1,6 @@
 import { Avatar, Box, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, Wrap, WrapItem } from '@chakra-ui/react';
 
-import { selectFiles } from './fileListingSlice';
+import { ProcessState, selectFiles } from './fileListingSlice';
 import { useAppSelector } from '../../hooks';
 
 export function FileListing() {
@@ -27,9 +27,13 @@ export function FileListing() {
                 <Box as="h4" fontWeight="semibold" mt="1">
                   {file.metadata.name || file.fileName}
                 </Box>
-                <Text>专辑: {file.metadata.album}</Text>
-                <Text>艺术家: {file.metadata.artist}</Text>
-                <Text>专辑艺术家: {file.metadata.albumArtist}</Text>
+                {file.state === ProcessState.COMPLETE && (
+                  <>
+                    <Text>专辑: {file.metadata.album}</Text>
+                    <Text>艺术家: {file.metadata.artist}</Text>
+                    <Text>专辑艺术家: {file.metadata.albumArtist}</Text>
+                  </>
+                )}
               </Td>
               <Td>
                 <Wrap>
