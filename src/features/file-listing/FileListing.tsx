@@ -10,8 +10,8 @@ export function FileListing() {
 
   useEffect(() => {
     // FIXME: Remove test data
-    if (files.length === 0) {
-      dispatch(addNewFile({ id: String(Date.now()), fileName: '测试文件名.mgg', blobURI: '' }));
+    if (Object.keys(files).length === 0) {
+      dispatch(addNewFile({ id: 'dummy', fileName: '测试文件名.mgg', blobURI: '' }));
     }
   }, []);
 
@@ -26,8 +26,8 @@ export function FileListing() {
           </Tr>
         </Thead>
         <Tbody>
-          {files.map((file) => (
-            <Tr key={file.id}>
+          {Object.entries(files).map(([id, file]) => (
+            <Tr key={id}>
               <Td>
                 {file.metadata.cover && <Avatar size="sm" name="专辑封面" src={file.metadata.cover} />}
                 {!file.metadata.cover && <Text>暂无封面</Text>}

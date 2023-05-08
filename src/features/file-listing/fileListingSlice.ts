@@ -22,7 +22,6 @@ export interface AudioMetadata {
 }
 
 export interface DecryptedAudioFile {
-  id: string;
   fileName: string;
   raw: string; // blob uri
   decrypted: string; // blob uri
@@ -32,11 +31,11 @@ export interface DecryptedAudioFile {
 }
 
 export interface FileListingState {
-  files: DecryptedAudioFile[];
+  files: Record<string, DecryptedAudioFile>;
   displayMode: ListingMode;
 }
 const initialState: FileListingState = {
-  files: [],
+  files: Object.create(null),
   displayMode: ListingMode.LIST,
 };
 
@@ -45,8 +44,7 @@ export const fileListingSlice = createSlice({
   initialState,
   reducers: {
     addNewFile: (state, { payload }: PayloadAction<{ id: string; fileName: string; blobURI: string }>) => {
-      state.files.push({
-        id: payload.id,
+      state.files[payload.id] = {
         fileName: payload.fileName,
         raw: payload.blobURI,
         decrypted: '',
@@ -59,10 +57,10 @@ export const fileListingSlice = createSlice({
           albumArtist: '',
           cover: '',
         },
-      });
+      };
     },
     setDecryptedContent: (state, { payload }: PayloadAction<{ id: string; decryptedBlobURI: string }>) => {
-      const file = state.files.find((file) => file.id === payload.id);
+      const file = state.files[payload.id];
       if (file) {
         file.decrypted = payload.decryptedBlobURI;
       }
