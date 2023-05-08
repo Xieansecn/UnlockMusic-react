@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
+import { decryptionQueue } from '../../decrypt-worker/client';
 
 export enum ProcessState {
   UNTOUCHED = 'UNTOUCHED',
@@ -38,6 +39,15 @@ const initialState: FileListingState = {
   files: Object.create(null),
   displayMode: ListingMode.LIST,
 };
+
+export const processFile = createAsyncThunk('fileListing/processFile', async (fileId: string, thunkAPI) => {
+  const file = selectFiles(thunkAPI.getState() as RootState)[fileId];
+  if (!file) {
+    return thunkAPI.rejectWithValue('ERROR: File not found');
+  }
+
+  return decryptionQueue.add({ id: fileId, blobURI: file.raw });
+});
 
 export const fileListingSlice = createSlice({
   name: 'fileListing',

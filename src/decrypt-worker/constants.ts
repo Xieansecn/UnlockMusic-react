@@ -1,0 +1,3 @@
+export enum DECRYPTION_WORKER_ACTION_NAME {
+  DECRYPT = 'DECRYPT',
+}

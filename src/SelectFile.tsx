@@ -3,7 +3,7 @@ import React, { useId } from 'react';
 import { Box, Text } from '@chakra-ui/react';
 import { UnlockIcon } from '@chakra-ui/icons';
 import { useAppDispatch } from './hooks';
-import { addNewFile } from './features/file-listing/fileListingSlice';
+import { addNewFile, processFile } from './features/file-listing/fileListingSlice';
 import { nanoid } from 'nanoid';
 
 export function SelectFile() {
@@ -15,13 +15,16 @@ export function SelectFile() {
       for (const file of e.target.files) {
         const blobURI = URL.createObjectURL(file);
         const fileName = file.name;
+        const fileId = 'file://' + nanoid();
+        // FIXME: this should be a single action/thunk that first adds the item, then updates it.
         dispatch(
           addNewFile({
-            id: nanoid(),
+            id: fileId,
             blobURI,
             fileName,
           })
         );
+        dispatch(processFile(fileId));
       }
     }
 
