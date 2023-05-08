@@ -1,10 +1,32 @@
-import { useId } from 'react';
+import React, { useId } from 'react';
 
 import { Box, Text } from '@chakra-ui/react';
 import { UnlockIcon } from '@chakra-ui/icons';
+import { useAppDispatch } from './hooks';
+import { addNewFile } from './features/file-listing/fileListingSlice';
+import { nanoid } from 'nanoid';
 
 export function SelectFile() {
+  const dispatch = useAppDispatch();
   const id = useId();
+
+  const handleFileSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      for (const file of e.target.files) {
+        const blobURI = URL.createObjectURL(file);
+        const fileName = file.name;
+        dispatch(
+          addNewFile({
+            id: nanoid(),
+            blobURI,
+            fileName,
+          })
+        );
+      }
+    }
+
+    e.target.value = '';
+  };
 
   return (
     <Box
@@ -34,7 +56,7 @@ export function SelectFile() {
           点我选择
         </Text>
         需要解密的文件
-        <input id={id} type="file" hidden multiple />
+        <input id={id} type="file" hidden multiple onChange={handleFileSelection} />
         <Text fontSize="sm" opacity="50%">
           仅在浏览器内对文件进行解锁，无需消耗流量
         </Text>

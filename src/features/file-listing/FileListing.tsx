@@ -1,19 +1,10 @@
-import { useEffect } from 'react';
 import { Avatar, Box, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, Wrap, WrapItem } from '@chakra-ui/react';
 
-import { addNewFile, selectFiles } from './fileListingSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { selectFiles } from './fileListingSlice';
+import { useAppSelector } from '../../hooks';
 
 export function FileListing() {
-  const dispatch = useAppDispatch();
   const files = useAppSelector(selectFiles);
-
-  useEffect(() => {
-    // FIXME: Remove test data
-    if (Object.keys(files).length === 0) {
-      dispatch(addNewFile({ id: 'dummy', fileName: '测试文件名.mgg', blobURI: '' }));
-    }
-  }, []);
 
   return (
     <TableContainer>
