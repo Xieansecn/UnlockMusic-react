@@ -14,6 +14,7 @@ pnpm start
 
 ## TODO
 
-- [ ] 文件拖放 (利用 `react-dropzone`?) #6
+- [ ] #6 文件拖放 (利用 `react-dropzone`?)
 - [ ] 各类算法 [追踪 `crypto` 标签](https://git.unlock-music.dev/um/um-react/issues?labels=67)
-- [ ] 简易元数据编辑器 #7
+- [ ] #7 简易元数据编辑器
+- [ ] #8 添加单元测试
