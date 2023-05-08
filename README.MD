@@ -12,6 +12,16 @@ pnpm start
 
 数据传输: 生成 blob url (`URL.createObjectURL`) 然后透过 `postMessage` 传递给线程，线程利用 `fetch` API 来获取文件信息。
 
+## 贡献代码
+
+欢迎贡献代码。请确保：
+
+- 单元测试的覆盖率不低于主分支的覆盖率；
+- 提交前请使用 Prettier 对代码进行格式化；
+- 提交前请确保 ESLint 不会报告 warning / error；
+
+满足上述条件后发起 Pull Request，仓库管理员审阅后将合并到主分支。
+
 ## TODO
 
 - [ ] #6 文件拖放 (利用 `react-dropzone`?)
