@@ -19,7 +19,7 @@ const u8Sub = (a: number, b: number) => {
     return a - b;
   }
 
-  return a + 0xff - b;
+  return a + 0x100 - b;
 };
 
 export class XiamiCrypto implements CryptoBase {
