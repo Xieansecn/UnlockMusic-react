@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../../store';
-import { decryptionQueue } from '../../decrypt-worker/client';
+import type { RootState } from '~/store';
+import { decryptionQueue } from '~/decrypt-worker/client';
 
 export enum ProcessState {
   UNTOUCHED = 'UNTOUCHED',

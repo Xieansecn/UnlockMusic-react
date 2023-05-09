@@ -1,4 +1,4 @@
-import { WorkerServerBus } from '../util/WorkerEventBus';
+import { WorkerServerBus } from '~/util/WorkerEventBus';
 import { DECRYPTION_WORKER_ACTION_NAME } from './constants';
 
 const bus = new WorkerServerBus();

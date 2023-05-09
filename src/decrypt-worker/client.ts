@@ -1,5 +1,5 @@
-import { ConcurrentQueue } from '../util/ConcurrentQueue';
-import { WorkerClientBus } from '../util/WorkerEventBus';
+import { ConcurrentQueue } from '~/util/ConcurrentQueue';
+import { WorkerClientBus } from '~/util/WorkerEventBus';
 import { DECRYPTION_WORKER_ACTION_NAME } from './constants';
 
 // TODO: Worker pool?
