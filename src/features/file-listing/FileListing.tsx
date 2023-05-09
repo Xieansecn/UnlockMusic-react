@@ -1,4 +1,18 @@
-import { Avatar, Box, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, Wrap, WrapItem } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  Link,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+  Wrap,
+  WrapItem,
+} from '@chakra-ui/react';
 
 import { ProcessState, selectFiles } from './fileListingSlice';
 import { useAppSelector } from '../../hooks';
@@ -38,7 +52,14 @@ export function FileListing() {
               <Td>
                 <Wrap>
                   <WrapItem>播放</WrapItem>
-                  <WrapItem>下载</WrapItem>
+                  <WrapItem>
+                    {/* TODO: Use correct file name */}
+                    {file.decrypted && (
+                      <Link isExternal href={file.decrypted} download="test.flac">
+                        下载
+                      </Link>
+                    )}
+                  </WrapItem>
                   <WrapItem>删除</WrapItem>
                 </Wrap>
               </Td>
