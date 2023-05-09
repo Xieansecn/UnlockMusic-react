@@ -24,7 +24,7 @@ export function SelectFile() {
             fileName,
           })
         );
-        dispatch(processFile(fileId));
+        dispatch(processFile({ fileId }));
       }
     }
 

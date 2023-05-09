@@ -3,6 +3,8 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '~/store';
 import { decryptionQueue } from '~/decrypt-worker/client';
 
+import type { DecryptionResult } from '~/decrypt-worker/constants';
+
 export enum ProcessState {
   UNTOUCHED = 'UNTOUCHED',
   COMPLETE = 'COMPLETE',
@@ -40,10 +42,15 @@ const initialState: FileListingState = {
   displayMode: ListingMode.LIST,
 };
 
-export const processFile = createAsyncThunk('fileListing/processFile', async (fileId: string, thunkAPI) => {
+export const processFile = createAsyncThunk<
+  DecryptionResult,
+  { fileId: string },
+  { rejectValue: { message: string; stack?: string } }
+>('fileListing/processFile', async ({ fileId }, thunkAPI) => {
   const file = selectFiles(thunkAPI.getState() as RootState)[fileId];
   if (!file) {
-    return thunkAPI.rejectWithValue('ERROR: File not found');
+    const { message, stack } = new Error('ERROR: File not found');
+    return thunkAPI.rejectWithValue({ message, stack });
   }
 
   return decryptionQueue.add({ id: fileId, blobURI: file.raw });
@@ -75,6 +82,29 @@ export const fileListingSlice = createSlice({
         file.decrypted = payload.decryptedBlobURI;
       }
     },
+  },
+  extraReducers(builder) {
+    builder.addCase(processFile.fulfilled, (state, action) => {
+      const { fileId } = action.meta.arg;
+      const file = state.files[fileId];
+      if (!file) return;
+
+      file.state = ProcessState.COMPLETE;
+      file.decrypted = action.payload.decrypted;
+      // TODO: populate file metadata
+    });
+
+    builder.addCase(processFile.rejected, (state, action) => {
+      const { fileId } = action.meta.arg;
+      const file = state.files[fileId];
+      if (!file) return;
+
+      if (action.payload) {
+        file.errorMessage = action.payload.message;
+      } else {
+        file.errorMessage = action.error.message || 'unknown error';
+      }
+    });
   },
 });
 
