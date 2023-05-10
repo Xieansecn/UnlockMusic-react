@@ -1,7 +1,7 @@
-import { LibParakeetInit, BlobSink, createArrayBufferReader } from '@jixun/libparakeet';
+import { loadLibParakeet, BlobSink, createArrayBufferReader } from '@jixun/libparakeet';
 
 function testWasm() {
-  LibParakeetInit().then(async (mod) => {
+  loadLibParakeet().then(async (mod) => {
     const data = new Uint8Array(0x2000);
     for (let i = 0; i < data.byteLength; i++) {
       data[i] = i & 0xff;
