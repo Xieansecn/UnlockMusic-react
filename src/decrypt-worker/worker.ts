@@ -3,6 +3,7 @@ import { DECRYPTION_WORKER_ACTION_NAME } from './constants';
 
 import type { CryptoFactory } from './crypto/CryptoBase';
 import { XiamiCrypto } from './crypto/xiami/xiami';
+import { QMC1Crypto } from './crypto/qmc/qmc_v1';
 
 const bus = new WorkerServerBus();
 onmessage = bus.onmessage;
@@ -10,9 +11,11 @@ onmessage = bus.onmessage;
 const decryptorFactories: CryptoFactory[] = [
   // Xiami (*.xm)
   () => new XiamiCrypto(),
+  () => new QMC1Crypto(),
 ];
 
 bus.addEventHandler(DECRYPTION_WORKER_ACTION_NAME.DECRYPT, async (blobURI) => {
+  debugger;
   const blob = await fetch(blobURI).then((r) => r.blob());
 
   for (const factory of decryptorFactories) {

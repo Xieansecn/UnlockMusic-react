@@ -14,8 +14,8 @@ dependencies:
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.0)(@types/react@18.0.28)(react@18.2.0)
   '@jixun/libparakeet':
-    specifier: 0.0.0-exp6
-    version: 0.0.0-exp6
+    specifier: 0.0.0-exp.10
+    version: 0.0.0-exp.10
   '@reduxjs/toolkit':
     specifier: ^1.9.5
     version: 1.9.5(react-redux@8.0.5)(react@18.2.0)
@@ -1780,8 +1780,8 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@jixun/libparakeet@0.0.0-exp6:
-    resolution: {integrity: sha512-hxItnn7nMKnmgSEnFXtbkud9KmxtQrBQzM/oMRpl4hfgVL0PxnTMJtoyKCYR0MGOuQ/+M+Ehc8rLi4Ex/rRdTg==}
+  /@jixun/libparakeet@0.0.0-exp.10:
+    resolution: {integrity: sha512-mDV3aBhWytgvr8gRza28+bDyCKLFet3qqrw+tos8Cz/Bg/tZneYlS5qP4w24cEfrV83OxI2NSOVYgZIN4S2RUw==}
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:
