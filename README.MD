@@ -30,6 +30,16 @@ pnpm start
 
 `libparakeet-js` 编译目前需要 Linux 环境，请参考[仓库说明][libparakeet-js-doc]。
 
+该文档将假设这两个项目被放置在同级的目录下：
+
+```text
+~/Projects/um-projects
+    /um-react
+    /libparakeet-js
+```
+
+若为不同目录，你需要调整 `vite.config.ts` 的 `server.fs.allow` 区段并加入新的路径。
+
 [libparakeet-js-doc]: https://github.com/parakeet-rs/libparakeet-js/blob/main/README.MD
 
 ### 初次构建
