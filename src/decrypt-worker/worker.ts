@@ -11,6 +11,8 @@ onmessage = bus.onmessage;
 const decryptorFactories: CryptoFactory[] = [
   // Xiami (*.xm)
   () => new XiamiCrypto(),
+
+  // QMCv1 (*.qmcflac)
   () => new QMC1Crypto(),
 ];
 
