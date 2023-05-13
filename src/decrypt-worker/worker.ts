@@ -15,7 +15,6 @@ const decryptorFactories: CryptoFactory[] = [
 ];
 
 bus.addEventHandler(DECRYPTION_WORKER_ACTION_NAME.DECRYPT, async (blobURI) => {
-  debugger;
   const blob = await fetch(blobURI).then((r) => r.blob());
 
   for (const factory of decryptorFactories) {
