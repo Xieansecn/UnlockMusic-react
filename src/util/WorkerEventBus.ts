@@ -1,6 +1,8 @@
 import { nanoid } from 'nanoid';
 
-export class WorkerClientBus {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+export class WorkerClientBus<T = string> {
   private idPromiseMap = new Map<string, [(data: any) => void, (error: Error) => void]>();
 
   constructor(private worker: Worker) {
@@ -22,7 +24,7 @@ export class WorkerClientBus {
     });
   }
 
-  async request<R = any, P = any>(actionName: string, payload: P): Promise<R> {
+  async request<R = any, P = any>(actionName: T, payload: P): Promise<R> {
     return new Promise((resolve, reject) => {
       const id = nanoid();
       this.idPromiseMap.set(id, [resolve, reject]);

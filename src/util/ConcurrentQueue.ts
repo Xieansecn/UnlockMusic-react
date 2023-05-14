@@ -27,7 +27,7 @@ export abstract class ConcurrentQueue<T> {
   }
 
   private async processQueue() {
-    while (true) {
+    while (this.items.length > 0) {
       const item = this.items.pop();
       if (item === undefined) {
         break;
