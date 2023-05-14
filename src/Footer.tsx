@@ -1,4 +1,4 @@
-import { Center, Link, Text } from '@chakra-ui/react';
+import { Center, Flex, Link, Text } from '@chakra-ui/react';
 import { Suspense } from 'react';
 import { SDKVersion } from './SDKVersion';
 
@@ -17,13 +17,13 @@ export function Footer() {
         left="0"
         flexDir="column"
       >
-        <Text>
-          {'音乐解锁 (x.x.x) '}
+        <Flex as={Text}>
+          {'音乐解锁 (__APP_VERSION_SHORT__'}
           <Suspense>
             <SDKVersion />
           </Suspense>
-          {' - 移除已购音乐的加密保护。'}
-        </Text>
+          {') - 移除已购音乐的加密保护。'}
+        </Flex>
         <Text>
           {'Copyright © 2019 - 2023 '}
           <Link href="https://git.unlock-music.dev/um" isExternal>
