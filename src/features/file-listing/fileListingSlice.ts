@@ -27,6 +27,7 @@ export interface AudioMetadata {
 export interface DecryptedAudioFile {
   fileName: string;
   raw: string; // blob uri
+  ext: string;
   decrypted: string; // blob uri
   state: ProcessState;
   errorMessage: null | string;
@@ -65,6 +66,7 @@ export const fileListingSlice = createSlice({
         fileName: payload.fileName,
         raw: payload.blobURI,
         decrypted: '',
+        ext: '',
         state: ProcessState.UNTOUCHED,
         errorMessage: null,
         metadata: {
@@ -91,6 +93,7 @@ export const fileListingSlice = createSlice({
 
       file.state = ProcessState.COMPLETE;
       file.decrypted = action.payload.decrypted;
+      file.ext = action.payload.ext;
       // TODO: populate file metadata
     });
 

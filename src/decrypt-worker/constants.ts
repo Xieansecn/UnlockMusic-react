@@ -4,4 +4,5 @@ export enum DECRYPTION_WORKER_ACTION_NAME {
 
 export interface DecryptionResult {
   decrypted: string; // blob uri
+  ext: string;
 }
