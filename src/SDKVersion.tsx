@@ -12,7 +12,7 @@ const getSDKVersion = async () => {
 export function SDKVersion() {
   const sdkVersion = usePromise(getSDKVersion, []);
   return (
-    <Flex pl="1" alignItems="center">
+    <Flex as="span" pl="1" alignItems="center">
       <Tooltip
         hasArrow
         placement="top"
