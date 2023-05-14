@@ -23,6 +23,10 @@ const u8Sub = (a: number, b: number) => {
 };
 
 export class XiamiCrypto implements CryptoBase {
+  hasSignature(): boolean {
+    return true;
+  }
+
   async isSupported(blob: Blob): Promise<boolean> {
     const headerBuffer = await blob.slice(0, 0x10).arrayBuffer();
     const header = new Uint8Array(headerBuffer);

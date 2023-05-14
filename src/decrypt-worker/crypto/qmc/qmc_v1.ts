@@ -1,5 +1,5 @@
+import { transformBlob } from '~/decrypt-worker/util/transformBlob';
 import type { CryptoBase } from '../CryptoBase';
-import { loadLibParakeet, factory, BlobSink, createArrayBufferReader, TransformResult } from '@jixun/libparakeet';
 
 const key = new Uint8Array([
   0x77, 0x48, 0x32, 0x73, 0xde, 0xf2, 0xc0, 0xc8, 0x95, 0xec, 0x30, 0xb2, 0x51, 0xc3, 0xe1, 0xa0, 0x9e, 0xe6, 0x9d,
@@ -19,33 +19,15 @@ const key = new Uint8Array([
 ]);
 
 export class QMC1Crypto implements CryptoBase {
-  async isSupported(_blob: Blob): Promise<boolean> {
+  hasSignature(): boolean {
+    return false;
+  }
+
+  async isSupported(): Promise<boolean> {
     return true;
   }
 
   async decrypt(blob: Blob): Promise<Blob> {
-    const cleanup: (() => void)[] = [];
-
-    try {
-      const mod = await loadLibParakeet();
-      const transformer = factory.CreateQMCv1Transformer(mod, key);
-      cleanup.push(() => transformer.delete());
-
-      const reader = createArrayBufferReader(await blob.arrayBuffer(), mod);
-      cleanup.push(() => reader.delete());
-
-      const sink = new BlobSink(mod);
-      const writer = sink.getWriter();
-      cleanup.push(() => writer.delete());
-
-      const result = transformer.Transform(writer, reader);
-      if (result !== TransformResult.OK) {
-        throw new Error(`transform failed with error: ${TransformResult[result]} (${result})`);
-      }
-
-      return sink.collectBlob();
-    } finally {
-      cleanup.forEach((clean) => clean());
-    }
+    return transformBlob(blob, (p) => p.make.QMCv1(key));
   }
 }
