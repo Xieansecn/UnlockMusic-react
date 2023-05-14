@@ -9,7 +9,7 @@ export const workerClient = new Worker(new URL('./worker', import.meta.url), { t
 workerClient.onerror = (err) => console.error(err);
 
 class DecryptionQueue extends ConcurrentQueue<{ id: string; blobURI: string }> {
-  constructor(private workerClientBus: WorkerClientBus, maxQueue?: number) {
+  constructor(private workerClientBus: WorkerClientBus<DECRYPTION_WORKER_ACTION_NAME>, maxQueue?: number) {
     super(maxQueue);
   }
 
@@ -18,4 +18,5 @@ class DecryptionQueue extends ConcurrentQueue<{ id: string; blobURI: string }> {
   }
 }
 
-export const decryptionQueue = new DecryptionQueue(new WorkerClientBus(workerClient));
+export const workerClientBus = new WorkerClientBus<DECRYPTION_WORKER_ACTION_NAME>(workerClient);
+export const decryptionQueue = new DecryptionQueue(workerClientBus);
