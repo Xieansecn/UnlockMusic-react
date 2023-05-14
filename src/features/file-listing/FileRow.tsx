@@ -85,7 +85,6 @@ export function FileRow({ id, file }: FileRowProps) {
                   </WrapItem>
                 )}
                 <WrapItem>
-                  {/* TODO: Use correct file name */}
                   {file.decrypted && (
                     <Link isExternal href={file.decrypted} download={decryptedName}>
                       <Button as="span">下载</Button>
