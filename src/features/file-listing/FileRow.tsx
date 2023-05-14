@@ -24,7 +24,8 @@ interface FileRowProps {
 export function FileRow({ id, file }: FileRowProps) {
   const isDecrypted = file.state === ProcessState.COMPLETE;
 
-  const decryptedName = file.fileName.replace(/\.[a-z\d]{3,6}$/, '') + '.' + file.ext;
+  const nameWithoutExt = file.fileName.replace(/\.[a-z\d]{3,6}$/, '');
+  const decryptedName = nameWithoutExt + '.' + file.ext;
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
   const togglePlay = () => {
@@ -44,23 +45,37 @@ export function FileRow({ id, file }: FileRowProps) {
     <Card w="full">
       <CardBody>
         <Grid
-          templateAreas={`
-          "cover title title"
-          "cover meta  action"
-        `}
-          gridTemplateRows={'min-content 1fr'}
-          gridTemplateColumns={'160px 1fr'}
+          templateAreas={{
+            base: `
+              "cover"
+              "title"
+              "meta"
+              "action"
+            `,
+            md: `
+              "cover title title"
+              "cover meta  action"
+            `,
+          }}
+          gridTemplateRows={{
+            base: 'repeat(auto-fill)',
+            md: 'min-content 1fr',
+          }}
+          gridTemplateColumns={{
+            base: '1fr',
+            md: '160px 1fr',
+          }}
           gap="1"
         >
           <GridItem area="cover">
-            <Center w="160px" h="160px">
+            <Center w="160px" h="160px" m="auto">
               {file.metadata.cover && <Avatar size="sm" name="专辑封面" src={file.metadata.cover} />}
               {!file.metadata.cover && <Text>暂无封面</Text>}
             </Center>
           </GridItem>
           <GridItem area="title">
-            <Box w="full" as="h4" fontWeight="semibold" mt="1">
-              {file.metadata.name || file.fileName}
+            <Box w="full" as="h4" fontWeight="semibold" mt="1" textAlign={{ base: 'center', md: 'left' }}>
+              {file.metadata.name || nameWithoutExt}
             </Box>
           </GridItem>
           <GridItem area="meta">
