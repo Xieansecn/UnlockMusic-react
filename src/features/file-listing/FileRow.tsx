@@ -13,8 +13,9 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
-import { DecryptedAudioFile, ProcessState } from './fileListingSlice';
+import { DecryptedAudioFile, ProcessState, deleteFile } from './fileListingSlice';
 import { useRef } from 'react';
+import { useAppDispatch } from '~/hooks';
 
 interface FileRowProps {
   id: string;
@@ -22,6 +23,7 @@ interface FileRowProps {
 }
 
 export function FileRow({ id, file }: FileRowProps) {
+  const dispatch = useAppDispatch();
   const isDecrypted = file.state === ProcessState.COMPLETE;
 
   const nameWithoutExt = file.fileName.replace(/\.[a-z\d]{3,6}$/, '');
@@ -39,6 +41,10 @@ export function FileRow({ id, file }: FileRowProps) {
     } else {
       player.pause();
     }
+  };
+
+  const handleDeleteRow = () => {
+    dispatch(deleteFile({ id }));
   };
 
   return (
@@ -107,7 +113,7 @@ export function FileRow({ id, file }: FileRowProps) {
                   )}
                 </WrapItem>
                 <WrapItem>
-                  <Button type="button" onClick={() => alert('todo')}>
+                  <Button type="button" onClick={handleDeleteRow}>
                     删除
                   </Button>
                 </WrapItem>

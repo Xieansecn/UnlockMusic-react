@@ -84,6 +84,18 @@ export const fileListingSlice = createSlice({
         file.decrypted = payload.decryptedBlobURI;
       }
     },
+    deleteFile: (state, { payload }: PayloadAction<{ id: string }>) => {
+      if (state.files[payload.id]) {
+        const file = state.files[payload.id];
+        if (file.decrypted) {
+          URL.revokeObjectURL(file.decrypted);
+        }
+        if (file.raw) {
+          URL.revokeObjectURL(file.raw);
+        }
+        delete state.files[payload.id];
+      }
+    },
   },
   extraReducers(builder) {
     builder.addCase(processFile.fulfilled, (state, action) => {
@@ -111,7 +123,7 @@ export const fileListingSlice = createSlice({
   },
 });
 
-export const { addNewFile, setDecryptedContent } = fileListingSlice.actions;
+export const { addNewFile, setDecryptedContent, deleteFile } = fileListingSlice.actions;
 
 export const selectFileCount = (state: RootState) => state.fileListing.files.length;
 export const selectFiles = (state: RootState) => state.fileListing.files;
