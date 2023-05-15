@@ -1,5 +1,5 @@
 import { InfoOutlineIcon } from '@chakra-ui/icons';
-import { Tooltip, VStack, Text, Box, Flex } from '@chakra-ui/react';
+import { Tooltip, VStack, Text, Flex } from '@chakra-ui/react';
 import { workerClientBus } from './decrypt-worker/client';
 import { DECRYPTION_WORKER_ACTION_NAME } from './decrypt-worker/constants';
 
