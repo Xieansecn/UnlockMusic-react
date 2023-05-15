@@ -58,4 +58,15 @@ export default defineConfig({
       '~': path.resolve(__dirname, 'src'),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          reacts: ['react', 'react-dom', 'react-promise-suspense', 'react-redux', '@reduxjs/toolkit'],
+          chakra: ['@chakra-ui/icons', '@chakra-ui/react', '@emotion/react', '@emotion/styled', 'framer-motion'],
+          parakeet: ['@jixun/libparakeet'],
+        },
+      },
+    },
+  },
 });
