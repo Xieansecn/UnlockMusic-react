@@ -1,8 +1,9 @@
-import { Center, Flex, Link, Text } from '@chakra-ui/react';
-import { Suspense } from 'react';
+import { Center, Flex, Link, Text, Wrap, WrapItem } from '@chakra-ui/react';
+import { Suspense, useMemo } from 'react';
 import { SDKVersion } from './SDKVersion';
 
 export function Footer() {
+  const year = useMemo(() => new Date().getFullYear(), []);
   return (
     <Center height="footer.container">
       <Center
@@ -18,23 +19,23 @@ export function Footer() {
         flexDir="column"
       >
         <Flex as={Text}>
-          {'音乐解锁 (__APP_VERSION_SHORT__'}
+          音乐解锁 (__APP_VERSION_SHORT__
           <Suspense>
             <SDKVersion />
           </Suspense>
-          {') - 移除已购音乐的加密保护。'}
+          ) - 移除已购音乐的加密保护
         </Flex>
-        <Text>
-          {'Copyright © 2019 - 2023 '}
-          <Link href="https://git.unlock-music.dev/um" isExternal>
-            UnlockMusic 团队
-          </Link>
-          {' | 音乐解锁授权基于'}
-          <Link href="https://git.unlock-music.dev/um/um-react/src/branch/main/LICENSE" isExternal>
-            MIT许可协议
-          </Link>
-          。
-        </Text>
+        <Wrap>
+          <WrapItem>Copyright © 2019 - {year}</WrapItem>
+          <WrapItem>
+            <Link href="https://git.unlock-music.dev/um" isExternal>UnlockMusic 团队</Link>
+          </WrapItem>
+          <WrapItem>|</WrapItem>
+          <WrapItem>音乐解锁授权基于</WrapItem>
+          <WrapItem>
+            <Link href="https://git.unlock-music.dev/um/um-react/src/branch/main/LICENSE" isExternal>MIT许可协议</Link>
+          </WrapItem>
+        </Wrap>
       </Center>
     </Center>
   );
