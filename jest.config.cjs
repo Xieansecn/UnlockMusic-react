@@ -1,6 +1,12 @@
 module.exports = {
   roots: ['<rootDir>/src'],
-  collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts', '!src/mocks/**'],
+  collectCoverageFrom: [
+    'src/**/*.{js,jsx,ts,tsx}',
+    '!src/**/*.d.ts',
+    '!src/mocks/**',
+    // Worker client file uses "import.meta.url" and breaks coverage collector.
+    '!src/decrypt-worker/client.ts',
+  ],
   coveragePathIgnorePatterns: [],
   setupFilesAfterEnv: ['./src/test-utils/setup-jest.ts'],
   testEnvironment: 'jsdom',
