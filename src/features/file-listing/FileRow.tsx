@@ -1,20 +1,22 @@
 import {
-  Avatar,
   Box,
   Button,
   Card,
   CardBody,
   Center,
+  Collapse,
   Grid,
   GridItem,
+  Image,
   Link,
   Text,
+  useDisclosure,
   VStack,
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
-import { DecryptedAudioFile, ProcessState, deleteFile } from './fileListingSlice';
-import { useRef } from 'react';
+import { DecryptedAudioFile, deleteFile, ProcessState } from './fileListingSlice';
+import { useCallback, useRef } from 'react';
 import { useAppDispatch } from '~/hooks';
 
 interface FileRowProps {
@@ -23,6 +25,7 @@ interface FileRowProps {
 }
 
 export function FileRow({ id, file }: FileRowProps) {
+  const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: true });
   const dispatch = useAppDispatch();
   const isDecrypted = file.state === ProcessState.COMPLETE;
 
@@ -30,7 +33,7 @@ export function FileRow({ id, file }: FileRowProps) {
   const decryptedName = nameWithoutExt + '.' + file.ext;
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     const player = audioPlayerRef.current;
     if (!player) {
       return;
@@ -41,87 +44,97 @@ export function FileRow({ id, file }: FileRowProps) {
     } else {
       player.pause();
     }
-  };
+  }, []);
 
-  const handleDeleteRow = () => {
-    dispatch(deleteFile({ id }));
-  };
+  const handleDeleteRow = useCallback(() => {
+    onToggle();
+    setTimeout(() => {
+      dispatch(deleteFile({ id }));
+    }, 500);
+  }, [dispatch, id, onToggle]);
 
   return (
-    <Card w="full">
-      <CardBody>
-        <Grid
-          templateAreas={{
-            base: `
+    <Collapse in={isOpen} animateOpacity unmountOnExit startingHeight={0} style={{ width: '100%' }}>
+      <Card w="full">
+        <CardBody>
+          <Grid
+            templateAreas={{
+              base: `
               "cover"
               "title"
               "meta"
               "action"
             `,
-            md: `
+              md: `
               "cover title title"
               "cover meta  action"
             `,
-          }}
-          gridTemplateRows={{
-            base: 'repeat(auto-fill)',
-            md: 'min-content 1fr',
-          }}
-          gridTemplateColumns={{
-            base: '1fr',
-            md: '160px 1fr',
-          }}
-          gap="1"
-        >
-          <GridItem area="cover">
-            <Center w="160px" h="160px" m="auto">
-              {file.metadata.cover && <Avatar size="sm" name="专辑封面" src={file.metadata.cover} />}
-              {!file.metadata.cover && <Text>暂无封面</Text>}
-            </Center>
-          </GridItem>
-          <GridItem area="title">
-            <Box w="full" as="h4" fontWeight="semibold" mt="1" textAlign={{ base: 'center', md: 'left' }}>
-              {file.metadata.name || nameWithoutExt}
-            </Box>
-          </GridItem>
-          <GridItem area="meta">
-            {isDecrypted && (
-              <Box>
-                <Text>专辑: {file.metadata.album}</Text>
-                <Text>艺术家: {file.metadata.artist}</Text>
-                <Text>专辑艺术家: {file.metadata.albumArtist}</Text>
+            }}
+            gridTemplateRows={{
+              base: 'repeat(auto-fill)',
+              md: 'min-content 1fr',
+            }}
+            gridTemplateColumns={{
+              base: '1fr',
+              md: '160px 1fr',
+            }}
+            gap="1"
+          >
+            <GridItem area="cover">
+              <Center w="160px" h="160px" m="auto">
+                <Image
+                  boxSize='160px'
+                  objectFit='cover'
+                  src={file.metadata.cover}
+                  alt={file.metadata.album}
+                  fallbackSrc='https://via.placeholder.com/160'
+                />
+              </Center>
+            </GridItem>
+            <GridItem area="title">
+              <Box w="full" as="h4" fontWeight="semibold" mt="1" textAlign={{ base: 'center', md: 'left' }}>
+                {file.metadata.name || nameWithoutExt}
               </Box>
-            )}
-          </GridItem>
-          <GridItem area="action">
-            <VStack>
-              {file.decrypted && <audio controls autoPlay={false} src={file.decrypted} ref={audioPlayerRef} />}
+            </GridItem>
+            <GridItem area="meta">
+              {isDecrypted && (
+                <Box>
+                  <Text>专辑: {file.metadata.album}</Text>
+                  <Text>艺术家: {file.metadata.artist}</Text>
+                  <Text>专辑艺术家: {file.metadata.albumArtist}</Text>
+                </Box>
+              )}
+            </GridItem>
+            <GridItem area="action">
+              <VStack>
+                {file.decrypted && <audio controls autoPlay={false} src={file.decrypted} ref={audioPlayerRef} />}
 
-              <Wrap>
-                {isDecrypted && (
+                <Wrap>
+                  {isDecrypted && (
+                    <WrapItem>
+                      <Button type="button" onClick={togglePlay}>
+                        播放/暂停
+                      </Button>
+                    </WrapItem>
+                  )}
                   <WrapItem>
-                    <Button type="button" onClick={togglePlay}>
-                      播放/暂停
+                    {file.decrypted && (
+                      <Link isExternal href={file.decrypted} download={decryptedName}>
+                        <Button as="span">下载</Button>
+                      </Link>
+                    )}
+                  </WrapItem>
+                  <WrapItem>
+                    <Button type="button" onClick={handleDeleteRow}>
+                      删除
                     </Button>
                   </WrapItem>
-                )}
-                <WrapItem>
-                  {file.decrypted && (
-                    <Link isExternal href={file.decrypted} download={decryptedName}>
-                      <Button as="span">下载</Button>
-                    </Link>
-                  )}
-                </WrapItem>
-                <WrapItem>
-                  <Button type="button" onClick={handleDeleteRow}>
-                    删除
-                  </Button>
-                </WrapItem>
-              </Wrap>
-            </VStack>
-          </GridItem>
-        </Grid>
-      </CardBody>
-    </Card>
+                </Wrap>
+              </VStack>
+            </GridItem>
+          </Grid>
+        </CardBody>
+      </Card>
+    </Collapse>
   );
 }
