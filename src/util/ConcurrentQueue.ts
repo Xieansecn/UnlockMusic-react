@@ -1,12 +1,11 @@
-export abstract class ConcurrentQueue<T> {
-  protected items: [T, (result: any) => void, (error: Error) => void][] = [];
-  protected currentlyWorking = 0;
+export abstract class ConcurrentQueue<T, R = unknown> {
+  protected items: [T, (result: R) => void, (error: unknown) => void][] = [];
 
-  constructor(protected maxQueue = 5) {}
+  constructor(protected maxConcurrent = 5) {}
 
-  abstract handler(item: T): Promise<void>;
+  abstract handler(item: T): Promise<R>;
 
-  public async add<R = never>(item: T): Promise<R> {
+  public async add(item: T): Promise<R> {
     return new Promise((resolve, reject) => {
       this.items.push([item, resolve, reject]);
       this.runWorkerIfFree();
@@ -14,27 +13,32 @@ export abstract class ConcurrentQueue<T> {
   }
 
   private runWorkerIfFree() {
-    if (this.currentlyWorking < this.maxQueue) {
-      this.currentlyWorking++;
+    if (this.maxConcurrent > 0) {
+      this.maxConcurrent--;
       this.processQueue()
+        /* c8 ignore start: imposible to reach */
         .catch((e) => {
-          console.error('process queue with error', e);
+          console.error('process queue with error, continue.', e);
         })
+        /* c8 ignore stop: imposible to reach */
         .finally(() => {
-          this.currentlyWorking--;
+          this.maxConcurrent++;
         });
     }
   }
 
   private async processQueue() {
-    while (this.items.length > 0) {
-      const item = this.items.pop();
-      if (item === undefined) {
-        break;
-      }
-
+    let item: (typeof this.items)[0] | void;
+    while ((item = this.items.shift())) {
       const [payload, resolve, reject] = item;
-      await this.handler(payload).then(resolve).catch(reject);
+
+      try {
+        resolve(await this.handler(payload));
+      } catch (error: unknown) {
+        reject(error);
+      } finally {
+        await new Promise((resolve) => setImmediate(resolve));
+      }
     }
   }
 }
