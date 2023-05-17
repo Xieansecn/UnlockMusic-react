@@ -6,6 +6,9 @@
       "DOM.Iterable",
       "ESNext"
     ],
+    "types": [
+      "vitest/globals"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
     /* Bundler mode */
