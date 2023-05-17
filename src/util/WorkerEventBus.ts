@@ -68,18 +68,20 @@ export class WorkerServerBus {
   onmessage = async (e: MessageEvent<WorkerClientRequestPayload>) => {
     const { id, action, payload } = e.data;
     const handler = this.handlers.get(action);
+
+    let result = null;
+    let error = null;
+
     if (!handler) {
-      postMessage({ id, result: null, error: new Error('Handler missing for action ' + action) });
-      return;
+      error = new Error('Handler missing for action ' + action);
+    } else {
+      try {
+        result = await handler(payload);
+      } catch (e: unknown) {
+        error = e;
+      }
     }
 
-    let result = undefined;
-    let error = undefined;
-    try {
-      result = await handler(payload);
-    } catch (e: unknown) {
-      error = e;
-    }
     postMessage({ id, result, error });
   };
 }
