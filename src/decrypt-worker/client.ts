@@ -6,7 +6,7 @@ import { DecryptionQueue } from '~/util/DecryptionQueue';
 export const workerClient = new Worker(new URL('./worker', import.meta.url), { type: 'module' });
 
 // FIXME: report the error so is obvious to the user.
-workerClient.onerror = (err) => console.error(err);
+workerClient.addEventListener('error', console.error);
 
 export const workerClientBus = new WorkerClientBus<DECRYPTION_WORKER_ACTION_NAME>(workerClient);
 export const decryptionQueue = new DecryptionQueue(workerClientBus);
