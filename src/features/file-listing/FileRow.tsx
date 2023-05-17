@@ -18,6 +18,7 @@ import {
 import { DecryptedAudioFile, deleteFile, ProcessState } from './fileListingSlice';
 import { useCallback, useRef } from 'react';
 import { useAppDispatch } from '~/hooks';
+import coverSvgUrl from '~/assets/no-cover.svg';
 
 interface FileRowProps {
   id: string;
@@ -83,14 +84,12 @@ export function FileRow({ id, file }: FileRowProps) {
           >
             <GridItem area="cover">
               <Center w="160px" h="160px" m="auto">
-                {metadata && (
-                  <Image
-                    objectFit="cover"
-                    src={metadata.cover}
-                    alt={`"${metadata.album}" 的专辑封面`}
-                    fallbackSrc={'/assets/no-cover.svg'}
-                  />
-                )}
+                <Image
+                  objectFit="cover"
+                  src={metadata?.cover}
+                  alt={`${metadata?.album} 的专辑封面`}
+                  fallbackSrc={coverSvgUrl}
+                />
               </Center>
             </GridItem>
             <GridItem area="title">
