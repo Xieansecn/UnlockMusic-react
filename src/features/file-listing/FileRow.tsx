@@ -18,6 +18,7 @@ import {
 import { DecryptedAudioFile, deleteFile, ProcessState } from './fileListingSlice';
 import { useCallback, useRef } from 'react';
 import { useAppDispatch } from '~/hooks';
+import coverFallback from '~/assets/no-cover.svg';
 
 interface FileRowProps {
   id: string;
@@ -28,6 +29,7 @@ export function FileRow({ id, file }: FileRowProps) {
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
   const dispatch = useAppDispatch();
   const isDecrypted = file.state === ProcessState.COMPLETE;
+  const metadata = file.metadata;
 
   const nameWithoutExt = file.fileName.replace(/\.[a-z\d]{3,6}$/, '');
   const decryptedName = nameWithoutExt + '.' + file.ext;
@@ -55,7 +57,7 @@ export function FileRow({ id, file }: FileRowProps) {
 
   return (
     <Collapse in={isOpen} animateOpacity unmountOnExit startingHeight={0} style={{ width: '100%' }}>
-      <Card w="full">
+      <Card w="full" data-testid="file-row">
         <CardBody>
           <Grid
             templateAreas={{
@@ -82,26 +84,33 @@ export function FileRow({ id, file }: FileRowProps) {
           >
             <GridItem area="cover">
               <Center w="160px" h="160px" m="auto">
-                <Image
-                  boxSize='160px'
-                  objectFit='cover'
-                  src={file.metadata.cover}
-                  alt={file.metadata.album}
-                  fallbackSrc='https://via.placeholder.com/160'
-                />
+                {metadata && (
+                  <Image
+                    objectFit="cover"
+                    src={metadata.cover}
+                    alt={`"${metadata.album}" 的专辑封面`}
+                    fallbackSrc={coverFallback}
+                  />
+                )}
               </Center>
             </GridItem>
             <GridItem area="title">
               <Box w="full" as="h4" fontWeight="semibold" mt="1" textAlign={{ base: 'center', md: 'left' }}>
-                {file.metadata.name || nameWithoutExt}
+                <span data-testid="audio-meta-song-name">{metadata?.name ?? nameWithoutExt}</span>
               </Box>
             </GridItem>
             <GridItem area="meta">
-              {isDecrypted && (
+              {isDecrypted && metadata && (
                 <Box>
-                  <Text>专辑: {file.metadata.album}</Text>
-                  <Text>艺术家: {file.metadata.artist}</Text>
-                  <Text>专辑艺术家: {file.metadata.albumArtist}</Text>
+                  <Text>
+                    专辑: <span data-testid="audio-meta-album-name">{metadata.album}</span>
+                  </Text>
+                  <Text>
+                    艺术家: <span data-testid="audio-meta-song-artist">{metadata.artist}</span>
+                  </Text>
+                  <Text>
+                    专辑艺术家: <span data-testid="audio-meta-album-artist">{metadata.albumArtist}</span>
+                  </Text>
                 </Box>
               )}
             </GridItem>

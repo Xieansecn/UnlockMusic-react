@@ -31,7 +31,7 @@ export interface DecryptedAudioFile {
   decrypted: string; // blob uri
   state: ProcessState;
   errorMessage: null | string;
-  metadata: AudioMetadata;
+  metadata: null | AudioMetadata;
 }
 
 export interface FileListingState {
@@ -69,13 +69,7 @@ export const fileListingSlice = createSlice({
         ext: '',
         state: ProcessState.UNTOUCHED,
         errorMessage: null,
-        metadata: {
-          name: '',
-          artist: '',
-          album: '',
-          albumArtist: '',
-          cover: '',
-        },
+        metadata: null,
       };
     },
     setDecryptedContent: (state, { payload }: PayloadAction<{ id: string; decryptedBlobURI: string }>) => {

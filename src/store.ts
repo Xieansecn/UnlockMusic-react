@@ -1,11 +1,16 @@
-import { configureStore } from '@reduxjs/toolkit';
-import fileListing from './features/file-listing/fileListingSlice';
+import { PreloadedState, combineReducers, configureStore } from '@reduxjs/toolkit';
+import fileListingReducer from './features/file-listing/fileListingSlice';
 
-export const store = configureStore({
-  reducer: {
-    fileListing: fileListing,
-  },
+const rootReducer = combineReducers({
+  fileListing: fileListingReducer,
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export const setupStore = (preloadedState?: PreloadedState<RootState>) =>
+  configureStore({
+    reducer: rootReducer,
+    preloadedState,
+  });
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore['dispatch'];
