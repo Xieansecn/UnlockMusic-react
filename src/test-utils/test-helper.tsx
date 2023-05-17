@@ -6,6 +6,7 @@ import { AppStore, RootState, setupStore } from '~/store';
 
 // Adapted from: https://redux.js.org/usage/writing-tests
 
+// eslint-disable-next-line react-refresh/only-export-components
 export * from '@testing-library/react';
 
 export interface ExtendedRenderOptions extends RenderOptions {
@@ -17,7 +18,7 @@ export function renderWithProviders(
   ui: React.ReactElement,
   { preloadedState = {}, store = setupStore(preloadedState), ...renderOptions }: ExtendedRenderOptions = {}
 ) {
-  function Wrapper({ children }: PropsWithChildren<{}>): JSX.Element {
+  function Wrapper({ children }: PropsWithChildren<unknown>): JSX.Element {
     return <Provider store={store}>{children}</Provider>;
   }
 
