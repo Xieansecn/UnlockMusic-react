@@ -1,30 +1,51 @@
 import { nanoid } from 'nanoid';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+type WorkerServerHandler<P, R> = (payload: P) => R | Promise<R>;
+
+interface SerializedError {
+  message: string;
+  stack?: string;
+}
+
+interface WorkerClientRequestPayload<P = unknown> {
+  id: string;
+  action: string;
+  payload: P;
+}
+
+interface WorkerServerResponsePayload<R = unknown> {
+  id: string;
+  result: R;
+  error: SerializedError;
+}
 
 export class WorkerClientBus<T = string> {
-  private idPromiseMap = new Map<string, [(data: any) => void, (error: Error) => void]>();
+  private idPromiseMap = new Map<string, [(data: never) => void, (error: Error) => void]>();
 
   constructor(private worker: Worker) {
-    worker.addEventListener('message', (e) => {
-      const { id, result, error } = e.data;
-      const actionPromise = this.idPromiseMap.get(id);
-      if (!actionPromise) {
-        console.error('cound not fetch worker promise for action: %s', id);
-        return;
-      }
-      this.idPromiseMap.delete(id);
-
-      const [resolve, reject] = actionPromise;
-      if (error) {
-        reject(error);
-      } else {
-        resolve(result);
-      }
-    });
+    worker.addEventListener('message', this.eventHandler);
   }
 
-  async request<R = any, P = any>(actionName: T, payload: P): Promise<R> {
+  eventHandler = (e: MessageEvent<WorkerServerResponsePayload>) => {
+    const { id, result, error } = e.data;
+    const actionPromise = this.idPromiseMap.get(id);
+    if (!actionPromise) {
+      console.error('cound not fetch worker promise for action: %s', id);
+      return;
+    }
+    this.idPromiseMap.delete(id);
+
+    const [resolve, reject] = actionPromise;
+    if (error) {
+      const wrappedError = new Error(error.message, { cause: error });
+      wrappedError.stack = error.stack;
+      reject(wrappedError);
+    } else {
+      resolve(result as never);
+    }
+  };
+
+  async request<R, P>(actionName: T, payload: P): Promise<R> {
     return new Promise((resolve, reject) => {
       const id = nanoid();
       this.idPromiseMap.set(id, [resolve, reject]);
@@ -38,13 +59,13 @@ export class WorkerClientBus<T = string> {
 }
 
 export class WorkerServerBus {
-  private handlers = new Map<string, (payload: any) => Promise<any>>();
+  private handlers = new Map<string, WorkerServerHandler<unknown, unknown>>();
 
-  addEventHandler<R = any, P = any>(actionName: string, handler: (payload: P) => Promise<R>) {
-    this.handlers.set(actionName, handler);
+  addEventHandler<R, P>(actionName: string, handler: WorkerServerHandler<P, R>) {
+    this.handlers.set(actionName, handler as WorkerServerHandler<unknown, unknown>);
   }
 
-  onmessage = async (e: MessageEvent<any>) => {
+  onmessage = async (e: MessageEvent<WorkerClientRequestPayload>) => {
     const { id, action, payload } = e.data;
     const handler = this.handlers.get(action);
     if (!handler) {

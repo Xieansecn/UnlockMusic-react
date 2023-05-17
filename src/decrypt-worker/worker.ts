@@ -9,7 +9,4 @@ const bus = new WorkerServerBus();
 onmessage = bus.onmessage;
 
 bus.addEventHandler(DECRYPTION_WORKER_ACTION_NAME.DECRYPT, workerDecryptHandler);
-
-bus.addEventHandler(DECRYPTION_WORKER_ACTION_NAME.VERSION, async () => {
-  return getSDKVersion();
-});
+bus.addEventHandler(DECRYPTION_WORKER_ACTION_NAME.VERSION, getSDKVersion);

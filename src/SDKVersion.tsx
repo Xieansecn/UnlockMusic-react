@@ -5,7 +5,7 @@ import { DECRYPTION_WORKER_ACTION_NAME } from './decrypt-worker/constants';
 
 import usePromise from 'react-promise-suspense';
 
-const getSDKVersion = async () => {
+const getSDKVersion = async (): Promise<string> => {
   return workerClientBus.request(DECRYPTION_WORKER_ACTION_NAME.VERSION, null);
 };
 
