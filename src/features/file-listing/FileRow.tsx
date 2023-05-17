@@ -25,7 +25,7 @@ interface FileRowProps {
 }
 
 export function FileRow({ id, file }: FileRowProps) {
-  const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: true });
+  const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
   const dispatch = useAppDispatch();
   const isDecrypted = file.state === ProcessState.COMPLETE;
 
@@ -47,11 +47,11 @@ export function FileRow({ id, file }: FileRowProps) {
   }, []);
 
   const handleDeleteRow = useCallback(() => {
-    onToggle();
+    onClose();
     setTimeout(() => {
       dispatch(deleteFile({ id }));
     }, 500);
-  }, [dispatch, id, onToggle]);
+  }, [dispatch, id, onClose]);
 
   return (
     <Collapse in={isOpen} animateOpacity unmountOnExit startingHeight={0} style={{ width: '100%' }}>
