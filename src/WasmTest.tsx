@@ -1,5 +1,6 @@
 import { loadLibParakeet, BlobSink, createArrayBufferReader } from '@jixun/libparakeet';
 
+/* c8 ignore start: test only code */
 function testWasm() {
   loadLibParakeet().then(async (mod) => {
     const data = new Uint8Array(0x2000);
@@ -23,9 +24,15 @@ function testWasm() {
 }
 
 export function WasmTest() {
+  // Some secret test flags...
+  if (localStorage.__dev_test !== '1') {
+    return null;
+  }
+
   return (
     <button onClick={testWasm} type="button">
       Test WASM
     </button>
   );
 }
+/* c8 ignore stop: test only code */

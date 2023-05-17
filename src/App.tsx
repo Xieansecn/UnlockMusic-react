@@ -15,7 +15,7 @@ function App() {
         <Box mt="8">
           <FileListing />
         </Box>
-        {localStorage.__dev_test === '1' && <WasmTest />}
+        <WasmTest />
         <Footer />
       </Container>
     </Box>
