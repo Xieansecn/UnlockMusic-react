@@ -18,7 +18,6 @@ import {
 import { DecryptedAudioFile, deleteFile, ProcessState } from './fileListingSlice';
 import { useCallback, useRef } from 'react';
 import { useAppDispatch } from '~/hooks';
-import coverFallback from '~/assets/no-cover.svg';
 
 interface FileRowProps {
   id: string;
@@ -35,7 +34,7 @@ export function FileRow({ id, file }: FileRowProps) {
   const decryptedName = nameWithoutExt + '.' + file.ext;
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
-  const togglePlay = useCallback(() => {
+  const togglePlay = () => {
     const player = audioPlayerRef.current;
     if (!player) {
       return;
@@ -46,7 +45,7 @@ export function FileRow({ id, file }: FileRowProps) {
     } else {
       player.pause();
     }
-  }, []);
+  };
 
   const handleDeleteRow = useCallback(() => {
     onClose();
@@ -89,7 +88,7 @@ export function FileRow({ id, file }: FileRowProps) {
                     objectFit="cover"
                     src={metadata.cover}
                     alt={`"${metadata.album}" 的专辑封面`}
-                    fallbackSrc={coverFallback}
+                    fallbackSrc={'/assets/no-cover.svg'}
                   />
                 )}
               </Center>
