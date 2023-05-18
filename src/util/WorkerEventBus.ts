@@ -47,7 +47,7 @@ export class WorkerClientBus<T = string> {
 
   async request<R, P>(actionName: T, payload: P): Promise<R> {
     return new Promise((resolve, reject) => {
-      const id = nanoid();
+      const id = `request://${actionName}/${nanoid()}`;
       this.idPromiseMap.set(id, [resolve, reject]);
       this.worker.postMessage({
         id,
