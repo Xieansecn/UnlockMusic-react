@@ -1,3 +1,5 @@
+import { nextTickAsync } from './nextTick';
+
 export abstract class ConcurrentQueue<T, R = unknown> {
   protected items: [T, (result: R) => void, (error: unknown) => void][] = [];
 
@@ -37,7 +39,7 @@ export abstract class ConcurrentQueue<T, R = unknown> {
       } catch (error: unknown) {
         reject(error);
       } finally {
-        await new Promise((resolve) => setImmediate(resolve));
+        await nextTickAsync();
       }
     }
   }

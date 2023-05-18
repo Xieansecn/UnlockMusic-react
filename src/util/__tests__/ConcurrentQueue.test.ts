@@ -1,4 +1,5 @@
 import { ConcurrentQueue } from '../ConcurrentQueue';
+import { nextTickAsync } from '../nextTick';
 
 class SimpleQueue<T, R = void> extends ConcurrentQueue<T> {
   handler(_item: T): Promise<R> {
@@ -40,7 +41,7 @@ test('should be able to process the queue within limit', async () => {
 
     // Wait till all fullfilled
     while (queuedResolver.length !== 5) {
-      await new Promise((resolve) => setImmediate(resolve));
+      await nextTickAsync();
     }
 
     // Now it should've queued everything.
@@ -92,7 +93,7 @@ test('it should move on to the next item in the queue once failed', async () => 
 
     // Wait till all fullfilled
     while (queuedResolver.length !== 4) {
-      await new Promise((resolve) => setImmediate(resolve));
+      await nextTickAsync();
     }
 
     // Should've moved on, as 3 will throw error
