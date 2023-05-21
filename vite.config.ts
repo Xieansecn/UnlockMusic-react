@@ -33,7 +33,7 @@ export default defineConfig({
         'node_modules',
 
         // Allow pnpm to link.
-        '../libparakeet-js',
+        process.env.LIB_PARAKEET_JS_DIR || '../libparakeet-js',
       ],
     },
   },

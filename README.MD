@@ -38,7 +38,7 @@ pnpm start
     /libparakeet-js
 ```
 
-若为不同目录，你需要调整 `vite.config.ts` 的 `server.fs.allow` 区段并加入新的路径。
+若为不同目录，你需要调整 `LIB_PARAKEET_JS_DIR` 环境变量到仓库目录，然后再启动 vite 项目。
 
 [libparakeet-js-doc]: https://github.com/parakeet-rs/libparakeet-js/blob/main/README.MD
 
