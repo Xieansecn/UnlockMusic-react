@@ -4,10 +4,8 @@ import {
   Button,
   Card,
   CardBody,
-  Center,
   Collapse,
   GridItem,
-  Image,
   Link,
   Text,
   useDisclosure,
@@ -19,7 +17,7 @@ import { FileRowResponsiveGrid } from './FileRowResponsiveGrid';
 import { DecryptedAudioFile, deleteFile, ProcessState } from './fileListingSlice';
 import { useAppDispatch } from '~/hooks';
 import { AnimationDefinition } from 'framer-motion';
-import noCoverFallbackImageURL from '~/assets/no-cover.svg';
+import { AlbumImage } from './AlbumImage';
 
 interface FileRowProps {
   id: string;
@@ -68,13 +66,7 @@ export function FileRow({ id, file }: FileRowProps) {
         <CardBody>
           <FileRowResponsiveGrid>
             <GridItem area="cover">
-              <Center w="160px" h="160px" m="auto">
-                <Image
-                  objectFit="cover"
-                  src={metadata?.cover || noCoverFallbackImageURL}
-                  alt={`${metadata?.album} 的专辑封面`}
-                />
-              </Center>
+              <AlbumImage name={metadata?.album} url={metadata?.cover} />
             </GridItem>
             <GridItem area="title">
               <Box w="full" as="h4" fontWeight="semibold" mt="1" textAlign={{ base: 'center', md: 'left' }}>
