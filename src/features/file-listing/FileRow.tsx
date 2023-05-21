@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import {
   Box,
   Button,
@@ -5,7 +6,6 @@ import {
   CardBody,
   Center,
   Collapse,
-  Grid,
   GridItem,
   Image,
   Link,
@@ -15,8 +15,8 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
+import { FileRowResponsiveGrid } from './FileRowResponsiveGrid';
 import { DecryptedAudioFile, deleteFile, ProcessState } from './fileListingSlice';
-import { useCallback, useRef } from 'react';
 import { useAppDispatch } from '~/hooks';
 import noCoverFallbackImageURL from '~/assets/no-cover.svg';
 
@@ -59,29 +59,7 @@ export function FileRow({ id, file }: FileRowProps) {
     <Collapse in={isOpen} animateOpacity unmountOnExit startingHeight={0} style={{ width: '100%', padding: '0.25rem' }}>
       <Card w="full" data-testid="file-row">
         <CardBody>
-          <Grid
-            templateAreas={{
-              base: `
-              "cover"
-              "title"
-              "meta"
-              "action"
-            `,
-              md: `
-              "cover title title"
-              "cover meta  action"
-            `,
-            }}
-            gridTemplateRows={{
-              base: 'repeat(auto-fill)',
-              md: 'min-content 1fr',
-            }}
-            gridTemplateColumns={{
-              base: '1fr',
-              md: '160px 1fr',
-            }}
-            gap="1"
-          >
+          <FileRowResponsiveGrid>
             <GridItem area="cover">
               <Center w="160px" h="160px" m="auto">
                 <Image
@@ -111,7 +89,7 @@ export function FileRow({ id, file }: FileRowProps) {
                 </Box>
               )}
             </GridItem>
-            <GridItem area="action">
+            <GridItem area="action" alignSelf="center">
               <VStack>
                 {file.decrypted && <audio controls autoPlay={false} src={file.decrypted} ref={audioPlayerRef} />}
 
@@ -138,7 +116,7 @@ export function FileRow({ id, file }: FileRowProps) {
                 </Wrap>
               </VStack>
             </GridItem>
-          </Grid>
+          </FileRowResponsiveGrid>
         </CardBody>
       </Card>
     </Collapse>
