@@ -95,19 +95,21 @@ export function FileRow({ id, file }: FileRowProps) {
 
                 <Wrap>
                   {isDecrypted && (
-                    <WrapItem>
-                      <Button type="button" onClick={togglePlay}>
-                        播放/暂停
-                      </Button>
-                    </WrapItem>
+                    <>
+                      <WrapItem>
+                        <Button type="button" onClick={togglePlay}>
+                          播放/暂停
+                        </Button>
+                      </WrapItem>
+                      <WrapItem>
+                        {file.decrypted && (
+                          <Link isExternal href={file.decrypted} download={decryptedName}>
+                            <Button as="span">下载</Button>
+                          </Link>
+                        )}
+                      </WrapItem>
+                    </>
                   )}
-                  <WrapItem>
-                    {file.decrypted && (
-                      <Link isExternal href={file.decrypted} download={decryptedName}>
-                        <Button as="span">下载</Button>
-                      </Link>
-                    )}
-                  </WrapItem>
                   <WrapItem>
                     <Button type="button" onClick={handleDeleteRow}>
                       删除
