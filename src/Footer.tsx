@@ -1,6 +1,7 @@
 import { Center, Flex, Link, Text } from '@chakra-ui/react';
 import { Suspense } from 'react';
 import { SDKVersion } from './SDKVersion';
+import { CurrentYear } from './CurrentYear';
 
 export function Footer() {
   return (
@@ -25,7 +26,8 @@ export function Footer() {
           {') - 移除已购音乐的加密保护。'}
         </Flex>
         <Text>
-          {'Copyright © 2019 - 2023 '}
+          {'Copyright © 2019 - '}
+          <CurrentYear />{' '}
           <Link href="https://git.unlock-music.dev/um" isExternal>
             UnlockMusic 团队
           </Link>
