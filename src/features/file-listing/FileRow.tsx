@@ -56,7 +56,7 @@ export function FileRow({ id, file }: FileRowProps) {
   }, [dispatch, id, onClose]);
 
   return (
-    <Collapse in={isOpen} animateOpacity unmountOnExit startingHeight={0} style={{ width: '100%' }}>
+    <Collapse in={isOpen} animateOpacity unmountOnExit startingHeight={0} style={{ width: '100%', padding: '0.25rem' }}>
       <Card w="full" data-testid="file-row">
         <CardBody>
           <Grid
