@@ -1,8 +1,9 @@
 import { Parakeet, fetchParakeet } from '@jixun/libparakeet';
-import { timedLogger } from '~/util/timedLogger';
+import { timedLogger, withGroupedLogs as withTimeGroupedLogs } from '~/util/logUtils';
 import { allCryptoFactories } from '../../crypto/CryptoFactory';
 import { toArrayBuffer, toBlob } from '~/decrypt-worker/util/buffer';
 import { CryptoBase, CryptoFactory } from '~/decrypt-worker/crypto/CryptoBase';
+import { UnsupportedSourceFile } from '~/decrypt-worker/util/DecryptError';
 
 // Use first 4MiB of the file to perform check.
 const TEST_FILE_HEADER_LEN = 4 * 1024 * 1024;
@@ -29,8 +30,11 @@ class DecryptCommandHandler {
         }
         return result;
       } catch (error) {
-        console.error('decrypt failed: ', error);
-        continue;
+        if (error instanceof UnsupportedSourceFile) {
+          console.debug('WARN: decryptor does not recognize source file, wrong crypto?', error);
+        } else {
+          console.error('decrypt failed with unknown error: ', error);
+        }
       }
     }
 
@@ -83,18 +87,12 @@ class DecryptCommandHandler {
 
 export const workerDecryptHandler = async ({ id, blobURI }: { id: string; blobURI: string }) => {
   const label = `decrypt( ${id} )`;
-  console.group(label);
+  return withTimeGroupedLogs(label, async () => {
+    const parakeet = await timedLogger(`${label}/init`, fetchParakeet);
+    const blob = await timedLogger(`${label}/fetch-src`, async () => fetch(blobURI).then((r) => r.blob()));
+    const buffer = await timedLogger(`${label}/read-src`, async () => blob.arrayBuffer());
 
-  try {
-    return await timedLogger(`${label}/total`, async () => {
-      const parakeet = await timedLogger(`${label}/init`, fetchParakeet);
-      const blob = await timedLogger(`${label}/fetch-src`, async () => fetch(blobURI).then((r) => r.blob()));
-      const buffer = await timedLogger(`${label}/read-src`, async () => blob.arrayBuffer());
-
-      const handler = new DecryptCommandHandler(id, parakeet, blob, buffer);
-      return handler.decrypt(allCryptoFactories);
-    });
-  } finally {
-    (console.groupEnd as (label: string) => void)(label);
-  }
+    const handler = new DecryptCommandHandler(id, parakeet, blob, buffer);
+    return handler.decrypt(allCryptoFactories);
+  });
 };

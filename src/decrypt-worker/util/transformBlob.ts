@@ -1,5 +1,6 @@
 import { Transformer, Parakeet, TransformResult, fetchParakeet } from '@jixun/libparakeet';
 import { toArrayBuffer } from './buffer';
+import { UnsupportedSourceFile } from './DecryptError';
 
 export async function transformBlob(
   blob: Blob | ArrayBuffer,
@@ -21,7 +22,9 @@ export async function transformBlob(
     cleanup.push(() => writer.delete());
 
     const result = transformer.Transform(writer, reader);
-    if (result !== TransformResult.OK) {
+    if (result === TransformResult.ERROR_INVALID_FORMAT) {
+      throw new UnsupportedSourceFile(`transformer<${transformer.Name}> does not recognize this file`);
+    } else if (result !== TransformResult.OK) {
       throw new Error(`transformer<${transformer.Name}> failed with error: ${TransformResult[result]} (${result})`);
     }
 
