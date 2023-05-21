@@ -8,6 +8,7 @@ import react from '@vitejs/plugin-react';
 import wasm from 'vite-plugin-wasm';
 import replace from '@rollup/plugin-replace';
 import topLevelAwait from 'vite-plugin-top-level-await';
+import { VitePWA } from 'vite-plugin-pwa';
 
 const gitRoot = url.fileURLToPath(new URL('.', import.meta.url));
 const pkg = JSON.parse(fs.readFileSync(gitRoot + '/package.json', 'utf-8'));
@@ -52,6 +53,34 @@ export default defineConfig({
     react(),
     wasm(),
     topLevelAwait(),
+    VitePWA({
+      registerType: 'prompt',
+      workbox: {
+        // Cache everything from dist
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,wasm}'],
+      },
+      manifest: {
+        display: 'standalone',
+        name: '音乐解锁 (Unlock Music)',
+        short_name: '音乐解锁',
+        lang: 'zh-cmn-Hans-CN',
+        description: '在现代浏览器解锁已购的加密音乐！',
+        theme_color: '#ffffff',
+        icons: [
+          {
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
+      },
+    }),
   ],
   resolve: {
     alias: {
