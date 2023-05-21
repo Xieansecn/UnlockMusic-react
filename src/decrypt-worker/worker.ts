@@ -3,7 +3,7 @@ import { DECRYPTION_WORKER_ACTION_NAME } from './constants';
 
 import { getSDKVersion } from '@jixun/libparakeet';
 
-import { workerDecryptHandler } from './worker-handler/decrypt';
+import { workerDecryptHandler } from './worker/handler/decrypt';
 
 const bus = new WorkerServerBus();
 onmessage = bus.onmessage;

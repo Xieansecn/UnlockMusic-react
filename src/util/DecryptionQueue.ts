@@ -8,6 +8,6 @@ export class DecryptionQueue extends ConcurrentQueue<{ id: string; blobURI: stri
   }
 
   async handler(item: { id: string; blobURI: string }): Promise<DecryptionResult> {
-    return this.workerClientBus.request(DECRYPTION_WORKER_ACTION_NAME.DECRYPT, item.blobURI);
+    return this.workerClientBus.request(DECRYPTION_WORKER_ACTION_NAME.DECRYPT, item);
   }
 }

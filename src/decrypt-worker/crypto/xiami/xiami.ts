@@ -11,8 +11,9 @@
 
 import type { CryptoBase } from '../CryptoBase';
 
-const XIAMI_FILE_MAGIC = new Uint8Array('ifmt'.split('').map((x) => x.charCodeAt(0)));
-const XIAMI_EXPECTED_PADDING = new Uint8Array([0xfe, 0xfe, 0xfe, 0xfe]);
+// little endian
+const XIAMI_FILE_MAGIC = 0x746d6669;
+const XIAMI_EXPECTED_PADDING = 0xfefefefe;
 
 const u8Sub = (a: number, b: number) => {
   if (a > b) {
@@ -23,29 +24,25 @@ const u8Sub = (a: number, b: number) => {
 };
 
 export class XiamiCrypto implements CryptoBase {
-  hasSignature(): boolean {
-    return true;
+  cryptoName = 'Xiami';
+  checkByDecryptHeader = false;
+  decryptTargetAudio = true;
+
+  async checkBySignature(buffer: ArrayBuffer): Promise<boolean> {
+    const header = new DataView(buffer);
+
+    return header.getUint32(0x00, true) === XIAMI_FILE_MAGIC && header.getUint32(0x08, true) === XIAMI_EXPECTED_PADDING;
   }
 
-  async isSupported(blob: Blob): Promise<boolean> {
-    const headerBuffer = await blob.slice(0, 0x10).arrayBuffer();
-    const header = new Uint8Array(headerBuffer);
-
-    return (
-      header.slice(0x00, 0x04).every((b, i) => b === XIAMI_FILE_MAGIC[i]) &&
-      header.slice(0x08, 0x0c).every((b, i) => b === XIAMI_EXPECTED_PADDING[i])
-    );
-  }
-
-  async decrypt(blob: Blob): Promise<Blob> {
-    const headerBuffer = await blob.slice(0, 0x10).arrayBuffer();
+  async decrypt(src: ArrayBuffer): Promise<ArrayBuffer> {
+    const headerBuffer = src.slice(0, 0x10);
     const header = new Uint8Array(headerBuffer);
     const key = u8Sub(header[0x0f], 1);
     const plainTextSize = header[0x0c] | (header[0x0d] << 8) | (header[0x0e] << 16);
-    const decrypted = new Uint8Array(await blob.slice(0x10).arrayBuffer());
+    const decrypted = new Uint8Array(src.slice(0x10));
     for (let i = decrypted.byteLength - 1; i >= plainTextSize; i--) {
       decrypted[i] = u8Sub(key, decrypted[i]);
     }
-    return new Blob([decrypted]);
+    return decrypted;
   }
 }

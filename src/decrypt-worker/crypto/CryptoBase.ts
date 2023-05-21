@@ -1,10 +1,10 @@
 export interface CryptoBase {
-  /**
-   * When returning false, a successful decryption should be checked by its decrypted content instead.
-   */
-  hasSignature(): boolean;
-  isSupported(blob: Blob): Promise<boolean>;
-  decrypt(blob: Blob): Promise<Blob>;
+  cryptoName: string;
+  checkByDecryptHeader: boolean;
+  decryptTargetAudio: boolean;
+
+  checkBySignature?: (buffer: ArrayBuffer) => Promise<boolean>;
+  decrypt(buffer: ArrayBuffer, blob: Blob): Promise<Blob | ArrayBuffer>;
 }
 
 export type CryptoFactory = () => CryptoBase;
