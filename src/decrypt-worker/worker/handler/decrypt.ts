@@ -46,15 +46,22 @@ class DecryptCommandHandler {
       return null;
     }
 
-    const decrypted = await this.log('decrypt', async () => crypto.decrypt(this.buffer, this.blob));
+    const decrypted = await this.log(`decrypt (${crypto.cryptoName})`, () => crypto.decrypt(this.buffer, this.blob));
 
     // Check if we had a successful decryption
-    const audioExt = await this.log(`detect-audio-ext`, async () => {
-      const header = await toArrayBuffer(decrypted.slice(0, TEST_FILE_HEADER_LEN));
-      return this.parakeet.detectAudioExtension(header);
-    });
+    const audioExt = crypto.overrideExtension ?? (await this.detectAudioExtension(decrypted));
+    if (crypto.checkByDecryptHeader && audioExt === 'bin') {
+      return null;
+    }
 
     return { decrypted: URL.createObjectURL(toBlob(decrypted)), ext: audioExt };
+  }
+
+  async detectAudioExtension(data: Blob | ArrayBuffer): Promise<string> {
+    return this.log(`detect-audio-ext`, async () => {
+      const header = await toArrayBuffer(data.slice(0, TEST_FILE_HEADER_LEN));
+      return this.parakeet.detectAudioExtension(header);
+    });
   }
 
   async acceptByDecryptFileHeader(crypto: CryptoBase): Promise<boolean> {

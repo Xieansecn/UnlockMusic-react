@@ -26,7 +26,6 @@ const u8Sub = (a: number, b: number) => {
 export class XiamiCrypto implements CryptoBase {
   cryptoName = 'Xiami';
   checkByDecryptHeader = false;
-  decryptTargetAudio = true;
 
   async checkBySignature(buffer: ArrayBuffer): Promise<boolean> {
     const header = new DataView(buffer);
@@ -44,5 +43,9 @@ export class XiamiCrypto implements CryptoBase {
       decrypted[i] = u8Sub(key, decrypted[i]);
     }
     return decrypted;
+  }
+
+  public static make() {
+    return new XiamiCrypto();
   }
 }

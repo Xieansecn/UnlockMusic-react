@@ -1,7 +1,8 @@
 import { Transformer, Parakeet, TransformResult, fetchParakeet } from '@jixun/libparakeet';
+import { toArrayBuffer } from './buffer';
 
 export async function transformBlob(
-  blob: Blob,
+  blob: Blob | ArrayBuffer,
   transformerFactory: (p: Parakeet) => Transformer | Promise<Transformer>,
   parakeet?: Parakeet
 ) {
@@ -12,7 +13,7 @@ export async function transformBlob(
     const transformer = await transformerFactory(mod);
     cleanup.push(() => transformer.delete());
 
-    const reader = mod.make.Reader(await blob.arrayBuffer());
+    const reader = mod.make.Reader(await toArrayBuffer(blob));
     cleanup.push(() => reader.delete());
 
     const sink = mod.make.WriterSink();
@@ -21,7 +22,7 @@ export async function transformBlob(
 
     const result = transformer.Transform(writer, reader);
     if (result !== TransformResult.OK) {
-      throw new Error(`transform failed with error: ${TransformResult[result]} (${result})`);
+      throw new Error(`transformer<${transformer.Name}> failed with error: ${TransformResult[result]} (${result})`);
     }
 
     return sink.collectBlob();

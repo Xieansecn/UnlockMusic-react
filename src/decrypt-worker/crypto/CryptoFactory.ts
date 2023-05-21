@@ -6,14 +6,14 @@ import { XiamiCrypto } from './xiami/xiami';
 
 export const allCryptoFactories: CryptoFactory[] = [
   // Xiami (*.xm)
-  () => new XiamiCrypto(),
+  XiamiCrypto.make,
 
   // QMCv2 (*.mflac)
-  () => new QMC2Crypto(),
+  QMC2Crypto.make,
 
   // Crypto that does not implement "checkBySignature" or need to decrypt the entire file and then check audio type,
   //   should be moved to the bottom of the list for performance reasons.
 
   // QMCv1 (*.qmcflac)
-  () => new QMC1Crypto(),
+  QMC1Crypto.make,
 ];
