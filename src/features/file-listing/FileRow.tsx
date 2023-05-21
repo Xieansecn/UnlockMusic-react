@@ -7,17 +7,17 @@ import {
   Collapse,
   GridItem,
   Link,
-  Text,
-  useDisclosure,
   VStack,
   Wrap,
   WrapItem,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { FileRowResponsiveGrid } from './FileRowResponsiveGrid';
 import { DecryptedAudioFile, deleteFile, ProcessState } from './fileListingSlice';
 import { useAppDispatch } from '~/hooks';
 import { AnimationDefinition } from 'framer-motion';
 import { AlbumImage } from './AlbumImage';
+import { SongMetadata } from './SongMetadata';
 
 interface FileRowProps {
   id: string;
@@ -73,21 +73,7 @@ export function FileRow({ id, file }: FileRowProps) {
                 <span data-testid="audio-meta-song-name">{metadata?.name ?? nameWithoutExt}</span>
               </Box>
             </GridItem>
-            <GridItem area="meta">
-              {isDecrypted && metadata && (
-                <Box>
-                  <Text>
-                    专辑: <span data-testid="audio-meta-album-name">{metadata.album}</span>
-                  </Text>
-                  <Text>
-                    艺术家: <span data-testid="audio-meta-song-artist">{metadata.artist}</span>
-                  </Text>
-                  <Text>
-                    专辑艺术家: <span data-testid="audio-meta-album-artist">{metadata.albumArtist}</span>
-                  </Text>
-                </Box>
-              )}
-            </GridItem>
+            <GridItem area="meta">{isDecrypted && metadata && <SongMetadata metadata={metadata} />}</GridItem>
             <GridItem area="action" alignSelf="center">
               <VStack>
                 {file.decrypted && <audio controls autoPlay={false} src={file.decrypted} ref={audioPlayerRef} />}
