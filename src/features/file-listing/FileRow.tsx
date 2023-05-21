@@ -18,6 +18,7 @@ import {
 import { FileRowResponsiveGrid } from './FileRowResponsiveGrid';
 import { DecryptedAudioFile, deleteFile, ProcessState } from './fileListingSlice';
 import { useAppDispatch } from '~/hooks';
+import { AnimationDefinition } from 'framer-motion';
 import noCoverFallbackImageURL from '~/assets/no-cover.svg';
 
 interface FileRowProps {
@@ -48,15 +49,21 @@ export function FileRow({ id, file }: FileRowProps) {
     }
   };
 
-  const handleDeleteRow = useCallback(() => {
-    onClose();
-    setTimeout(() => {
+  const onCollapseAnimationComplete = (definition: AnimationDefinition) => {
+    if (definition === 'exit') {
       dispatch(deleteFile({ id }));
-    }, 500);
-  }, [dispatch, id, onClose]);
+    }
+  };
 
   return (
-    <Collapse in={isOpen} animateOpacity unmountOnExit startingHeight={0} style={{ width: '100%', padding: '0.25rem' }}>
+    <Collapse
+      in={isOpen}
+      animateOpacity
+      unmountOnExit
+      startingHeight={0}
+      onAnimationComplete={onCollapseAnimationComplete}
+      style={{ width: '100%', padding: '0.25rem' }}
+    >
       <Card w="full" data-testid="file-row">
         <CardBody>
           <FileRowResponsiveGrid>
@@ -111,7 +118,7 @@ export function FileRow({ id, file }: FileRowProps) {
                     </>
                   )}
                   <WrapItem>
-                    <Button type="button" onClick={handleDeleteRow}>
+                    <Button type="button" onClick={onClose}>
                       删除
                     </Button>
                   </WrapItem>
