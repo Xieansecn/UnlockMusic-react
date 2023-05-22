@@ -1,30 +1,68 @@
-# Getting started
+# Unlock Music 音乐解锁 (React)
 
-前提: [安装 pnpm][install-pnpm]，推荐 `corepack` 方法。
+- 在浏览器中解锁加密的音乐文件。 Unlock encrypted music file in the browser.
+- Unlock Music 项目是以学习和技术研究的初衷创建的，修改、再分发时请遵循[授权协议]。
+- Unlock Music 的 CLI 版本可以在 [unlock-music/cli] 找到，大批量转换建议使用 CLI 版本。
+- 我们新建了 Telegram 群组 [`@unlock_music_chat`] ，欢迎加入！
+- ~~CI 自动构建已经部署，可以在 [UM-Packages] 下载~~ 目前还没有自动构建
+
+[授权协议]: https://git.unlock-music.dev/um/um-react/src/branch/main/LICENSE
+[unlock-music/cli]: https://git.unlock-music.dev/um/cli
+[`@unlock_music_chat`]: https://t.me/unlock_music_chat
+[UM-Packages]: https://git.unlock-music.dev/um/-/packages/generic/web-build/
+
+## 支持的格式
+
+- [x] QQ 音乐 QMCv1 (.qmc0/.qmc2/.qmc3/.qmcflac/.qmcogg/.tkm)
+- [x] QQ 音乐 QMCv2 PC 端 (.mflac/.mgg/.mflac0/.mgg1/.mggl)
+- [x] 网易云音乐 (.ncm)
+- [x] 虾米音乐 (.xm)
+- [x] 酷我音乐 (.kwm)
+- [x] 酷狗音乐 (.kgm/.vpr)
+- [x] 喜马拉雅 Android 端 (.x2m/.x3m)
+- [ ] ~~咪咕音乐格式 (.mg3d)~~
+- [ ] ~~<ruby>QQ 音乐海外版<rt>JOOX Music</rt></ruby> (.ofl_en)~~
+
+## 开发相关
+
+### 安装依赖
+
+- 安装 Node v16.17 或更高，推荐当前最新的 Node LTS 版本。
+- 安装/激活 `pnpm`：`corepack prepare pnpm@latest --activate` [^1]
+- 安装软件依赖：`pnpm i --frozen-lockfile`
+
+[^1]: 参考 pnpm 说明 https://pnpm.io/zh/installation#使用-corepack-安装
+
+### 本地运行
+
+⚠️ 先完成安装依赖部分，然后继续。
 
 ```sh
-pnpm i
 pnpm start
 ```
 
-[install-pnpm]: https://pnpm.io/zh/installation
+然后根据提示打开[项目所在页面][vite-dev-url]即可。
 
-## 架构
+[vite-dev-url]: http://localhost:5173/
+
+### 构建生产版本
+
+⚠️ 先完成安装依赖部分，然后继续。
+
+```sh
+pnpm build
+```
+
+如果需要预览构建版本，运行 `pnpm preview` 然后打开[项目所在页面][vite-preview-url]即可。
+
+[vite-preview-url]: http://localhost:4173/
+
+### 架构
 
 - 浏览器主线程: 渲染界面，处理 UI 更新
 - Web Worker: 负责计算方面的内容，如内容解密。
 
 数据传输: 生成 blob url (`URL.createObjectURL`) 然后透过 `postMessage` 传递给线程，线程利用 `fetch` API 来获取文件信息。
-
-## 贡献代码
-
-欢迎贡献代码。请确保：
-
-- 单元测试的覆盖率不低于主分支的覆盖率；
-- 提交前请使用 Prettier 对代码进行格式化；
-- 提交前请确保 ESLint 不会报告 warning / error；
-
-满足上述条件后发起 Pull Request，仓库管理员审阅后将合并到主分支。
 
 ## 基于 libparakeet SDK 开发
 
@@ -69,6 +107,16 @@ pnpm link ../libparakeet-js/npm
 ```
 
 ※ 建立 PR 时，请先提交 SDK PR 并确保你的更改已合并。
+
+## 贡献代码
+
+欢迎贡献代码。请确保：
+
+- 单元测试的覆盖率不低于主分支的覆盖率；
+- 提交前请使用 Prettier 对代码进行格式化；
+- 提交前请确保 ESLint 不会报告 warning / error；
+
+满足上述条件后发起 Pull Request，仓库管理员审阅后将合并到主分支。
 
 ## TODO
 
