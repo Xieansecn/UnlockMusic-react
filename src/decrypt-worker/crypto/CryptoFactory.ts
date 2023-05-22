@@ -1,4 +1,5 @@
 import { CryptoFactory } from './CryptoBase';
+import { NCMCrypto } from './ncm/ncm_pc';
 
 import { QMC1Crypto } from './qmc/qmc_v1';
 import { QMC2Crypto } from './qmc/qmc_v2';
@@ -11,6 +12,9 @@ export const allCryptoFactories: CryptoFactory[] = [
 
   // QMCv2 (*.mflac)
   QMC2Crypto.make,
+
+  // NCM (*.ncm)
+  NCMCrypto.make,
 
   // Crypto that does not implement "checkBySignature" or need to decrypt the entire file and then check audio type,
   //   should be moved to the bottom of the list for performance reasons.
