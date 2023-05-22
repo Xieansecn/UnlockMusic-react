@@ -14,8 +14,8 @@ dependencies:
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.0)(@types/react@18.0.28)(react@18.2.0)
   '@jixun/libparakeet':
-    specifier: 0.0.0-exp.17
-    version: 0.0.0-exp.17
+    specifier: 0.0.0-exp.18
+    version: 0.0.0-exp.18
   '@reduxjs/toolkit':
     specifier: ^1.9.5
     version: 1.9.5(react-redux@8.0.5)(react@18.2.0)
@@ -3060,9 +3060,9 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@jixun/libparakeet@0.0.0-exp.17:
+  /@jixun/libparakeet@0.0.0-exp.18:
     resolution:
-      { integrity: sha512-DazwsjE8KDNo3gHDILozgNMQwvQXY2N5CdXKvIMMV4xFOnEBVbJRaG5r7rmGoWnplQZebQAW+otwyVUtO1/ZdQ== }
+      { integrity: sha512-KLUCxr6x47hDs1tszY8uyR8fgiB+b2UIFSgCg9GEs+AiB+oFTyQlhZXbKmyfDOuWSDiBcdKJvmXq29x3zPDNEQ== }
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:
