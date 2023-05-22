@@ -23,6 +23,12 @@
 - [ ] ~~咪咕音乐格式 (.mg3d)~~
 - [ ] ~~<ruby>QQ 音乐海外版<rt>JOOX Music</rt></ruby> (.ofl_en)~~
 
+不支持的格式？请提交样本（加密文件）与客户端信息（或一并上传其安装包）到[仓库的问题追踪区][project-issues]。如果文件太大，请上传到不需要登入下载的网盘，如 [mega.nz](https://mega.nz)、[OneDrive](https://www.onedrive.com/) 等。
+
+如果遇到解密出错的情况，请一并携带错误信息并简单描述错误的重现过程。
+
+[project-issues]: https://git.unlock-music.dev/um/um-react/issues/new
+
 ## 开发相关
 
 ### 安装依赖
