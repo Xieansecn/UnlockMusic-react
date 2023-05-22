@@ -4,9 +4,11 @@ import type { RootState } from '~/store';
 import { decryptionQueue } from '~/decrypt-worker/client';
 
 import type { DecryptionResult } from '~/decrypt-worker/constants';
+import { DecryptErrorType } from '~/decrypt-worker/util/DecryptError';
 
 export enum ProcessState {
-  UNTOUCHED = 'UNTOUCHED',
+  QUEUED = 'QUEUED',
+  PROCESSING = 'PROCESSING',
   COMPLETE = 'COMPLETE',
   ERROR = 'ERROR',
 }
@@ -31,6 +33,7 @@ export interface DecryptedAudioFile {
   decrypted: string; // blob uri
   state: ProcessState;
   errorMessage: null | string;
+  errorCode: null | DecryptErrorType | string;
   metadata: null | AudioMetadata;
 }
 
@@ -54,7 +57,11 @@ export const processFile = createAsyncThunk<
     return thunkAPI.rejectWithValue({ message, stack });
   }
 
-  return decryptionQueue.add({ id: fileId, blobURI: file.raw });
+  const onPreProcess = () => {
+    thunkAPI.dispatch(setFileAsProcessing({ id: fileId }));
+  };
+
+  return decryptionQueue.add({ id: fileId, blobURI: file.raw }, onPreProcess);
 });
 
 export const fileListingSlice = createSlice({
@@ -67,8 +74,9 @@ export const fileListingSlice = createSlice({
         raw: payload.blobURI,
         decrypted: '',
         ext: '',
-        state: ProcessState.UNTOUCHED,
+        state: ProcessState.QUEUED,
         errorMessage: null,
+        errorCode: null,
         metadata: null,
       };
     },
@@ -76,6 +84,12 @@ export const fileListingSlice = createSlice({
       const file = state.files[payload.id];
       if (file) {
         file.decrypted = payload.decryptedBlobURI;
+      }
+    },
+    setFileAsProcessing: (state, { payload }: PayloadAction<{ id: string }>) => {
+      const file = state.files[payload.id];
+      if (file) {
+        file.state = ProcessState.PROCESSING;
       }
     },
     deleteFile: (state, { payload }: PayloadAction<{ id: string }>) => {
@@ -108,16 +122,14 @@ export const fileListingSlice = createSlice({
       const file = state.files[fileId];
       if (!file) return;
 
-      if (action.payload) {
-        file.errorMessage = action.payload.message;
-      } else {
-        file.errorMessage = action.error.message || 'unknown error';
-      }
+      file.errorMessage = action.error.message ?? 'unknown error';
+      file.errorCode = action.error.code ?? null;
+      file.state = ProcessState.ERROR;
     });
   },
 });
 
-export const { addNewFile, setDecryptedContent, deleteFile } = fileListingSlice.actions;
+export const { addNewFile, setFileAsProcessing, setDecryptedContent, deleteFile } = fileListingSlice.actions;
 
 export const selectFileCount = (state: RootState) => state.fileListing.files.length;
 export const selectFiles = (state: RootState) => state.fileListing.files;

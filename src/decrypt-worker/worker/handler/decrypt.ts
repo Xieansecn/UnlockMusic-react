@@ -38,7 +38,7 @@ class DecryptCommandHandler {
       }
     }
 
-    throw new Error('could not decrypt file: no working decryptor found');
+    throw new UnsupportedSourceFile('could not decrypt file: no working decryptor found');
   }
 
   async decryptFile(crypto: CryptoBase) {

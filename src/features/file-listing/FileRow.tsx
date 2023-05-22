@@ -18,6 +18,7 @@ import { useAppDispatch } from '~/hooks';
 import { AnimationDefinition } from 'framer-motion';
 import { AlbumImage } from './AlbumImage';
 import { SongMetadata } from './SongMetadata';
+import { FileError } from './FileError';
 
 interface FileRowProps {
   id: string;
@@ -73,7 +74,10 @@ export function FileRow({ id, file }: FileRowProps) {
                 <span data-testid="audio-meta-song-name">{metadata?.name ?? nameWithoutExt}</span>
               </Box>
             </GridItem>
-            <GridItem area="meta">{isDecrypted && metadata && <SongMetadata metadata={metadata} />}</GridItem>
+            <GridItem area="meta">
+              {isDecrypted && metadata && <SongMetadata metadata={metadata} />}
+              {file.state === ProcessState.ERROR && <FileError error={file.errorMessage} code={file.errorCode} />}
+            </GridItem>
             <GridItem area="action" alignSelf="center">
               <VStack>
                 {file.decrypted && <audio controls autoPlay={false} src={file.decrypted} ref={audioPlayerRef} />}

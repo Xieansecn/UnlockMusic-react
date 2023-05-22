@@ -1,10 +1,12 @@
 import { nanoid } from 'nanoid';
+import { DecryptError } from '~/decrypt-worker/util/DecryptError';
 
 type WorkerServerHandler<P, R> = (payload: P) => R | Promise<R>;
 
 interface SerializedError {
   message: string;
   stack?: string;
+  code?: string;
 }
 
 interface WorkerClientRequestPayload<P = unknown> {
@@ -39,6 +41,7 @@ export class WorkerClientBus<T = string> {
     if (error) {
       const wrappedError = new Error(error.message, { cause: error });
       wrappedError.stack = error.stack;
+      Object.assign(wrappedError, { code: error.code ?? null });
       reject(wrappedError);
     } else {
       resolve(result as never);
@@ -77,8 +80,12 @@ export class WorkerServerBus {
     } else {
       try {
         result = await handler(payload);
-      } catch (e: unknown) {
-        error = e;
+      } catch (err: unknown) {
+        if (err instanceof DecryptError) {
+          error = err.toJSON();
+        } else {
+          error = err;
+        }
       }
     }
 

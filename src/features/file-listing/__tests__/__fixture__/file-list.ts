@@ -5,8 +5,9 @@ export const untouchedFile: DecryptedAudioFile = {
   raw: 'blob://localhost/file-a',
   decrypted: '',
   ext: '',
-  state: ProcessState.UNTOUCHED,
+  state: ProcessState.QUEUED,
   errorMessage: null,
+  errorCode: null,
   metadata: null,
 };
 
@@ -17,6 +18,7 @@ export const completedFile: DecryptedAudioFile = {
   ext: 'flac',
   state: ProcessState.COMPLETE,
   errorMessage: null,
+  errorCode: null,
   metadata: {
     name: 'Für Alice',
     artist: 'Jixun',
@@ -33,6 +35,7 @@ export const fileWithError: DecryptedAudioFile = {
   ext: 'flac',
   state: ProcessState.ERROR,
   errorMessage: 'Could not decrypt blah blah',
+  errorCode: null,
   metadata: null,
 };
 
