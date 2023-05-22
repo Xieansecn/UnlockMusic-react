@@ -1,10 +1,12 @@
 import { CryptoFactory } from './CryptoBase';
-import { NCMCrypto } from './ncm/ncm_pc';
 
 import { QMC1Crypto } from './qmc/qmc_v1';
 import { QMC2Crypto } from './qmc/qmc_v2';
 import { XiamiCrypto } from './xiami/xiami';
+import { KGMCrypto } from './kgm/kgm_pc';
+import { NCMCrypto } from './ncm/ncm_pc';
 import { XimalayaAndroidCrypto } from './xmly/xmly_android';
+import { KWMCrypto } from './kwm/kwm';
 
 export const allCryptoFactories: CryptoFactory[] = [
   // Xiami (*.xm)
@@ -15,6 +17,12 @@ export const allCryptoFactories: CryptoFactory[] = [
 
   // NCM (*.ncm)
   NCMCrypto.make,
+
+  // KGM (*.kgm, *.vpr)
+  KGMCrypto.make,
+
+  // KWMv1 (*.kwm)
+  KWMCrypto.make,
 
   // Crypto that does not implement "checkBySignature" or need to decrypt the entire file and then check audio type,
   //   should be moved to the bottom of the list for performance reasons.
