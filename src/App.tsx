@@ -3,7 +3,6 @@ import { SelectFile } from './SelectFile';
 
 import { FileListing } from './features/file-listing/FileListing';
 import { Footer } from './Footer';
-import { WasmTest } from './WasmTest';
 
 function App() {
   return (
@@ -15,7 +14,6 @@ function App() {
         <Box mt="8">
           <FileListing />
         </Box>
-        <WasmTest />
         <Footer />
       </Container>
     </Box>
