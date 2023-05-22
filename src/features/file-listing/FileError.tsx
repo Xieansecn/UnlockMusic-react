@@ -17,7 +17,9 @@ export function FileError({ error, code }: FileErrorProps) {
   return (
     <Box>
       <Text>
-        <chakra.span>解密错误：{errorSummary}</chakra.span>
+        <chakra.span>
+          解密错误：<chakra.span color="red.700">{errorSummary}</chakra.span>
+        </chakra.span>
         {error && (
           <Button ml="2" onClick={onToggle} type="button">
             详细
@@ -26,7 +28,7 @@ export function FileError({ error, code }: FileErrorProps) {
       </Text>
       {error && (
         <Collapse in={isOpen} animateOpacity>
-          <Box as="pre" display="inline-block" mt="2" px="4" py="2" bg="red.300" rounded="md">
+          <Box as="pre" display="inline-block" mt="2" px="4" py="2" bg="red.100" color="red.800" rounded="md">
             {error}
           </Box>
         </Collapse>
