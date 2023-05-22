@@ -8,7 +8,7 @@
 - 安装/激活 `pnpm` [^1]：`corepack prepare pnpm@latest --activate`
 - 安装软件依赖：`pnpm i --frozen-lockfile`
 
-[^1]: 参考 pnpm 说明 https://pnpm.io/zh/installation#使用-corepack-安装
+[^1]: 参考 pnpm 说明「[使用 Corepack 安装](https://pnpm.io/zh/installation#使用-corepack-安装)」。
 
 ## 本地运行
 
