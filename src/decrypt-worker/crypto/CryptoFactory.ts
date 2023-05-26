@@ -7,6 +7,7 @@ import { KGMCrypto } from './kgm/kgm_pc';
 import { NCMCrypto } from './ncm/ncm_pc';
 import { XimalayaAndroidCrypto } from './xmly/xmly_android';
 import { KWMCrypto } from './kwm/kwm';
+import { MiguCrypto } from './migu/migu3d_keyless';
 
 export const allCryptoFactories: CryptoFactory[] = [
   // Xiami (*.xm)
@@ -23,6 +24,9 @@ export const allCryptoFactories: CryptoFactory[] = [
 
   // KWMv1 (*.kwm)
   KWMCrypto.make,
+
+  // Migu3D/Keyless (*.wav; *.m4a)
+  MiguCrypto.make,
 
   // Crypto that does not implement "checkBySignature" or need to decrypt the entire file and then check audio type,
   //   should be moved to the bottom of the list for performance reasons.
