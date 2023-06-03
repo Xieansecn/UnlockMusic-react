@@ -3,6 +3,7 @@ import { SelectFile } from './SelectFile';
 
 import { FileListing } from '~/features/file-listing/FileListing';
 import { Footer } from './Footer';
+import { Toolbar } from './Toolbar';
 
 function App() {
   return (
@@ -11,9 +12,8 @@ function App() {
         <Center>
           <SelectFile />
         </Center>
-        <Box mt="8">
-          <FileListing />
-        </Box>
+        <Toolbar />
+        <FileListing />
         <Footer />
       </Container>
     </Box>
