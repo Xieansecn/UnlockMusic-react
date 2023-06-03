@@ -1,8 +1,10 @@
 import { PreloadedState, combineReducers, configureStore } from '@reduxjs/toolkit';
 import fileListingReducer from './features/file-listing/fileListingSlice';
+import settingsReducer from './features/settings/settingsSlice';
 
 const rootReducer = combineReducers({
   fileListing: fileListingReducer,
+  settings: settingsReducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) =>
