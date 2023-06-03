@@ -1,9 +1,10 @@
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-import { setupStore } from './store';
-import { Loader } from './Loader';
+import { AppRoot } from './components/AppRoot';
 
-// Private to this file only.
-const store = setupStore();
-
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(<Loader store={store} />);
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <React.StrictMode>
+    <AppRoot />
+  </React.StrictMode>
+);

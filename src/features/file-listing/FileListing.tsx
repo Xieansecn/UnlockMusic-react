@@ -1,7 +1,7 @@
 import { VStack } from '@chakra-ui/react';
 
 import { selectFiles } from './fileListingSlice';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '~/hooks';
 import { FileRow } from './FileRow';
 
 export function FileListing() {

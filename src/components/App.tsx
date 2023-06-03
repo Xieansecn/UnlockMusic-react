@@ -1,7 +1,7 @@
 import { Box, Center, Container } from '@chakra-ui/react';
 import { SelectFile } from './SelectFile';
 
-import { FileListing } from './features/file-listing/FileListing';
+import { FileListing } from '~/features/file-listing/FileListing';
 import { Footer } from './Footer';
 
 function App() {
