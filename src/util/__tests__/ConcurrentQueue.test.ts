@@ -3,7 +3,7 @@ import { nextTickAsync } from '../nextTick';
 
 class SimpleQueue<T, R = void> extends ConcurrentQueue<T> {
   handler(_item: T): Promise<R> {
-    throw new Error('Method not overriden');
+    throw new Error('Method not overridden');
   }
 }
 
@@ -39,7 +39,7 @@ test('should be able to process the queue within limit', async () => {
       await promises[i];
     }
 
-    // Wait till all fullfilled
+    // Wait till all fulfilled
     while (queuedResolver.length !== 5) {
       await nextTickAsync();
     }
@@ -85,13 +85,13 @@ test('it should move on to the next item in the queue once failed', async () => 
     promises.push(queue.add(4));
     promises.push(queue.add(5));
 
-    // Let first 2 be fullfilled
+    // Let first 2 be fulfilled
     for (let i = 0; i < 2; i++) {
       queuedResolver[i]();
       await promises[i];
     }
 
-    // Wait till all fullfilled
+    // Wait till all fulfilled
     while (queuedResolver.length !== 4) {
       await nextTickAsync();
     }
