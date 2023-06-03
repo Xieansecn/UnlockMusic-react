@@ -1,5 +1,5 @@
 import { renderWithProviders, screen, waitFor } from '~/test-utils/test-helper';
-import App from '~/App';
+import App from '~/components/App';
 
 vi.mock('../decrypt-worker/client', () => {
   return {
