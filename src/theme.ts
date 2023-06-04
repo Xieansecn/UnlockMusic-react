@@ -21,15 +21,18 @@ export const theme = extendTheme({
   },
   styles: {
     global: {
-      body: {
+      '#root': {
         minHeight: '100vh',
+        maxHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
       },
     },
   },
   sizes: {
     footer: {
-      container: '7rem',
-      content: '5rem',
+      container: '5rem',
+      content: '4rem',
     },
   },
 });

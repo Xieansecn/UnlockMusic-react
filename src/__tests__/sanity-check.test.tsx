@@ -1,5 +1,5 @@
 import { renderWithProviders, screen, waitFor } from '~/test-utils/test-helper';
-import App from '~/components/App';
+import { AppRoot } from '~/components/AppRoot';
 
 vi.mock('../decrypt-worker/client', () => {
   return {
@@ -10,7 +10,7 @@ vi.mock('../decrypt-worker/client', () => {
 });
 
 test('should be able to render App', async () => {
-  renderWithProviders(<App />);
+  renderWithProviders(<AppRoot />);
 
   // Should eventually load sdk version
   await waitFor(() => screen.getByTestId('sdk-version'));
