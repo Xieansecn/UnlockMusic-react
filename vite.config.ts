@@ -23,6 +23,9 @@ const version = `${pkg.version}-${shortCommit}`;
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  worker: {
+    format: 'es',
+  },
   server: {
     fs: {
       // Note:
@@ -85,6 +88,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '~': path.resolve(__dirname, 'src'),
+      module: path.resolve(__dirname, 'src', 'dummy.mjs'),
     },
   },
   build: {
