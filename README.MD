@@ -1,15 +1,17 @@
 # Unlock Music 音乐解锁 (React)
 
+[![Build Status](https://ci.unlock-music.dev/api/badges/um/um-react/status.svg)](https://ci.unlock-music.dev/um/um-react)
+
 - 在浏览器中解锁加密的音乐文件。 Unlock encrypted music file in the browser.
 - Unlock Music 项目是以学习和技术研究的初衷创建的，修改、再分发时请遵循[授权协议]。
 - Unlock Music 的 CLI 版本可以在 [unlock-music/cli] 找到，大批量转换建议使用 CLI 版本。
 - 我们新建了 Telegram 群组 [`@unlock_music_chat`] ，欢迎加入！
-- ~~CI 自动构建已经部署，可以在 [UM-Packages] 下载~~ 目前还没有自动构建
+- CI 自动构建已经部署，可以在 [Packages][um-react-packages] 下载 目前还没有自动构建
 
 [授权协议]: https://git.unlock-music.dev/um/um-react/src/branch/main/LICENSE
 [unlock-music/cli]: https://git.unlock-music.dev/um/cli
 [`@unlock_music_chat`]: https://t.me/unlock_music_chat
-[UM-Packages]: https://git.unlock-music.dev/um/-/packages/generic/web-build/
+[um-react-packages]: https://git.unlock-music.dev/um/-/packages/generic/um-react/
 
 ## 支持的格式
 
