@@ -17,6 +17,13 @@ const variantLineInvert = definePartsStyle((props) => {
       [borderProp]: '2px solid',
       borderColor: 'inherit',
     },
+    tabpanels: {
+      flex: 1,
+      minH: 0,
+    },
+    tabpanel: {
+      padding: 0,
+    },
     tab: {
       [borderProp]: '2px solid',
       borderColor: 'transparent',
@@ -42,7 +49,10 @@ const variantLineInvert = definePartsStyle((props) => {
       bg: $bg.reference,
     },
     root: {
+      display: 'flex',
+      flexDir: isVertical ? 'row' : 'column',
       gap: 8,
+      minH: 0,
     },
   };
 });

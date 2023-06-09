@@ -21,13 +21,16 @@ export const settingsSlice = createSlice({
     updateSettings: (_state, { payload }: PayloadAction<SettingsState>) => {
       return payload;
     },
+    updateQMC2Keys: (state, { payload }: PayloadAction<QMCSettings['keys']>) => {
+      state.qmc2.keys = payload;
+    },
     resetConfig: () => {
       return initialState;
     },
   },
 });
 
-export const { updateSettings, resetConfig } = settingsSlice.actions;
+export const { updateSettings, resetConfig, updateQMC2Keys } = settingsSlice.actions;
 
 export const selectQM2CSettings = (state: RootState) => state.settings.qmc2;
 
