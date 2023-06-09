@@ -3,11 +3,15 @@
 BRANCH_NAME="$(git branch --show-current)"
 
 __netlify_upload() {
+    local production="$DEPLOY_PRODUCTION"
+    [[ -z "$production" ]] && production="false"
+    [[ "$BRANCH_NAME" = "main" ]] && production="true"
+
     curl -sL \
         -H "Content-Type: application/zip" \
         -H "Authorization: Bearer ${NETLIFY_API_KEY}" \
         --data-binary "@${1}" \
-        "https://api.netlify.com/api/v1/sites/${NETLIFY_SITE_ID}/deploys?branch=${BRANCH_NAME}"
+        "https://api.netlify.com/api/v1/sites/${NETLIFY_SITE_ID}/deploys?branch=${BRANCH_NAME}&production=${production}"
 }
 
 __netlify_get_deploy() {
