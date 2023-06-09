@@ -1,4 +1,5 @@
 import { extendTheme } from '@chakra-ui/react';
+import { tabsTheme } from './themes/Tabs';
 
 export const theme = extendTheme({
   fonts: {
@@ -16,6 +17,17 @@ export const theme = extendTheme({
       },
       defaultProps: {
         colorScheme: 'teal',
+      },
+    },
+    Tabs: tabsTheme,
+    Heading: {
+      baseStyle: {
+        userSelect: 'none',
+      },
+    },
+    Text: {
+      baseStyle: {
+        userSelect: 'none',
       },
     },
   },

@@ -32,11 +32,11 @@ export function AppRoot() {
             </Tab>
           </TabList>
 
-          <TabPanels overflow="auto" minW={0}>
+          <TabPanels overflow="auto" minW={0} flexDir="column" flex={1} display="flex">
             <TabPanel>
               <MainTab />
             </TabPanel>
-            <TabPanel>
+            <TabPanel flex={1} display="flex">
               <SettingsTab />
             </TabPanel>
           </TabPanels>
