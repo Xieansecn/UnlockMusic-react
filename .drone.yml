@@ -1,0 +1,30 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: test & build
+    image: node:18.16.0-bullseye
+    commands:
+      #   - git config --global --add safe.directory "/drone/src"
+      - npm install -g pnpm
+      - pnpm i --frozen-lockfile
+      - pnpm build
+
+  - name: publish
+    image: node:18.16.0-bullseye
+    environment:
+      DRONE_GITEA_SERVER: https://git.unlock-music.dev
+      GITEA_API_KEY:
+        from_secret: GITEA_API_KEY
+      NETLIFY_SITE_ID:
+        from_secret: NETLIFY_SITE_ID
+      NETLIFY_API_KEY:
+        from_secret: NETLIFY_API_KEY
+    commands:
+      #   - git config --global --add safe.directory "/drone/src"
+      - apt-get update && apt-get install -y zip jq tar gzip curl
+      - (cd dist && zip -r -9 ../um-react.zip .)
+      - ./scripts/publish.sh
+      - ./scripts/deploy.sh
