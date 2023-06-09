@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash -e
 
 BRANCH_NAME="$(git branch --show-current)"
 
