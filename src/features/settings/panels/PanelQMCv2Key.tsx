@@ -40,8 +40,10 @@ export function PanelQMCv2Key() {
   return (
     <Flex minH={0} flexDir="column" flex={1}>
       <Heading as="h2" size="lg">
-        密钥
+        QMCv2 密钥
       </Heading>
+
+      <Text>QQ 音乐目前采用的加密方案（QMCv2），安卓端与 Mac 端均下加密内容与密钥隔离储存。</Text>
 
       <Box pb={2} pt={2}>
         <ButtonGroup isAttached variant="outline">
