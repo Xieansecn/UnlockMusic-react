@@ -2,8 +2,8 @@ import { useDropzone } from 'react-dropzone';
 import { Box, Text } from '@chakra-ui/react';
 import { UnlockIcon } from '@chakra-ui/icons';
 
-import { useAppDispatch } from './hooks';
-import { addNewFile, processFile } from './features/file-listing/fileListingSlice';
+import { useAppDispatch } from '~/hooks';
+import { addNewFile, processFile } from '~/features/file-listing/fileListingSlice';
 import { nanoid } from 'nanoid';
 
 export function SelectFile() {

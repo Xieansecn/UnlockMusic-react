@@ -11,7 +11,7 @@ publish_gitea() {
 }
 
 # Only publish main branch by default
-if [[ "${BRANCH_NAME}" = "main" ]]; then
+if [[ "${BRANCH_NAME}" = "main" && -z "$DRONE_PULL_REQUEST" ]]; then
     echo 'prepare to publish...'
 
     if [[ -n "${GITEA_API_KEY}" ]]; then

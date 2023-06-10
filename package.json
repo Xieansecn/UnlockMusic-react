@@ -16,17 +16,21 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@chakra-ui/anatomy": "^2.1.1",
     "@chakra-ui/icons": "^2.0.19",
-    "@chakra-ui/react": "^2.6.1",
+    "@chakra-ui/react": "^2.7.0",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
-    "@jixun/libparakeet": "0.1.1",
+    "@jixun/libparakeet": "0.1.2",
     "@reduxjs/toolkit": "^1.9.5",
     "framer-motion": "^10.12.16",
+    "immer": "^10.0.2",
     "nanoid": "^4.0.2",
+    "radash": "^10.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-icons": "^4.9.0",
     "react-promise-suspense": "^0.3.4",
     "react-redux": "^8.0.5"
   },

@@ -23,3 +23,23 @@ export function withGroupedLogs<R = unknown>(label: string, fn: () => R): R {
     );
   }
 }
+
+const noop = (..._args: unknown[]) => {
+  // noop
+};
+
+const dummyLogger = {
+  log: noop,
+  info: noop,
+  warn: noop,
+  debug: noop,
+  trace: noop,
+};
+
+export function getLogger() {
+  if (import.meta.env.ENABLE_PERF_LOG === '1') {
+    return window.console;
+  } else {
+    return dummyLogger;
+  }
+}

@@ -1,5 +1,6 @@
 import { Parakeet, fetchParakeet } from '@jixun/libparakeet';
 import { timedLogger, withGroupedLogs as withTimeGroupedLogs } from '~/util/logUtils';
+import type { DecryptCommandOptions, DecryptCommandPayload } from '~/decrypt-worker/types';
 import { allCryptoFactories } from '../../crypto/CryptoFactory';
 import { toArrayBuffer, toBlob } from '~/decrypt-worker/util/buffer';
 import { CryptoBase, CryptoFactory } from '~/decrypt-worker/crypto/CryptoBase';
@@ -11,8 +12,13 @@ const TEST_FILE_HEADER_LEN = 4 * 1024 * 1024;
 class DecryptCommandHandler {
   private label: string;
 
-  constructor(label: string, private parakeet: Parakeet, private blob: Blob, private buffer: ArrayBuffer) {
-    this.label = `DecryptCommandHandler( ${label} )`;
+  constructor(
+    label: string,
+    private parakeet: Parakeet,
+    private buffer: ArrayBuffer,
+    private options: DecryptCommandOptions
+  ) {
+    this.label = `DecryptCommandHandler(${label})`;
   }
 
   log<R>(label: string, fn: () => R): R {
@@ -42,7 +48,7 @@ class DecryptCommandHandler {
   }
 
   async decryptFile(crypto: CryptoBase) {
-    if (crypto.checkBySignature && !(await crypto.checkBySignature(this.buffer))) {
+    if (crypto.checkBySignature && !(await crypto.checkBySignature(this.buffer, this.options))) {
       return null;
     }
 
@@ -50,7 +56,7 @@ class DecryptCommandHandler {
       return null;
     }
 
-    const decrypted = await this.log(`decrypt (${crypto.cryptoName})`, () => crypto.decrypt(this.buffer, this.blob));
+    const decrypted = await this.log(`decrypt (${crypto.cryptoName})`, () => crypto.decrypt(this.buffer, this.options));
 
     // Check if we had a successful decryption
     const audioExt = crypto.overrideExtension ?? (await this.detectAudioExtension(decrypted));
@@ -76,23 +82,21 @@ class DecryptCommandHandler {
 
     // Check by decrypt max first 8MiB
     const decryptedBuffer = await this.log(`${crypto.cryptoName}/decrypt-header-test`, async () =>
-      toArrayBuffer(
-        await crypto.decrypt(this.buffer.slice(0, TEST_FILE_HEADER_LEN), this.blob.slice(0, TEST_FILE_HEADER_LEN))
-      )
+      toArrayBuffer(await crypto.decrypt(this.buffer.slice(0, TEST_FILE_HEADER_LEN), this.options))
     );
 
     return this.parakeet.detectAudioExtension(decryptedBuffer) !== 'bin';
   }
 }
 
-export const workerDecryptHandler = async ({ id, blobURI }: { id: string; blobURI: string }) => {
-  const label = `decrypt( ${id} )`;
+export const workerDecryptHandler = async ({ id, blobURI, options }: DecryptCommandPayload) => {
+  const label = `decrypt(${id})`;
   return withTimeGroupedLogs(label, async () => {
     const parakeet = await timedLogger(`${label}/init`, fetchParakeet);
     const blob = await timedLogger(`${label}/fetch-src`, async () => fetch(blobURI).then((r) => r.blob()));
     const buffer = await timedLogger(`${label}/read-src`, async () => blob.arrayBuffer());
 
-    const handler = new DecryptCommandHandler(id, parakeet, blob, buffer);
+    const handler = new DecryptCommandHandler(id, parakeet, buffer, options);
     return handler.decrypt(allCryptoFactories);
   });
 };

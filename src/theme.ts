@@ -1,17 +1,50 @@
 import { extendTheme } from '@chakra-ui/react';
+import { tabsTheme } from './themes/Tabs';
 
 export const theme = extendTheme({
+  fonts: {
+    body: [
+      '-system-ui,-apple-system,BlinkMacSystemFont',
+      'Source Han Sans CN,Noto Sans CJK SC',
+      'Segoe UI,Helvetica,Arial,sans-serif',
+      'Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol',
+    ].join(','),
+  },
+  components: {
+    Button: {
+      baseStyle: {
+        fontWeight: 'normal',
+      },
+      defaultProps: {
+        colorScheme: 'teal',
+      },
+    },
+    Tabs: tabsTheme,
+    Heading: {
+      baseStyle: {
+        userSelect: 'none',
+      },
+    },
+    Text: {
+      baseStyle: {
+        userSelect: 'none',
+      },
+    },
+  },
   styles: {
     global: {
-      body: {
+      '#root': {
         minHeight: '100vh',
+        maxHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
       },
     },
   },
   sizes: {
     footer: {
-      container: '7rem',
-      content: '5rem',
+      container: '5rem',
+      content: '4rem',
     },
   },
 });
