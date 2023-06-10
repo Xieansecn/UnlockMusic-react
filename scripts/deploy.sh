@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 BRANCH_NAME="$(git branch --show-current)"
+SCRIPTS_DIR="$(dirname "${BASH_SOURCE[0]}")"
 
 __netlify_upload() {
     local branch="$BRANCH_NAME"
@@ -25,35 +26,45 @@ __netlify_get_deploy() {
         "https://api.netlify.com/api/v1/deploys/${deploy_id}"
 }
 
+json_get() {
+    local json_body="$1"
+    shift
+
+    echo -n "$json_body" | "${SCRIPTS_DIR}/read_json.mjs" "$@"
+}
+
 deploy_netlify() {
     local upload_resp
     upload_resp="$(__netlify_upload "$1")"
 
-    local error_message="$(echo "$upload_resp" | jq -r ".message // .error_message")"
+    local error_message
+    error_message="$(json_get "$upload_resp" message)"
+    [[ "$error_message" = "null" ]] && error_message="$(json_get "$upload_resp" error_message)"
+
     if [[ "$error_message" != "null" ]]; then
         echo "Deploy to netlify failed:"
         echo "  * ${error_message}"
         return 1
     fi
 
-    local deploy_id="$(echo "$upload_resp" | jq -r ".id")"
+    local deploy_id="$(json_get "$upload_resp" id)"
     local deploy_resp=""
     local deploy_state=""
     local retry_count=10
     while [[ "$retry_count" -gt 0 ]]; do
         deploy_resp="$(__netlify_get_deploy "$deploy_id")"
-        deploy_state="$(echo "$deploy_resp" | jq -r '.state')"
+        deploy_state="$(json_get "$deploy_resp" 'state')"
         case "$deploy_state" in
         ready)
             echo 'Deploy to netlify OK!'
-            echo "  * main url:  $(echo "$deploy_resp" | jq -r '.ssl_url')"
-            echo "  * branch:    $(echo "$deploy_resp" | jq -r '.deploy_ssl_url')"
-            echo "  * permalink: $(echo "$deploy_resp" | jq -r '.links.permalink')"
+            echo "  * main url:  $(json_get "$deploy_resp" 'ssl_url')"
+            echo "  * branch:    $(json_get "$deploy_resp" 'deploy_ssl_url')"
+            echo "  * permalink: $(json_get "$deploy_resp" 'links' 'permalink')"
             return 0
             ;;
         error)
             echo "Deploy to netlify failed:"
-            echo "  * $(echo "$deploy_resp" | jq -r '.error_message')"
+            echo "  * $(json_get "$deploy_resp" 'error_message')"
             return 1
             ;;
         *)

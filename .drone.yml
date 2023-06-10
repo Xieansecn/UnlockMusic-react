@@ -27,9 +27,6 @@ steps:
         from_secret: NETLIFY_API_KEY
     commands:
       #   - git config --global --add safe.directory "/drone/src"
-      # 让 Debian 使用中科大源；测试网易和阿里的源速度不理想。
-      - sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
-      - apt-get update && apt-get install -y zip jq tar gzip curl
-      - (cd dist && zip -r -9 ../um-react.zip .)
+      - python3 -m zipfile -c etc.zip um-react.zip dist/.
       - ./scripts/publish.sh
       - ./scripts/deploy.sh
