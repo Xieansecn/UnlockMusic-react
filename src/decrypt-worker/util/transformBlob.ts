@@ -5,21 +5,24 @@ import { UnsupportedSourceFile } from './DecryptError';
 export async function transformBlob(
   blob: Blob | ArrayBuffer,
   transformerFactory: (p: Parakeet) => Transformer | Promise<Transformer>,
-  parakeet?: Parakeet
+  { cleanup, parakeet }: { cleanup?: () => void; parakeet?: Parakeet } = {}
 ) {
-  const cleanup: (() => void)[] = [];
+  const registeredCleanupFns: (() => void)[] = [];
+  if (cleanup) {
+    registeredCleanupFns.push(cleanup);
+  }
 
   try {
     const mod = parakeet ?? (await fetchParakeet());
     const transformer = await transformerFactory(mod);
-    cleanup.push(() => transformer.delete());
+    registeredCleanupFns.push(() => transformer.delete());
 
     const reader = mod.make.Reader(await toArrayBuffer(blob));
-    cleanup.push(() => reader.delete());
+    registeredCleanupFns.push(() => reader.delete());
 
     const sink = mod.make.WriterSink();
     const writer = sink.getWriter();
-    cleanup.push(() => writer.delete());
+    registeredCleanupFns.push(() => writer.delete());
 
     const result = transformer.Transform(writer, reader);
     if (result === TransformResult.ERROR_INVALID_FORMAT) {
@@ -30,6 +33,6 @@ export async function transformBlob(
 
     return sink.collectBlob();
   } finally {
-    cleanup.forEach((clean) => clean());
+    registeredCleanupFns.forEach((cleanup) => cleanup());
   }
 }

@@ -9,11 +9,11 @@ export class QMC2Crypto implements CryptoBase {
   checkByDecryptHeader = false;
 
   async decrypt(buffer: ArrayBuffer): Promise<Blob> {
-    // FIXME: Move the cleanup to transformBlob
-    const mod = await fetchParakeet();
-    const footerParser = mod.make.QMCv2FooterParser(SEED, ENC_V2_KEY_1, ENC_V2_KEY_2);
-    return transformBlob(buffer, (p) => p.make.QMCv2(footerParser)).finally(() => {
-      footerParser.delete();
+    const parakeet = await fetchParakeet();
+    const footerParser = parakeet.make.QMCv2FooterParser(SEED, ENC_V2_KEY_1, ENC_V2_KEY_2);
+    return transformBlob(buffer, (p) => p.make.QMCv2(footerParser), {
+      parakeet,
+      cleanup: () => footerParser.delete(),
     });
   }
 
@@ -35,12 +35,14 @@ export class QMC2CryptoWithKey implements CryptoBase {
       throw new Error('key was not provided');
     }
 
-    // FIXME: Move the cleanup to transformBlob
-    const mod = await fetchParakeet();
+    const parakeet = await fetchParakeet();
     const textEncoder = new TextEncoder();
     const key = textEncoder.encode(options.qmc2Key);
-    const keyCrypto = mod.make.QMCv2KeyCrypto(SEED, ENC_V2_KEY_1, ENC_V2_KEY_2);
-    return transformBlob(buffer, (p) => p.make.QMCv2EKey(key, keyCrypto));
+    const keyCrypto = parakeet.make.QMCv2KeyCrypto(SEED, ENC_V2_KEY_1, ENC_V2_KEY_2);
+    return transformBlob(buffer, (p) => p.make.QMCv2EKey(key, keyCrypto), {
+      parakeet,
+      cleanup: () => keyCrypto.delete(),
+    });
   }
 
   public static make() {
