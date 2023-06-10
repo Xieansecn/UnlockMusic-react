@@ -5,6 +5,7 @@ import { decryptionQueue } from '~/decrypt-worker/client';
 
 import type { DecryptionResult } from '~/decrypt-worker/constants';
 import { DecryptErrorType } from '~/decrypt-worker/util/DecryptError';
+import { selectDecryptOptionByFile } from '../settings/settingsSelector';
 
 export enum ProcessState {
   QUEUED = 'QUEUED',
@@ -51,7 +52,8 @@ export const processFile = createAsyncThunk<
   { fileId: string },
   { rejectValue: { message: string; stack?: string } }
 >('fileListing/processFile', async ({ fileId }, thunkAPI) => {
-  const file = selectFiles(thunkAPI.getState() as RootState)[fileId];
+  const state = thunkAPI.getState() as RootState;
+  const file = selectFiles(state)[fileId];
   if (!file) {
     const { message, stack } = new Error('ERROR: File not found');
     return thunkAPI.rejectWithValue({ message, stack });
@@ -61,7 +63,8 @@ export const processFile = createAsyncThunk<
     thunkAPI.dispatch(setFileAsProcessing({ id: fileId }));
   };
 
-  return decryptionQueue.add({ id: fileId, blobURI: file.raw }, onPreProcess);
+  const options = selectDecryptOptionByFile(state, file.fileName);
+  return decryptionQueue.add({ id: fileId, blobURI: file.raw, options }, onPreProcess);
 });
 
 export const fileListingSlice = createSlice({

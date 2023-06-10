@@ -1,3 +1,5 @@
+import type { DecryptCommandOptions } from '~/decrypt-worker/types';
+
 export interface CryptoBase {
   cryptoName: string;
   checkByDecryptHeader: boolean;
@@ -8,8 +10,8 @@ export interface CryptoBase {
    */
   overrideExtension?: string;
 
-  checkBySignature?: (buffer: ArrayBuffer) => Promise<boolean>;
-  decrypt(buffer: ArrayBuffer, blob: Blob): Promise<Blob | ArrayBuffer>;
+  checkBySignature?: (buffer: ArrayBuffer, options: DecryptCommandOptions) => Promise<boolean>;
+  decrypt(buffer: ArrayBuffer, options: DecryptCommandOptions): Promise<Blob | ArrayBuffer>;
 }
 
 export type CryptoFactory = () => CryptoBase;

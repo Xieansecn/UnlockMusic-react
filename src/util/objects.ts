@@ -5,3 +5,5 @@ export function* enumObject<T>(obj: Record<string, T> | null | void): Generator<
     }
   }
 }
+
+export const { hasOwn } = Object;
