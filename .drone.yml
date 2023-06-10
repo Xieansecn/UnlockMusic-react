@@ -27,6 +27,6 @@ steps:
         from_secret: NETLIFY_API_KEY
     commands:
       #   - git config --global --add safe.directory "/drone/src"
-      - python3 -m zipfile -c etc.zip um-react.zip dist/.
+      - python3 -m zipfile -c um-react.zip dist/.
       - ./scripts/publish.sh
       - ./scripts/deploy.sh
