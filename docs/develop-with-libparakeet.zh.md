@@ -18,8 +18,6 @@
 
 ## 初次构建
 
-注意：libparakeet-js 目前是用的是 pnpm 包管理器。
-
 - 进入上层目录：`cd ..`
 - 克隆 `libparakeet-js` 仓库 (目前需要 Linux 环境, Windows 下推荐使用 WSL2)
   - `git clone --recurse-submodules https://github.com/parakeet-rs/libparakeet-js.git`
@@ -46,7 +44,7 @@
 将构建好的 SDK 直接嵌入到当前前端项目：
 
 ```sh
-yarn link ../libparakeet-js/npm
+pnpm link ../libparakeet-js/npm
 ```
 
 ※ 建立 PR 时，请先提交 SDK PR 并确保你的 SDK 更改已合并。

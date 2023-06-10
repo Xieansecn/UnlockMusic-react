@@ -25,5 +25,5 @@ dist-ssr
 *.sw?
 
 # Files created when running "drone exec" locally
+/.pnpm-store/
 /*.zip
-/.yarn

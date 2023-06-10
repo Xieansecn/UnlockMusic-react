@@ -28,11 +28,15 @@ export default defineConfig({
   },
   server: {
     fs: {
+      // Note:
+      //   This is _insecure_, but is required to get pnpm link to work.
+      // strict: false,
+
       allow: [
         'src',
         'node_modules',
 
-        // Allow package manager to link (i.e. yarn).
+        // Allow pnpm to link.
         process.env.LIB_PARAKEET_JS_DIR || '../libparakeet-js',
       ],
     },
