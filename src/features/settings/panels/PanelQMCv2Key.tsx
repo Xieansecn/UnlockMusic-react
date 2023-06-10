@@ -25,7 +25,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { qmc2AddKey, qmc2ClearKeys, qmc2DeleteKey, qmc2UpdateKey } from '../settingsSlice';
 import { selectStagingQMCv2Settings } from '../settingsSelector';
 import React from 'react';
-import { MdAdd, MdAndroid, MdDelete, MdDeleteForever, MdExpandMore, MdFileUpload, MdVpnKey } from 'react-icons/md';
+import { MdAdd, MdDelete, MdDeleteForever, MdExpandMore, MdFileUpload, MdVpnKey } from 'react-icons/md';
 
 export function PanelQMCv2Key() {
   const dispatch = useDispatch();
@@ -51,14 +51,12 @@ export function PanelQMCv2Key() {
           <Menu>
             <MenuButton as={IconButton} icon={<MdExpandMore />}></MenuButton>
             <MenuList>
-              <MenuItem onClick={() => alert('TODO!')} icon={<Icon as={MdFileUpload} boxSize={5} />}>
-                从文件导入（JSON）
+              {/* 目前的想法是弹出一个 modal，给用户一些信息（如期待的格式、如何导出或寻找对应的文件） */}
+              {/* 但是这样的话就不太方便放在这个分支里面做了，下次一定。 */}
+              <MenuItem hidden onClick={() => alert('TODO!')} icon={<Icon as={MdFileUpload} boxSize={5} />}>
+                从文件导入
               </MenuItem>
-              {/* 需要加入 SQL.js 再处理 */}
-              <MenuItem hidden onClick={() => alert('TODO!')} icon={<Icon as={MdAndroid} boxSize={5} />}>
-                从文件导入（安卓数据库）
-              </MenuItem>
-              <MenuDivider />
+              <MenuDivider hidden />
               <MenuItem color="red" onClick={clearAll} icon={<Icon as={MdDeleteForever} boxSize={5} />}>
                 清空
               </MenuItem>
