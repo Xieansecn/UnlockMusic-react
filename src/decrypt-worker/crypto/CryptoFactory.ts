@@ -1,7 +1,7 @@
 import { CryptoFactory } from './CryptoBase';
 
 import { QMC1Crypto } from './qmc/qmc_v1';
-import { QMC2Crypto } from './qmc/qmc_v2';
+import { QMC2Crypto, QMC2CryptoWithKey } from './qmc/qmc_v2';
 import { XiamiCrypto } from './xiami/xiami';
 import { KGMCrypto } from './kgm/kgm_pc';
 import { NCMCrypto } from './ncm/ncm_pc';
@@ -14,6 +14,7 @@ export const allCryptoFactories: CryptoFactory[] = [
   XiamiCrypto.make,
 
   // QMCv2 (*.mflac)
+  QMC2CryptoWithKey.make,
   QMC2Crypto.make,
 
   // NCM (*.ncm)

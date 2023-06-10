@@ -21,8 +21,8 @@ dependencies:
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.0)(@types/react@18.2.7)(react@18.2.0)
   '@jixun/libparakeet':
-    specifier: 0.1.1
-    version: 0.1.1
+    specifier: 0.1.2
+    version: 0.1.2
   '@reduxjs/toolkit':
     specifier: ^1.9.5
     version: 1.9.5(react-redux@8.0.5)(react@18.2.0)
@@ -3101,8 +3101,8 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@jixun/libparakeet@0.1.1:
-    resolution: {integrity: sha512-1e6hFsVga3eDkQvUY/wsX/F1R94SzcrO2u7wK/KPaCs9MD0hej+cgraOixp+VDy4uqGSPKU5iNP1a8hCYze2rg==}
+  /@jixun/libparakeet@0.1.2:
+    resolution: {integrity: sha512-PxhA7EtC3ss3ACxaGckgD41wGAhWllfy80LfL8GMiXkdXMipgcfFfeEcJBBpvTZ/FlDfoFLDJSOz0uculhsgnQ==}
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:
@@ -4069,8 +4069,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001497
-      electron-to-chromium: 1.4.426
+      caniuse-lite: 1.0.30001498
+      electron-to-chromium: 1.4.427
       node-releases: 2.0.12
       update-browserslist-db: 1.0.11(browserslist@4.21.7)
     dev: true
@@ -4123,8 +4123,8 @@ packages:
     resolution: {integrity: sha512-x1mgZEXK8jHIfAxm+xgdpHpk50IN3z3q3zP261/WS+uvePxW8izXuCu6AHz0lkuYTlATDehiZ/tNyYBdSQsOUQ==}
     dev: true
 
-  /caniuse-lite@1.0.30001497:
-    resolution: {integrity: sha512-I4/duVK4wL6rAK/aKZl3HXB4g+lIZvaT4VLAn2rCgJ38jVLb0lv2Xug6QuqmxXFVRJMF74SPPWPJ/1Sdm3vCzw==}
+  /caniuse-lite@1.0.30001498:
+    resolution: {integrity: sha512-LFInN2zAwx3ANrGCDZ5AKKJroHqNKyjXitdV5zRIVIaQlXKj3GmxUKagoKsjqUfckpAObPCEWnk5EeMlyMWcgw==}
     dev: true
 
   /chai@4.3.7:
@@ -4478,8 +4478,8 @@ packages:
     resolution: {integrity: sha512-5VXLW4Qw89vM2WTICHua/y8v7fKGDRVa2VPOtBB9IpLvW316B+xd8yD1wTmLPY2ot/00P/qt87xdolj4aG/Lzg==}
     dev: true
 
-  /electron-to-chromium@1.4.426:
-    resolution: {integrity: sha512-dWuNH+XUT9hdFHASfMpcZGW5kUyJvllumJkXaXiswuCkoaFIFI89aykBPuHEi1YUWQGRCqvIO0BUdmeFJ4W4Ww==}
+  /electron-to-chromium@1.4.427:
+    resolution: {integrity: sha512-HK3r9l+Jm8dYAm1ctXEWIC+hV60zfcjS9UA5BDlYvnI5S7PU/yytjpvSrTNrSSRRkuu3tDyZhdkwIczh+0DWaw==}
     dev: true
 
   /emoji-regex@8.0.0:
