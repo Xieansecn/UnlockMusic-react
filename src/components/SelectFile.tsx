@@ -1,5 +1,5 @@
 import { useDropzone } from 'react-dropzone';
-import { Box, Text } from '@chakra-ui/react';
+import { chakra, Box, Text } from '@chakra-ui/react';
 import { UnlockIcon } from '@chakra-ui/icons';
 
 import { useAppDispatch } from '~/hooks';
@@ -62,16 +62,16 @@ export function SelectFile() {
       <Box pb={3}>
         <UnlockIcon boxSize={8} />
       </Box>
-      <Box textAlign="center">
-        将文件拖到此处，或
-        <Text as="span" color="teal.400">
+      <Text textAlign="center">
+        拖放或
+        <chakra.span as="span" color="teal.400">
           点我选择
-        </Text>
+        </chakra.span>
         需要解密的文件
         <Text fontSize="sm" opacity="50%">
-          仅在浏览器内对文件进行解锁，无需消耗流量
+          在浏览器内对文件进行解锁，零上传
         </Text>
-      </Box>
+      </Text>
     </Box>
   );
 }
