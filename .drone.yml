@@ -12,6 +12,7 @@ steps:
       - pnpm i --frozen-lockfile
       - pnpm build
     environment:
+      # 让 npm 使用淘宝源
       npm_config_registry: https://registry.npmmirror.com
 
   - name: publish
@@ -26,6 +27,8 @@ steps:
         from_secret: NETLIFY_API_KEY
     commands:
       #   - git config --global --add safe.directory "/drone/src"
+      # 让 Debian 使用网易源。阿里的源有限速。
+      - sed -i 's/deb.debian.org/mirrors.163.com/g' /etc/apt/sources.list
       - apt-get update && apt-get install -y zip jq tar gzip curl
       - (cd dist && zip -r -9 ../um-react.zip .)
       - ./scripts/publish.sh
