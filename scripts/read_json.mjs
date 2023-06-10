@@ -1,4 +1,4 @@
-#!/bin/env node
+#!/usr/bin/env node
 /* eslint-env node */
 
 import fs from 'fs';

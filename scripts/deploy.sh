@@ -79,4 +79,6 @@ deploy_netlify() {
 if [[ -n "${NETLIFY_API_KEY}" && -n "${NETLIFY_SITE_ID}" ]]; then
     echo "Deploy to netlify..."
     deploy_netlify um-react.zip
+else
+    echo "skip netlify deployment."
 fi

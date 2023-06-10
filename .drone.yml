@@ -7,8 +7,9 @@ steps:
   - name: test & build
     image: node:18.16.0-bullseye
     commands:
-      #   - git config --global --add safe.directory "/drone/src"
-      - npm install -g pnpm
+      # - git config --global --add safe.directory "/drone/src"
+      - corepack enable
+      - corepack prepare pnpm@latest --activate
       - pnpm i --frozen-lockfile
       - pnpm build
     environment:
@@ -26,7 +27,7 @@ steps:
       NETLIFY_API_KEY:
         from_secret: NETLIFY_API_KEY
     commands:
-      #   - git config --global --add safe.directory "/drone/src"
+      # - git config --global --add safe.directory "/drone/src"
       - python3 -m zipfile -c um-react.zip dist/.
       - ./scripts/publish.sh
       - ./scripts/deploy.sh
