@@ -6,17 +6,11 @@ name: default
 steps:
   - name: test & build
     image: node:18.16.0-bullseye
-    volumes:
-      - name: pnpm-store-cache
-        path: /drone/.pnpm-store
     commands:
       #   - git config --global --add safe.directory "/drone/src"
-      - corepack enable # npm i -g pnpm
+      - npm install -g pnpm
       - pnpm i --frozen-lockfile
       - pnpm build
-    environment:
-      npm_config_store_dir: /drone/.pnpm-store
-      npm_config_package_import_method: copy
 
   - name: publish
     image: node:18.16.0-bullseye
@@ -34,8 +28,3 @@ steps:
       - (cd dist && zip -r -9 ../um-react.zip .)
       - ./scripts/publish.sh
       - ./scripts/deploy.sh
-
-volumes:
-  - name: pnpm-store-cache
-    host:
-      path: /tmp/.pnpm-store
