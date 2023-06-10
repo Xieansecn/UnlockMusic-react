@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   ButtonGroup,
-  Center,
   Flex,
   HStack,
   Heading,
@@ -19,84 +18,34 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  Spacer,
-  TabPanel,
   Text,
   VStack,
-  useToast,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectQM2CSettings, updateQMC2Keys } from '../settingsSlice';
-import React, { useEffect, useState } from 'react';
-import { nanoid } from 'nanoid';
-import { produce } from 'immer';
-import { MdAdd, MdAndroid, MdDeleteForever, MdExpandMore, MdFileUpload, MdVpnKey } from 'react-icons/md';
-import { objectify } from 'radash';
-
-interface InternalQMCKeys {
-  id: string;
-  name: string;
-  key: string;
-}
+import { qmc2AddKey, qmc2ClearKeys, qmc2DeleteKey, qmc2UpdateKey } from '../settingsSlice';
+import { selectStagingQMCv2Settings } from '../settingsSelector';
+import React from 'react';
+import { MdAdd, MdAndroid, MdDelete, MdDeleteForever, MdExpandMore, MdFileUpload, MdVpnKey } from 'react-icons/md';
 
 export function PanelQMCv2Key() {
-  const toast = useToast();
   const dispatch = useDispatch();
-  const qmcSettings = useSelector(selectQM2CSettings);
-  const [isModified, setIsModified] = useState(false);
-  const [qmcKeys, setQMCKeys] = useState<InternalQMCKeys[]>([]);
-  const resetQmcKeys = () => {
-    const result: InternalQMCKeys[] = [];
-    for (const [name, key] of Object.entries(qmcSettings.keys)) {
-      result.push({ id: name, name, key });
-    }
-    setQMCKeys(result);
-  };
-  const addRow = () => {
-    setIsModified(true);
-    setQMCKeys((prev) => [...prev, { id: nanoid(), key: '', name: '' }]);
-  };
-  const updateKey = (prop: 'name' | 'key', id: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsModified(true);
-    setQMCKeys((prev) =>
-      produce(prev, (draft) => {
-        const item = draft.find((item) => item.id === id);
-        if (item) {
-          item[prop] = e.target.value;
-        }
-      })
-    );
-  };
-  const applyChanges = () => {
-    dispatch(
-      updateQMC2Keys(
-        objectify(
-          qmcKeys,
-          (item) => item.name,
-          (item) => item.key
-        )
-      )
-    );
+  const qmc2Keys = useSelector(selectStagingQMCv2Settings).keys;
 
-    toast({
-      title: 'QMCv2 密钥的更改已保存。',
-      status: 'success',
-      isClosable: true,
-      duration: 2500,
-    });
-  };
-  const clearAll = () => setQMCKeys([]);
-  useEffect(resetQmcKeys, [qmcSettings.keys]);
+  const addKey = () => dispatch(qmc2AddKey());
+  const updateKey = (prop: 'name' | 'key', id: string, e: React.ChangeEvent<HTMLInputElement>) =>
+    dispatch(qmc2UpdateKey({ id, field: prop, value: e.target.value }));
+  const deleteKey = (id: string) => dispatch(qmc2DeleteKey({ id }));
+  const clearAll = () => dispatch(qmc2ClearKeys());
 
   return (
-    <Flex as={TabPanel} flexDir="column" h="100%">
+    <Flex minH={0} flexDir="column" flex={1}>
       <Heading as="h2" size="lg">
         密钥
       </Heading>
 
-      <Box pb="2">
+      <Box pb={2} pt={2}>
         <ButtonGroup isAttached variant="outline">
-          <Button onClick={addRow} leftIcon={<Icon as={MdAdd} />}>
+          <Button onClick={addKey} leftIcon={<Icon as={MdAdd} />}>
             添加
           </Button>
           <Menu>
@@ -120,8 +69,8 @@ export function PanelQMCv2Key() {
 
       <Box flex={1} minH={0} overflow="auto" pr="4">
         <List spacing={3}>
-          {qmcKeys.map(({ id, key, name }, i) => (
-            <ListItem key={id}>
+          {qmc2Keys.map(({ id, key, name }, i) => (
+            <ListItem key={id} mt={0} pt={2} pb={2} _even={{ bg: 'gray.50' }}>
               <HStack>
                 <Text w="2em" textAlign="center">
                   {i + 1}
@@ -147,37 +96,21 @@ export function PanelQMCv2Key() {
                     </InputRightElement>
                   </InputGroup>
                 </VStack>
+
+                <IconButton
+                  aria-label="删除该密钥"
+                  icon={<Icon as={MdDelete} boxSize={6} />}
+                  variant="ghost"
+                  colorScheme="red"
+                  type="button"
+                  onClick={() => deleteKey(id)}
+                />
               </HStack>
             </ListItem>
           ))}
         </List>
-        {qmcKeys.length === 0 && <Text>还没有添加密钥。</Text>}
+        {qmc2Keys.length === 0 && <Text>还没有添加密钥。</Text>}
       </Box>
-
-      <VStack mt="4" alignItems="flex-start" w="full">
-        <Flex flexDir="row" gap="2" w="full">
-          <Center>
-            <Text as={Box} color="gray">
-              重复项只保留最后一项。
-            </Text>
-          </Center>
-          <Spacer />
-          <HStack gap="2" justifyContent="flex-end">
-            <Button
-              disabled={!isModified}
-              onClick={resetQmcKeys}
-              colorScheme="red"
-              variant="ghost"
-              title="重置为更改前的状态"
-            >
-              重置
-            </Button>
-            <Button disabled={!isModified} onClick={applyChanges}>
-              应用
-            </Button>
-          </HStack>
-        </Flex>
-      </VStack>
     </Flex>
   );
 }
