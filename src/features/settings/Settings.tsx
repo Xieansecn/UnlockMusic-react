@@ -104,10 +104,10 @@ export function Settings() {
                   </Center>
                   <Spacer />
                   <HStack gap="2" justifyContent="flex-end">
-                    <Button onClick={handleResetSettings} colorScheme="red" variant="ghost" title="重置为更改前的状态">
-                      重置
+                    <Button onClick={handleResetSettings} colorScheme="red" variant="ghost" title="还原为更改前的状态">
+                      丢弃更改
                     </Button>
-                    <Button onClick={handleApplySettings}>应用</Button>
+                    <Button onClick={handleApplySettings}>保存</Button>
                   </HStack>
                 </Flex>
               </VStack>
