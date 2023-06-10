@@ -8,9 +8,8 @@ steps:
     image: node:18.16.0-bullseye
     commands:
       #   - git config --global --add safe.directory "/drone/src"
-      - npm install -g pnpm
-      - pnpm i --frozen-lockfile
-      - pnpm build
+      - yarn install
+      - yarn run build
 
   - name: publish
     image: node:18.16.0-bullseye
