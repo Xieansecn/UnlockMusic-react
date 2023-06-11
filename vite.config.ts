@@ -43,7 +43,7 @@ export default defineConfig({
   },
   base: './',
   optimizeDeps: {
-    exclude: ['@jixun/libparakeet'],
+    exclude: ['@jixun/libparakeet', 'sql.js'],
   },
   plugins: [
     replace({
@@ -88,6 +88,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '~': path.resolve(__dirname, 'src'),
+      '@nm': path.resolve(__dirname, 'node_modules'),
       module: path.resolve(__dirname, 'src', 'dummy.mjs'),
     },
   },
@@ -95,8 +96,10 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          reacts: ['react', 'react-dom', 'react-promise-suspense', 'react-redux', '@reduxjs/toolkit'],
-          chakra: ['@chakra-ui/icons', '@chakra-ui/react', '@emotion/react', '@emotion/styled', 'framer-motion'],
+          reacts: ['react', 'react-dom', 'react-dropzone', 'react-promise-suspense', 'react-redux', '@reduxjs/toolkit'],
+          chakra: ['@chakra-ui/react', '@emotion/react', '@emotion/styled', 'framer-motion'],
+          icons: ['react-icons', '@chakra-ui/icons'],
+          utility: ['radash', 'nanoid', 'immer', 'react-syntax-highlighter'],
         },
       },
     },

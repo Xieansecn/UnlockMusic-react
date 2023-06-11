@@ -36,8 +36,8 @@ const stagingToProduction = (staging: StagingSettings): ProductionSettings => ({
   qmc2: {
     keys: objectify(
       staging.qmc2.keys,
-      (item) => item.name,
-      (item) => item.key
+      (item) => item.name.normalize(),
+      (item) => item.key.trim()
     ),
   },
 });
@@ -60,6 +60,10 @@ export const settingsSlice = createSlice({
     },
     qmc2AddKey(state) {
       state.staging.qmc2.keys.push({ id: nanoid(), name: '', key: '' });
+    },
+    qmc2ImportKeys(state, { payload }: PayloadAction<{ name: string; key: string }[]>) {
+      const newItems = payload.map((item) => ({ id: nanoid(), ...item }));
+      state.staging.qmc2.keys.push(...newItems);
     },
     qmc2DeleteKey(state, { payload: { id } }: PayloadAction<{ id: string }>) {
       const qmc2 = state.staging.qmc2;
@@ -102,6 +106,7 @@ export const {
   qmc2UpdateKey,
   qmc2DeleteKey,
   qmc2ClearKeys,
+  qmc2ImportKeys,
 
   commitStagingChange,
   discardStagingChanges,

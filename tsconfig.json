@@ -1,15 +1,8 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
-    "types": [
-      "vitest/globals",
-      "@testing-library/jest-dom"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
     "module": "ESNext",
     "skipLibCheck": true,
     /* Bundler mode */
@@ -27,14 +20,11 @@
     "baseUrl": ".",
     "esModuleInterop": true,
     "paths": {
-      "~/*": [
-        "./src/*"
-      ]
-    },
+      "~/*": ["./src/*"],
+      "@nm/*": ["./node_modules/*"]
+    }
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "references": [
     {
       "path": "./tsconfig.node.json"

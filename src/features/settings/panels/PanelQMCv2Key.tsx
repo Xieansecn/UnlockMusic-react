@@ -24,12 +24,14 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { qmc2AddKey, qmc2ClearKeys, qmc2DeleteKey, qmc2UpdateKey } from '../settingsSlice';
 import { selectStagingQMCv2Settings } from '../settingsSelector';
-import React from 'react';
+import React, { useState } from 'react';
 import { MdAdd, MdDelete, MdDeleteForever, MdExpandMore, MdFileUpload, MdVpnKey } from 'react-icons/md';
+import { ImportFileModal } from './QMCv2/ImportFileModal';
 
 export function PanelQMCv2Key() {
   const dispatch = useDispatch();
   const qmc2Keys = useSelector(selectStagingQMCv2Settings).keys;
+  const [showImportModal, setShowImportModal] = useState(false);
 
   const addKey = () => dispatch(qmc2AddKey());
   const updateKey = (prop: 'name' | 'key', id: string, e: React.ChangeEvent<HTMLInputElement>) =>
@@ -53,12 +55,10 @@ export function PanelQMCv2Key() {
           <Menu>
             <MenuButton as={IconButton} icon={<MdExpandMore />}></MenuButton>
             <MenuList>
-              {/* 目前的想法是弹出一个 modal，给用户一些信息（如期待的格式、如何导出或寻找对应的文件） */}
-              {/* 但是这样的话就不太方便放在这个分支里面做了，下次一定。 */}
-              <MenuItem hidden onClick={() => alert('TODO!')} icon={<Icon as={MdFileUpload} boxSize={5} />}>
+              <MenuItem onClick={() => setShowImportModal(true)} icon={<Icon as={MdFileUpload} boxSize={5} />}>
                 从文件导入
               </MenuItem>
-              <MenuDivider hidden />
+              <MenuDivider />
               <MenuItem color="red" onClick={clearAll} icon={<Icon as={MdDeleteForever} boxSize={5} />}>
                 清空
               </MenuItem>
@@ -111,6 +111,8 @@ export function PanelQMCv2Key() {
         </List>
         {qmc2Keys.length === 0 && <Text>还没有添加密钥。</Text>}
       </Box>
+
+      <ImportFileModal show={showImportModal} onClose={() => setShowImportModal(false)} />
     </Flex>
   );
 }
