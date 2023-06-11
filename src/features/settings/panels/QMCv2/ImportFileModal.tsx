@@ -1,12 +1,10 @@
 import {
-  Button,
   Center,
   Flex,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Tab,
@@ -63,7 +61,7 @@ export function ImportFileModal({ onClose, show }: ImportFileModalProps) {
   };
 
   return (
-    <Modal isOpen={show} onClose={onClose} scrollBehavior="inside" size="xl">
+    <Modal isOpen={show} onClose={onClose} closeOnOverlayClick={false} scrollBehavior="inside" size="xl">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>导入密钥数据库</ModalHeader>
@@ -88,12 +86,6 @@ export function ImportFileModal({ onClose, show }: ImportFileModalProps) {
             </TabPanels>
           </Flex>
         </Flex>
-
-        <ModalFooter>
-          <Button mr={3} onClick={onClose}>
-            关闭
-          </Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );
