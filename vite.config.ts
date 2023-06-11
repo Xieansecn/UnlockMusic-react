@@ -43,7 +43,7 @@ export default defineConfig({
   },
   base: './',
   optimizeDeps: {
-    exclude: ['@jixun/libparakeet'],
+    exclude: ['@jixun/libparakeet', 'sql.js'],
   },
   plugins: [
     replace({
@@ -88,6 +88,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '~': path.resolve(__dirname, 'src'),
+      '@nm': path.resolve(__dirname, 'node_modules'),
       module: path.resolve(__dirname, 'src', 'dummy.mjs'),
     },
   },

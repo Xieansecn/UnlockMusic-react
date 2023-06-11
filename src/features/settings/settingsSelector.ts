@@ -6,9 +6,10 @@ export const selectStagingQMCv2Settings = (state: RootState) => state.settings.s
 export const selectFinalQMCv2Settings = (state: RootState) => state.settings.production.qmc2;
 
 export const selectDecryptOptionByFile = (state: RootState, name: string): DecryptCommandOptions => {
+  const normalizedName = name.normalize();
   const qmc2Keys = selectFinalQMCv2Settings(state).keys;
 
   return {
-    qmc2Key: hasOwn(qmc2Keys, name) ? qmc2Keys[name] : undefined,
+    qmc2Key: hasOwn(qmc2Keys, normalizedName) ? qmc2Keys[normalizedName] : undefined,
   };
 };
