@@ -12,6 +12,10 @@ export default defineConfig({
         replacement: 'src/$1',
       },
     ],
+    // workaround: sql.js is not ESModule friendly, yet...
+    deps: {
+      inline: ['sql.js'],
+    },
     api: {
       port: 5174, // vite port + 1
     },
