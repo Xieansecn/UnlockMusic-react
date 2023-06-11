@@ -37,7 +37,7 @@ const stagingToProduction = (staging: StagingSettings): ProductionSettings => ({
     keys: objectify(
       staging.qmc2.keys,
       (item) => item.name.normalize(),
-      (item) => item.key
+      (item) => item.key.trim()
     ),
   },
 });
