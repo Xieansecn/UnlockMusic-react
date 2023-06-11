@@ -10,6 +10,7 @@ import {
   ListItem,
   OrderedList,
   Text,
+  chakra,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -22,9 +23,12 @@ export function QMCv2AndroidInstructions() {
   return (
     <>
       <Text>
-        你可能需要 <code>root</code> 或类似的访问权限。
+        你需要 <code>root</code> 访问权限来访问安卓应用的私有数据。
       </Text>
-      <Text>绝大多数情况下，这会导致你的安卓设备失去保修资格。</Text>
+      <Text>
+        ⚠️ 请注意，获取 <code>root</code> 通常意味着你的安卓设备
+        <chakra.span color="red.400">将失去保修资格</chakra.span>。
+      </Text>
 
       <Accordion allowToggle mt="2">
         <AccordionItem>
