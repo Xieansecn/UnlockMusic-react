@@ -96,8 +96,10 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          reacts: ['react', 'react-dom', 'react-promise-suspense', 'react-redux', '@reduxjs/toolkit'],
-          chakra: ['@chakra-ui/icons', '@chakra-ui/react', '@emotion/react', '@emotion/styled', 'framer-motion'],
+          reacts: ['react', 'react-dom', 'react-dropzone', 'react-promise-suspense', 'react-redux', '@reduxjs/toolkit'],
+          chakra: ['@chakra-ui/react', '@emotion/react', '@emotion/styled', 'framer-motion'],
+          icons: ['react-icons', '@chakra-ui/icons'],
+          utility: ['radash', 'nanoid', 'immer', 'react-syntax-highlighter'],
         },
       },
     },
