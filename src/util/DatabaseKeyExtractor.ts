@@ -1,3 +1,4 @@
+import { getFileName } from './pathHelper';
 import { SQLDatabase, SQLStatic, loadSQL } from './sqlite';
 
 export interface QMAndroidKeyEntry {
@@ -34,7 +35,7 @@ export class DatabaseKeyExtractor {
       const keys = db.exec('select file_path, ekey from `audio_file_ekey_table`')[0].values;
       return keys.map(([path, key]) => ({
         // strip dir name
-        name: String(path).replace(/.+\//, ''),
+        name: getFileName(String(path)),
         key: String(key),
       }));
     } finally {
