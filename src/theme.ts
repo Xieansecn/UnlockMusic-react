@@ -20,16 +20,6 @@ export const theme = extendTheme({
       },
     },
     Tabs: tabsTheme,
-    Heading: {
-      baseStyle: {
-        userSelect: 'none',
-      },
-    },
-    Text: {
-      baseStyle: {
-        userSelect: 'none',
-      },
-    },
     Link: {
       baseStyle: {
         color: 'blue.600',

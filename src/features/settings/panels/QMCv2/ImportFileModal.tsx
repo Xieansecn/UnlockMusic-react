@@ -20,11 +20,19 @@ import { qmc2ImportKeys } from '../../settingsSlice';
 import { useAppDispatch } from '~/hooks';
 import { DatabaseKeyExtractor } from '~/util/DatabaseKeyExtractor';
 
-import { QMCv2AndroidInstructions } from './QMCv2AndroidInstructions';
+import { InstructionsAndroid } from './InstructionsAndroid';
+import { MMKVParser } from '~/util/MMKVParser';
+import { getFileName } from '~/util/pathHelper';
+import { InstructionsMac } from './InstructionsMac';
 
 export interface ImportFileModalProps {
   show: boolean;
   onClose: () => void;
+}
+
+interface KeyEntry {
+  name: string;
+  key: string;
 }
 
 export function ImportFileModal({ onClose, show }: ImportFileModalProps) {
@@ -35,22 +43,31 @@ export function ImportFileModal({ onClose, show }: ImportFileModalProps) {
       const file = files[0];
       const fileBuffer = await file.arrayBuffer();
 
+      let qmc2Keys: null | KeyEntry[] = null;
+
       if (/[_.]db$/i.test(file.name)) {
         const extractor = await DatabaseKeyExtractor.getInstance();
-        const qmc2Keys = extractor.extractQmAndroidDbKeys(fileBuffer);
-        if (qmc2Keys) {
-          dispatch(qmc2ImportKeys(qmc2Keys));
-          onClose();
-          toast({
-            title: `导入成功 (${qmc2Keys.length})`,
-            description: '记得保存更改来应用。',
-            isClosable: true,
-            duration: 5000,
-            status: 'success',
-          });
+        qmc2Keys = extractor.extractQmAndroidDbKeys(fileBuffer);
+        if (!qmc2Keys) {
+          alert(`不是支持的 SQLite 数据库文件。\n表名：${qmc2Keys}`);
           return;
         }
-        alert(`不是支持的 SQLite 数据库文件。\n表名：${qmc2Keys}`);
+      } else if (/MMKVStreamEncryptId/i.test(file.name)) {
+        const fileBuffer = await file.arrayBuffer();
+        const map = MMKVParser.toStringMap(new DataView(fileBuffer));
+        qmc2Keys = Array.from(map.entries(), ([name, key]) => ({ name: getFileName(name), key }));
+      }
+
+      if (qmc2Keys) {
+        dispatch(qmc2ImportKeys(qmc2Keys));
+        onClose();
+        toast({
+          title: `导入成功 (${qmc2Keys.length})`,
+          description: '记得保存更改来应用。',
+          isClosable: true,
+          duration: 5000,
+          status: 'success',
+        });
       } else {
         alert(`不支持的文件：${file.name}`);
       }
@@ -74,14 +91,14 @@ export function ImportFileModal({ onClose, show }: ImportFileModalProps) {
           <Flex as={Tabs} variant="enclosed" flexDir="column" mt={4} flex={1} minH={0}>
             <TabList>
               <Tab>安卓客户端</Tab>
-              {/* <Tab>Two</Tab> */}
+              <Tab>Mac 客户端</Tab>
             </TabList>
             <TabPanels flex={1} overflow="auto">
               <TabPanel>
-                <QMCv2AndroidInstructions />
+                <InstructionsAndroid />
               </TabPanel>
               <TabPanel>
-                <p>two!</p>
+                <InstructionsMac />
               </TabPanel>
             </TabPanels>
           </Flex>
