@@ -30,6 +30,11 @@ export const theme = extendTheme({
         userSelect: 'none',
       },
     },
+    Link: {
+      baseStyle: {
+        color: 'blue.600',
+      },
+    },
   },
   styles: {
     global: {

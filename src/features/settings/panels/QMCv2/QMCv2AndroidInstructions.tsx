@@ -67,7 +67,7 @@ export function QMCv2AndroidInstructions() {
                 确保 <code>adb</code> 命令可用。
                 <br />
                 💡 如果没有，可以
-                <Link href="https://scoop.sh/#/apps?q=adb" isExternal color="blue.600">
+                <Link href="https://scoop.sh/#/apps?q=adb" isExternal>
                   使用 Scoop 安装 <ExternalLinkIcon />
                 </Link>
                 。
