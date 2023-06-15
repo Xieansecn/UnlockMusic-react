@@ -45,22 +45,25 @@ export function PanelQMCv2Key() {
         QMCv2 密钥
       </Heading>
 
-      <Text>QQ 音乐目前采用的加密方案（QMCv2），安卓端与 Mac 端均下加密内容与密钥隔离储存。</Text>
+      <Text>
+        QQ 音乐目前采用的加密方案（QMCv2）。在使用「QQ 音乐」安卓、Mac 或 iOS
+        客户端的情况下，其「离线加密文件」对应的「密钥」储存在独立的数据库文件内。
+      </Text>
 
       <Box pb={2} pt={2}>
-        <ButtonGroup isAttached variant="outline">
+        <ButtonGroup isAttached colorScheme="purple" variant="outline">
           <Button onClick={addKey} leftIcon={<Icon as={MdAdd} />}>
-            添加
+            添加一条密钥
           </Button>
           <Menu>
             <MenuButton as={IconButton} icon={<MdExpandMore />}></MenuButton>
             <MenuList>
               <MenuItem onClick={() => setShowImportModal(true)} icon={<Icon as={MdFileUpload} boxSize={5} />}>
-                从文件导入
+                从文件导入密钥
               </MenuItem>
               <MenuDivider />
               <MenuItem color="red" onClick={clearAll} icon={<Icon as={MdDeleteForever} boxSize={5} />}>
-                清空
+                清空密钥
               </MenuItem>
             </MenuList>
           </Menu>
