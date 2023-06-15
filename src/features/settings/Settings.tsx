@@ -4,6 +4,8 @@ import {
   Center,
   Flex,
   HStack,
+  Icon,
+  IconButton,
   Menu,
   MenuButton,
   MenuItem,
@@ -21,7 +23,7 @@ import {
 } from '@chakra-ui/react';
 import { PanelQMCv2Key } from './panels/PanelQMCv2Key';
 import { useState } from 'react';
-import { MdExpandMore, MdMenu } from 'react-icons/md';
+import { MdExpandMore, MdMenu, MdOutlineSettingsBackupRestore } from 'react-icons/md';
 import { useAppDispatch } from '~/hooks';
 import { commitStagingChange, discardStagingChanges } from './settingsSlice';
 
@@ -104,9 +106,14 @@ export function Settings() {
                   </Center>
                   <Spacer />
                   <HStack gap="2" justifyContent="flex-end">
-                    <Button onClick={handleResetSettings} colorScheme="red" variant="ghost" title="还原为更改前的状态">
-                      丢弃更改
-                    </Button>
+                    <IconButton
+                      icon={<Icon as={MdOutlineSettingsBackupRestore} />}
+                      onClick={handleResetSettings}
+                      colorScheme="red"
+                      variant="ghost"
+                      title="放弃未储存的更改，将设定还原为储存前的状态。"
+                      aria-label="放弃未储存的更改"
+                    />
                     <Button onClick={handleApplySettings}>保存</Button>
                   </HStack>
                 </Flex>

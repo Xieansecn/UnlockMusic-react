@@ -12,6 +12,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
   useToast,
 } from '@chakra-ui/react';
 
@@ -24,6 +25,8 @@ import { InstructionsAndroid } from './InstructionsAndroid';
 import { MMKVParser } from '~/util/MMKVParser';
 import { getFileName } from '~/util/pathHelper';
 import { InstructionsMac } from './InstructionsMac';
+import { InstructionsIOS } from './InstructionsIOS';
+import { InstructionsPC } from './InstructionsPC';
 
 export interface ImportFileModalProps {
   show: boolean;
@@ -52,7 +55,7 @@ export function ImportFileModal({ onClose, show }: ImportFileModalProps) {
           alert(`不是支持的 SQLite 数据库文件。\n表名：${qmc2Keys}`);
           return;
         }
-      } else if (/MMKVStreamEncryptId/i.test(file.name)) {
+      } else if (/MMKVStreamEncryptId|filenameEkeyMap/i.test(file.name)) {
         const fileBuffer = await file.arrayBuffer();
         const map = MMKVParser.toStringMap(new DataView(fileBuffer));
         qmc2Keys = Array.from(map.entries(), ([name, key]) => ({ name: getFileName(name), key }));
@@ -88,17 +91,27 @@ export function ImportFileModal({ onClose, show }: ImportFileModalProps) {
             <FileInput onReceiveFiles={handleFileReceived}>拖放或点我选择含有密钥的数据库文件</FileInput>
           </Center>
 
-          <Flex as={Tabs} variant="enclosed" flexDir="column" mt={4} flex={1} minH={0}>
+          <Text mt={2}>选择你的「QQ 音乐」客户端平台以查看对应说明：</Text>
+
+          <Flex as={Tabs} variant="enclosed" flexDir="column" flex={1} minH={0}>
             <TabList>
-              <Tab>安卓客户端</Tab>
-              <Tab>Mac 客户端</Tab>
+              <Tab>安卓</Tab>
+              <Tab>iOS</Tab>
+              <Tab>Mac</Tab>
+              <Tab>Windows</Tab>
             </TabList>
             <TabPanels flex={1} overflow="auto">
               <TabPanel>
                 <InstructionsAndroid />
               </TabPanel>
               <TabPanel>
+                <InstructionsIOS />
+              </TabPanel>
+              <TabPanel>
                 <InstructionsMac />
+              </TabPanel>
+              <TabPanel>
+                <InstructionsPC />
               </TabPanel>
             </TabPanels>
           </Flex>

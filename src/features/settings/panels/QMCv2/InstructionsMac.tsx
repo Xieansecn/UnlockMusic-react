@@ -1,4 +1,5 @@
 import { Heading, Text, Code, Kbd, OrderedList, ListItem } from '@chakra-ui/react';
+import { FilePathBlock } from '~/components/FilePathBlock';
 import { MacCommandKey } from '~/components/Key/MacCommandKey';
 import { ShiftKey } from '~/components/Key/ShiftKey';
 
@@ -7,12 +8,9 @@ export function InstructionsMac() {
     <>
       <Text>Mac 客户端使用 mmkv 数据库储存密钥。</Text>
       <Text>该密钥文件通常存储在下述路径：</Text>
-      <Text as="pre" whiteSpace="pre-wrap" wordBreak="break-word" lang="en">
-        <Code>
-          ~/Library/Containers/com.tencent.QQMusicMac/Data/Library/Application
-          Support/QQMusicMac/mmkv/MMKVStreamEncryptId
-        </Code>
-      </Text>
+      <FilePathBlock>
+        ~/Library/Containers/com.tencent.QQMusicMac/Data/Library/Application Support/QQMusicMac/mmkv/MMKVStreamEncryptId
+      </FilePathBlock>
 
       <Heading as="h3" size="md" mt="4">
         导入密钥
