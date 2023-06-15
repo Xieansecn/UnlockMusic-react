@@ -1,26 +1,27 @@
+import { formatHex } from './formatHex';
+
 const textDecoder = new TextDecoder('utf-8', { ignoreBOM: true });
 
 export class MMKVParser {
-  private offset = 8;
+  private offset = 4;
   private length: number;
 
   constructor(private view: DataView) {
     const payloadLength = view.getUint32(0, true);
     this.length = 4 + payloadLength;
+
+    // skip unused str
+    this.readInt();
   }
 
   toString() {
-    const offset = this.offset.toString(16).padStart(8, '0');
-    const length = this.length.toString(16).padStart(8, '0');
-    return `<MMKVParser offset=0x${offset} len=0x${length}>`;
+    const offset = formatHex(this.offset, 8);
+    const length = formatHex(this.length, 8);
+    return `<MMKVParser offset=${offset} len=${length}>`;
   }
 
   get eof() {
     return this.offset >= this.length;
-  }
-
-  peek() {
-    return this.view.getUint8(this.offset);
   }
 
   public readByte() {
@@ -77,7 +78,9 @@ export class MMKVParser {
     const newOffset = this.offset + containerLen;
     const result = this.readString();
     if (newOffset !== this.offset) {
-      throw new Error('readVariantString failed: offset does not match');
+      const expected = formatHex(newOffset);
+      const actual = formatHex(this.offset);
+      throw new Error(`readVariantString failed: offset does mismatch (expect: ${expected}, actual: ${actual})`);
     }
     return result;
   }

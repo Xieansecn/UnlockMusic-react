@@ -52,7 +52,7 @@ export function ImportFileModal({ onClose, show }: ImportFileModalProps) {
           alert(`不是支持的 SQLite 数据库文件。\n表名：${qmc2Keys}`);
           return;
         }
-      } else if (/MMKVStreamEncryptId/i.test(file.name)) {
+      } else if (/MMKVStreamEncryptId|filenameEkeyMap/i.test(file.name)) {
         const fileBuffer = await file.arrayBuffer();
         const map = MMKVParser.toStringMap(new DataView(fileBuffer));
         qmc2Keys = Array.from(map.entries(), ([name, key]) => ({ name: getFileName(name), key }));
