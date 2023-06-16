@@ -10,9 +10,16 @@ const DEFAULT_STORAGE_KEY = 'um-react-settings';
 
 function mergeSettings(settings: ProductionSettings): ProductionSettings {
   return produce(settingsSlice.getInitialState().production, (draft) => {
-    for (const [k, v] of enumObject(settings.qmc2?.keys)) {
-      if (typeof v === 'string') {
-        draft.qmc2.keys[k] = v;
+    if (settings?.qmc2) {
+      const { allowFuzzyNameSearch, keys } = settings.qmc2;
+      for (const [k, v] of enumObject(keys)) {
+        if (typeof v === 'string') {
+          draft.qmc2.keys[k] = v;
+        }
+      }
+
+      if (typeof allowFuzzyNameSearch === 'boolean') {
+        draft.qmc2.allowFuzzyNameSearch = allowFuzzyNameSearch;
       }
     }
   });
