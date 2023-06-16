@@ -6,12 +6,14 @@ import { objectify } from 'radash';
 export interface StagingSettings {
   qmc2: {
     keys: { id: string; name: string; key: string }[];
+    allowFuzzyNameSearch: boolean;
   };
 }
 
 export interface ProductionSettings {
   qmc2: {
     keys: Record<string, string>; // {  [fileName]: ekey  }
+    allowFuzzyNameSearch: boolean;
   };
 }
 
@@ -22,11 +24,13 @@ export interface SettingsState {
 const initialState: SettingsState = {
   staging: {
     qmc2: {
+      allowFuzzyNameSearch: false,
       keys: [],
     },
   },
   production: {
     qmc2: {
+      allowFuzzyNameSearch: false,
       keys: {},
     },
   },
@@ -39,12 +43,14 @@ const stagingToProduction = (staging: StagingSettings): ProductionSettings => ({
       (item) => item.name.normalize(),
       (item) => item.key.trim()
     ),
+    allowFuzzyNameSearch: staging.qmc2.allowFuzzyNameSearch,
   },
 });
 
 const productionToStaging = (production: ProductionSettings): StagingSettings => ({
   qmc2: {
     keys: Object.entries(production.qmc2.keys).map(([name, key]) => ({ id: nanoid(), name, key })),
+    allowFuzzyNameSearch: production.qmc2.allowFuzzyNameSearch,
   },
 });
 
@@ -81,6 +87,9 @@ export const settingsSlice = createSlice({
     qmc2ClearKeys(state) {
       state.staging.qmc2.keys = [];
     },
+    qmc2AllowFuzzyNameSearch(state, { payload: { enable } }: PayloadAction<{ enable: boolean }>) {
+      state.staging.qmc2.allowFuzzyNameSearch = enable;
+    },
     discardStagingChanges: (state) => {
       state.staging = productionToStaging(state.production);
     },
@@ -107,6 +116,7 @@ export const {
   qmc2DeleteKey,
   qmc2ClearKeys,
   qmc2ImportKeys,
+  qmc2AllowFuzzyNameSearch,
 
   commitStagingChange,
   discardStagingChanges,

@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Checkbox,
   Flex,
   HStack,
   Heading,
@@ -14,22 +15,28 @@ import {
   MenuItem,
   MenuList,
   Text,
+  Tooltip,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { qmc2AddKey, qmc2ClearKeys } from '../settingsSlice';
+import { qmc2AddKey, qmc2AllowFuzzyNameSearch, qmc2ClearKeys } from '../settingsSlice';
 import { selectStagingQMCv2Settings } from '../settingsSelector';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { MdAdd, MdDeleteForever, MdExpandMore, MdFileUpload } from 'react-icons/md';
 import { ImportFileModal } from './QMCv2/ImportFileModal';
 import { KeyInput } from './QMCv2/KeyInput';
+import { InfoOutlineIcon } from '@chakra-ui/icons';
 
 export function PanelQMCv2Key() {
   const dispatch = useDispatch();
-  const qmc2Keys = useSelector(selectStagingQMCv2Settings).keys;
+  const { keys: qmc2Keys, allowFuzzyNameSearch } = useSelector(selectStagingQMCv2Settings);
   const [showImportModal, setShowImportModal] = useState(false);
 
   const addKey = () => dispatch(qmc2AddKey());
   const clearAll = () => dispatch(qmc2ClearKeys());
+
+  const handleAllowFuzzyNameSearchCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(qmc2AllowFuzzyNameSearch({ enable: e.target.checked }));
+  };
 
   return (
     <Flex minH={0} flexDir="column" flex={1}>
@@ -60,6 +67,34 @@ export function PanelQMCv2Key() {
             </MenuList>
           </Menu>
         </ButtonGroup>
+
+        <HStack>
+          <Checkbox isChecked={allowFuzzyNameSearch} onChange={handleAllowFuzzyNameSearchCheckbox}>
+            <Text>匹配相似文件名</Text>
+          </Checkbox>
+          <Tooltip
+            hasArrow
+            closeOnClick={false}
+            label={
+              <Box>
+                <Text>若文件名匹配失败，则使用相似文件名的密钥。</Text>
+                <Text>
+                  使用「
+                  <ruby>
+                    莱文斯坦距离
+                    <rp> (</rp>
+                    <rt>Levenshtein distance</rt>
+                    <rp>)</rp>
+                  </ruby>
+                  」算法计算相似程度。
+                </Text>
+                <Text>若密钥数量过多，匹配时可能会造成浏览器卡顿或无响应一段时间。</Text>
+              </Box>
+            }
+          >
+            <InfoOutlineIcon />
+          </Tooltip>
+        </HStack>
       </HStack>
 
       <Box flex={1} minH={0} overflow="auto" pr="4">

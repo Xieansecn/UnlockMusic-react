@@ -54,6 +54,8 @@ export function InstructionsIOS() {
       <Heading as="h3" size="md" mt="3">
         解密离线文件
       </Heading>
+      <Text>勾选设定界面的「使用近似文件名匹配」可跳过该节内容。</Text>
+      <Text>⚠ 注意：若密钥过多，匹配过程可能会造成浏览器卡顿或无响应。</Text>
       <OrderedList>
         <ListItem>
           <Text>
