@@ -21,7 +21,7 @@
     "@chakra-ui/react": "^2.7.0",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
-    "@jixun/libparakeet": "0.1.2",
+    "@jixun/libparakeet": "0.2.0",
     "@reduxjs/toolkit": "^1.9.5",
     "framer-motion": "^10.12.16",
     "immer": "^10.0.2",
