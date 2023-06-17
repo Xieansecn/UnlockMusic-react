@@ -95,4 +95,8 @@ export class MMKVParser {
     }
     return result;
   }
+
+  public static parseKuwoEKey(_view: DataView): unknown[] {
+    return [];
+  }
 }

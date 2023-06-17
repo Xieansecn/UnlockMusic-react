@@ -6,6 +6,8 @@ import { hasOwn } from '~/util/objects';
 export const selectStagingQMCv2Settings = (state: RootState) => state.settings.staging.qmc2;
 export const selectFinalQMCv2Settings = (state: RootState) => state.settings.production.qmc2;
 
+export const selectStagingKWMv2Keys = (state: RootState) => state.settings.staging.kwm2.keys;
+
 export const selectDecryptOptionByFile = (state: RootState, name: string): DecryptCommandOptions => {
   const normalizedName = name.normalize();
 

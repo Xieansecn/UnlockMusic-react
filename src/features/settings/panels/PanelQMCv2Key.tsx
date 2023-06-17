@@ -14,19 +14,33 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
   Text,
   Tooltip,
+  useToast,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { qmc2AddKey, qmc2AllowFuzzyNameSearch, qmc2ClearKeys } from '../settingsSlice';
+import { qmc2AddKey, qmc2AllowFuzzyNameSearch, qmc2ClearKeys, qmc2ImportKeys } from '../settingsSlice';
 import { selectStagingQMCv2Settings } from '../settingsSelector';
 import React, { useState } from 'react';
 import { MdAdd, MdDeleteForever, MdExpandMore, MdFileUpload } from 'react-icons/md';
-import { ImportFileModal } from './QMCv2/ImportFileModal';
-import { KeyInput } from './QMCv2/KeyInput';
+import { QMCv2EKeyItem } from './QMCv2/QMCv2EKeyItem';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
+import { ImportSecretModal } from '~/components/ImportSecretModal';
+import { StagingQMCv2Key } from '../keyFormats';
+import { DatabaseKeyExtractor } from '~/util/DatabaseKeyExtractor';
+import { MMKVParser } from '~/util/MMKVParser';
+import { getFileName } from '~/util/pathHelper';
+import { InstructionsAndroid } from './QMCv2/InstructionsAndroid';
+import { InstructionsIOS } from './QMCv2/InstructionsIOS';
+import { InstructionsMac } from './QMCv2/InstructionsMac';
+import { InstructionsPC } from './QMCv2/InstructionsPC';
 
 export function PanelQMCv2Key() {
+  const toast = useToast();
   const dispatch = useDispatch();
   const { keys: qmc2Keys, allowFuzzyNameSearch } = useSelector(selectStagingQMCv2Settings);
   const [showImportModal, setShowImportModal] = useState(false);
@@ -36,6 +50,44 @@ export function PanelQMCv2Key() {
 
   const handleAllowFuzzyNameSearchCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(qmc2AllowFuzzyNameSearch({ enable: e.target.checked }));
+  };
+
+  const handleSecretImport = async (file: File) => {
+    try {
+      const fileBuffer = await file.arrayBuffer();
+
+      let qmc2Keys: null | Omit<StagingQMCv2Key, 'id'>[] = null;
+
+      if (/[_.]db$/i.test(file.name)) {
+        const extractor = await DatabaseKeyExtractor.getInstance();
+        qmc2Keys = extractor.extractQmAndroidDbKeys(fileBuffer);
+        if (!qmc2Keys) {
+          alert(`不是支持的 SQLite 数据库文件。\n表名：${qmc2Keys}`);
+          return;
+        }
+      } else if (/MMKVStreamEncryptId|filenameEkeyMap/i.test(file.name)) {
+        const fileBuffer = await file.arrayBuffer();
+        const map = MMKVParser.toStringMap(new DataView(fileBuffer));
+        qmc2Keys = Array.from(map.entries(), ([name, ekey]) => ({ name: getFileName(name), ekey }));
+      }
+
+      if (qmc2Keys) {
+        dispatch(qmc2ImportKeys(qmc2Keys));
+        setShowImportModal(false);
+        toast({
+          title: `导入成功 (${qmc2Keys.length})`,
+          description: '记得保存更改来应用。',
+          isClosable: true,
+          duration: 5000,
+          status: 'success',
+        });
+      } else {
+        alert(`不支持的文件：${file.name}`);
+      }
+    } catch (e) {
+      console.error('error during import: ', e);
+      alert(`导入数据库时发生错误：${e}`);
+    }
   };
 
   return (
@@ -99,14 +151,40 @@ export function PanelQMCv2Key() {
 
       <Box flex={1} minH={0} overflow="auto" pr="4">
         <List spacing={3}>
-          {qmc2Keys.map(({ id, key, name }, i) => (
-            <KeyInput key={id} id={id} ekey={key} name={name} i={i} />
+          {qmc2Keys.map(({ id, ekey, name }, i) => (
+            <QMCv2EKeyItem key={id} id={id} ekey={ekey} name={name} i={i} />
           ))}
         </List>
         {qmc2Keys.length === 0 && <Text>还没有添加密钥。</Text>}
       </Box>
 
-      <ImportFileModal show={showImportModal} onClose={() => setShowImportModal(false)} />
+      <ImportSecretModal
+        clientName="QQ 音乐"
+        show={showImportModal}
+        onClose={() => setShowImportModal(false)}
+        onImport={handleSecretImport}
+      >
+        <TabList>
+          <Tab>安卓</Tab>
+          <Tab>iOS</Tab>
+          <Tab>Mac</Tab>
+          <Tab>Windows</Tab>
+        </TabList>
+        <TabPanels flex={1} overflow="auto">
+          <TabPanel>
+            <InstructionsAndroid />
+          </TabPanel>
+          <TabPanel>
+            <InstructionsIOS />
+          </TabPanel>
+          <TabPanel>
+            <InstructionsMac />
+          </TabPanel>
+          <TabPanel>
+            <InstructionsPC />
+          </TabPanel>
+        </TabPanels>
+      </ImportSecretModal>
     </Flex>
   );
 }
