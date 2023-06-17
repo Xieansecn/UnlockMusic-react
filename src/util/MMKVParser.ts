@@ -1,7 +1,6 @@
 import type { StagingKWMv2Key } from '~/features/settings/keyFormats';
+import { bytesToUTF8String } from '~/decrypt-worker/util/utf8Encoder';
 import { formatHex } from './formatHex';
-
-const textDecoder = new TextDecoder('utf-8', { ignoreBOM: true });
 
 export class MMKVParser {
   private offset = 4;
@@ -67,7 +66,7 @@ export class MMKVParser {
     // ]
     const strByteLen = this.readInt();
     const data = this.readBytes(strByteLen);
-    return textDecoder.decode(data).normalize();
+    return bytesToUTF8String(data).normalize();
   }
 
   public readVariantString() {

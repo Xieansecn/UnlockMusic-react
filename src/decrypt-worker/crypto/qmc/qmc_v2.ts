@@ -3,6 +3,7 @@ import type { CryptoBase } from '../CryptoBase';
 import type { DecryptCommandOptions } from '~/decrypt-worker/types.ts';
 import { SEED, ENC_V2_KEY_1, ENC_V2_KEY_2 } from './qmc_v2.key.ts';
 import { fetchParakeet } from '@jixun/libparakeet';
+import { stringToUTF8Bytes } from '~/decrypt-worker/util/utf8Encoder.ts';
 
 export class QMC2Crypto implements CryptoBase {
   cryptoName = 'QMC/v2';
@@ -36,8 +37,7 @@ export class QMC2CryptoWithKey implements CryptoBase {
     }
 
     const parakeet = await fetchParakeet();
-    const textEncoder = new TextEncoder();
-    const key = textEncoder.encode(options.qmc2Key);
+    const key = stringToUTF8Bytes(options.qmc2Key);
     const keyCrypto = parakeet.make.QMCv2KeyCrypto(SEED, ENC_V2_KEY_1, ENC_V2_KEY_2);
     return transformBlob(buffer, (p) => p.make.QMCv2EKey(key, keyCrypto), {
       parakeet,
