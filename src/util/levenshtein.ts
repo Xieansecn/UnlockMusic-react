@@ -1,6 +1,6 @@
-const textEncoder = new TextEncoder();
-
 // translation of pseudocode from Wikipedia:
+import { stringToUTF8Bytes } from '~/decrypt-worker/util/utf8Encoder';
+
 // https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows
 export function levenshtein(str1: string, str2: string) {
   if (str1 === str2) {
@@ -14,8 +14,8 @@ export function levenshtein(str1: string, str2: string) {
   }
 
   // Convert them to Uint8Array to avoid expensive string APIs.
-  const s = textEncoder.encode(str1.toLowerCase());
-  const t = textEncoder.encode(str2.toLowerCase());
+  const s = stringToUTF8Bytes(str1.normalize().toLowerCase());
+  const t = stringToUTF8Bytes(str2.normalize().toLowerCase());
   const m = s.byteLength;
   const n = t.byteLength;
 

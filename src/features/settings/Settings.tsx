@@ -26,9 +26,11 @@ import { useState } from 'react';
 import { MdExpandMore, MdMenu, MdOutlineSettingsBackupRestore } from 'react-icons/md';
 import { useAppDispatch } from '~/hooks';
 import { commitStagingChange, discardStagingChanges } from './settingsSlice';
+import { PanelKWMv2Key } from './panels/PanelKWMv2Key';
 
 const TABS: { name: string; Tab: () => JSX.Element }[] = [
   { name: 'QMCv2 密钥', Tab: PanelQMCv2Key },
+  { name: 'KWMv2 密钥', Tab: PanelKWMv2Key },
   {
     name: '其它／待定',
     Tab: () => <Text>这里空空如也～</Text>,

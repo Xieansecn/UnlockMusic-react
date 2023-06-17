@@ -3,7 +3,7 @@ import { SQLDatabase, SQLStatic, loadSQL } from './sqlite';
 
 export interface QMAndroidKeyEntry {
   name: string;
-  key: string;
+  ekey: string;
 }
 
 export class DatabaseKeyExtractor {
@@ -33,10 +33,10 @@ export class DatabaseKeyExtractor {
       }
 
       const keys = db.exec('select file_path, ekey from `audio_file_ekey_table`')[0].values;
-      return keys.map(([path, key]) => ({
+      return keys.map(([path, ekey]) => ({
         // strip dir name
         name: getFileName(String(path)),
-        key: String(key),
+        ekey: String(ekey),
       }));
     } finally {
       db?.close();
