@@ -17,10 +17,22 @@ import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import hljsStyleGitHub from 'react-syntax-highlighter/dist/esm/styles/hljs/github';
 
-import PowerShellAdbDumpCommand from './adb_dump.ps1?raw';
-import ShellAdbDumpCommand from './adb_dump.sh?raw';
+import PowerShellAdbDumpCommandTemplate from './adb_dump.ps1?raw';
+import ShellAdbDumpCommandTemplate from './adb_dump.sh?raw';
 
-export function InstructionsAndroid() {
+const applyTemplate = (tpl: string, values: Record<string, unknown>) => {
+  return tpl.replace(/\{\{\s*(\w+)\s*\}\}/g, (_, key) => (Object.hasOwn(values, key) ? String(values[key]) : '<nil>'));
+};
+
+export interface AndroidADBPullInstructionProps {
+  dir: string;
+  file: string;
+}
+
+export function AndroidADBPullInstruction({ dir, file }: AndroidADBPullInstructionProps) {
+  const psAdbDumpCommand = applyTemplate(PowerShellAdbDumpCommandTemplate, { dir, file });
+  const shAdbDumpCommand = applyTemplate(ShellAdbDumpCommandTemplate, { dir, file });
+
   return (
     <>
       <Text>
@@ -50,12 +62,12 @@ export function InstructionsAndroid() {
               </ListItem>
               <ListItem>
                 <Text>
-                  访问 <Code>/data/data/com.tencent.qqmusic/databases/</Code> 目录。
+                  访问 <Code>{dir}/</Code> 目录。
                 </Text>
               </ListItem>
               <ListItem>
                 <Text>
-                  将文件 <Code>player_process_db</Code> 复制到浏览器可访问的目录。
+                  将文件 <Code>{file}</Code> 复制到浏览器可访问的目录。
                   <br />
                   （例如下载目录）
                 </Text>
@@ -99,12 +111,12 @@ export function InstructionsAndroid() {
               <ListItem>
                 <Text>粘贴执行下述代码。若设备提示「超级用户请求」请允许：</Text>
                 <SyntaxHighlighter language="ps1" style={hljsStyleGitHub}>
-                  {PowerShellAdbDumpCommand}
+                  {psAdbDumpCommand}
                 </SyntaxHighlighter>
               </ListItem>
               <ListItem>
                 <Text>
-                  提交当前目录下的 <Code>player_process_db</Code> 文件。
+                  提交当前目录下的 <Code>{file}</Code> 文件。
                 </Text>
               </ListItem>
             </OrderedList>
@@ -128,12 +140,12 @@ export function InstructionsAndroid() {
               <ListItem>
                 <Text>粘贴执行下述代码。若设备提示「超级用户请求」请允许：</Text>
                 <SyntaxHighlighter language="bash" style={hljsStyleGitHub}>
-                  {ShellAdbDumpCommand}
+                  {shAdbDumpCommand}
                 </SyntaxHighlighter>
               </ListItem>
               <ListItem>
                 <Text>
-                  提交当前目录下的 <Code>player_process_db</Code> 文件。
+                  提交当前目录下的 <Code>{file}</Code> 文件。
                 </Text>
               </ListItem>
             </OrderedList>

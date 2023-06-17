@@ -34,10 +34,10 @@ import { StagingQMCv2Key } from '../keyFormats';
 import { DatabaseKeyExtractor } from '~/util/DatabaseKeyExtractor';
 import { MMKVParser } from '~/util/MMKVParser';
 import { getFileName } from '~/util/pathHelper';
-import { InstructionsAndroid } from './QMCv2/InstructionsAndroid';
 import { InstructionsIOS } from './QMCv2/InstructionsIOS';
 import { InstructionsMac } from './QMCv2/InstructionsMac';
 import { InstructionsPC } from './QMCv2/InstructionsPC';
+import { AndroidADBPullInstruction } from '~/components/AndroidADBPullInstruction/AndroidADBPullInstruction';
 
 export function PanelQMCv2Key() {
   const toast = useToast();
@@ -172,7 +172,7 @@ export function PanelQMCv2Key() {
         </TabList>
         <TabPanels flex={1} overflow="auto">
           <TabPanel>
-            <InstructionsAndroid />
+            <AndroidADBPullInstruction dir="/data/data/com.tencent.qqmusic/databases" file="player_process_db" />
           </TabPanel>
           <TabPanel>
             <InstructionsIOS />

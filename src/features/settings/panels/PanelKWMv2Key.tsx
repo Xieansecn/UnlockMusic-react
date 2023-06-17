@@ -14,6 +14,10 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
   Text,
   useToast,
 } from '@chakra-ui/react';
@@ -28,6 +32,8 @@ import { kwm2AddKey, kwm2ClearKeys, kwm2ImportKeys } from '../settingsSlice';
 import { selectStagingKWMv2Keys } from '../settingsSelector';
 import { KWMv2EKeyItem } from './KWMv2/KWMv2EKeyItem';
 import type { StagingKWMv2Key } from '../keyFormats';
+import { InstructionsPC } from './KWMv2/InstructionsPC';
+import { AndroidADBPullInstruction } from '~/components/AndroidADBPullInstruction/AndroidADBPullInstruction';
 
 export function PanelKWMv2Key() {
   const toast = useToast();
@@ -39,7 +45,7 @@ export function PanelKWMv2Key() {
   const clearAll = () => dispatch(kwm2ClearKeys());
   const handleSecretImport = async (file: File) => {
     let keys: Omit<StagingKWMv2Key, 'id'>[] | null = null;
-    if (/cn\.kuwo\.player\.mmkv\.defaultconfig/i.test(file.name)) {
+    if (/cn\.kuwo\.player\.mmkv/i.test(file.name)) {
       const fileBuffer = await file.arrayBuffer();
       keys = MMKVParser.parseKuwoEKey(new DataView(fileBuffer));
     }
@@ -108,7 +114,21 @@ export function PanelKWMv2Key() {
         onClose={() => setShowImportModal(false)}
         onImport={handleSecretImport}
       >
-        文档缺失
+        <TabList>
+          <Tab>安卓</Tab>
+          <Tab>Windows</Tab>
+        </TabList>
+        <TabPanels flex={1} overflow="auto">
+          <TabPanel>
+            <AndroidADBPullInstruction
+              dir="/data/data/cn.kuwo.player/files/mmkv"
+              file="cn.kuwo.player.mmkv.defaultconfig"
+            />
+          </TabPanel>
+          <TabPanel>
+            <InstructionsPC />
+          </TabPanel>
+        </TabPanels>
       </ImportSecretModal>
     </Flex>
   );
