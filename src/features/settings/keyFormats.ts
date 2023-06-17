@@ -51,6 +51,13 @@ export interface StagingKWMv2Key {
 
 export type ProductionKWMv2Keys = Record<string /* `${rid}-${quality}` */, string /* ekey */>;
 
+export const parseKwm2ProductionKey = (key: string): null | { rid: string; quality: string } => {
+  const m = key.match(/^(\d+)-(\w+)$/);
+  if (!m) return null;
+  const [_, rid, quality] = m;
+
+  return { rid, quality };
+};
 export const kwm2StagingToProductionKey = (key: StagingKWMv2Key) => `${key.rid}-${key.quality}`;
 export const kwm2StagingToProductionValue = (key: StagingKWMv2Key) => key.ekey;
 export const kwm2ProductionToStaging = (
@@ -59,9 +66,8 @@ export const kwm2ProductionToStaging = (
 ): null | StagingKWMv2Key => {
   if (typeof value !== 'string') return null;
 
-  const m = key.match(/^(\d+)-(\w+)$/);
-  if (!m) return null;
+  const parsed = parseKwm2ProductionKey(key);
+  if (!parsed) return null;
 
-  const [_, rid, quality] = m;
-  return { id: nanoid(), rid, quality, ekey: value };
+  return { id: nanoid(), rid: parsed.rid, quality: parsed.quality, ekey: value };
 };

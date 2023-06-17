@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '~/store';
-import { decryptionQueue } from '~/decrypt-worker/client';
 
 import type { DecryptionResult } from '~/decrypt-worker/constants';
+import type { DecryptCommandOptions } from '~/decrypt-worker/types';
+import { decryptionQueue } from '~/decrypt-worker/client';
 import { DecryptErrorType } from '~/decrypt-worker/util/DecryptError';
-import { selectDecryptOptionByFile } from '../settings/settingsSelector';
+import { selectQMCv2KeyByFileName, selectKWMv2Key } from '../settings/settingsSelector';
 
 export enum ProcessState {
   QUEUED = 'QUEUED',
@@ -63,7 +64,18 @@ export const processFile = createAsyncThunk<
     thunkAPI.dispatch(setFileAsProcessing({ id: fileId }));
   };
 
-  const options = selectDecryptOptionByFile(state, file.fileName);
+  const fileHeader = await fetch(file.raw, {
+    headers: {
+      Range: 'bytes=0-1023',
+    },
+  })
+    .then((r) => r.blob())
+    .then((r) => r.arrayBuffer());
+
+  const options: DecryptCommandOptions = {
+    qmc2Key: selectQMCv2KeyByFileName(state, file.fileName),
+    kwm2key: selectKWMv2Key(state, new DataView(fileHeader)),
+  };
   return decryptionQueue.add({ id: fileId, blobURI: file.raw, options }, onPreProcess);
 });
 

@@ -5,6 +5,7 @@ import type { AppStore } from '~/store';
 import { settingsSlice, setProductionChanges, ProductionSettings } from './settingsSlice';
 import { enumObject } from '~/util/objects';
 import { getLogger } from '~/util/logUtils';
+import { parseKwm2ProductionKey } from './keyFormats';
 
 const DEFAULT_STORAGE_KEY = 'um-react-settings';
 
@@ -20,6 +21,16 @@ function mergeSettings(settings: ProductionSettings): ProductionSettings {
 
       if (typeof allowFuzzyNameSearch === 'boolean') {
         draft.qmc2.allowFuzzyNameSearch = allowFuzzyNameSearch;
+      }
+    }
+
+    if (settings?.kwm2) {
+      const { keys } = settings.kwm2;
+
+      for (const [k, v] of enumObject(keys)) {
+        if (typeof v === 'string' && parseKwm2ProductionKey(k)) {
+          draft.kwm2.keys[k] = v;
+        }
       }
     }
   });
