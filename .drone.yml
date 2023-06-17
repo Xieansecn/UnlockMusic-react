@@ -15,8 +15,6 @@ steps:
     environment:
       # 让 npm 使用淘宝源
       npm_config_registry: https://registry.npmmirror.com
-      # 限制内存使用
-      NODE_OPTIONS: --max-old-space-size=512
 
   - name: publish
     image: node:18.16.0-bullseye
