@@ -17,13 +17,17 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import { useDispatch, useSelector } from 'react-redux';
-import { kwm2AddKey, kwm2ClearKeys } from '../settingsSlice';
-import { selectStagingKWMv2Keys } from '../settingsSelector';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { MdAdd, MdDeleteForever, MdExpandMore, MdFileUpload } from 'react-icons/md';
-import { KWMv2EKeyItem } from './KWMv2/KWMv2EKeyItem';
+
 import { ImportSecretModal } from '~/components/ImportSecretModal';
+import { MMKVParser } from '~/util/MMKVParser';
+
+import { kwm2AddKey, kwm2ClearKeys, kwm2ImportKeys } from '../settingsSlice';
+import { selectStagingKWMv2Keys } from '../settingsSelector';
+import { KWMv2EKeyItem } from './KWMv2/KWMv2EKeyItem';
+import type { StagingKWMv2Key } from '../keyFormats';
 
 export function PanelKWMv2Key() {
   const toast = useToast();
@@ -33,12 +37,29 @@ export function PanelKWMv2Key() {
 
   const addKey = () => dispatch(kwm2AddKey());
   const clearAll = () => dispatch(kwm2ClearKeys());
-  const handleSecretImport = () => {
-    toast({
-      title: '尚未实现',
-      isClosable: true,
-      status: 'error',
-    });
+  const handleSecretImport = async (file: File) => {
+    let keys: Omit<StagingKWMv2Key, 'id'>[] | null = null;
+    if (/cn\.kuwo\.player\.mmkv\.defaultconfig/i.test(file.name)) {
+      const fileBuffer = await file.arrayBuffer();
+      keys = MMKVParser.parseKuwoEKey(new DataView(fileBuffer));
+    }
+
+    if (keys) {
+      dispatch(kwm2ImportKeys(keys));
+      setShowImportModal(false);
+      toast({
+        title: `导入完成，共导入了 ${keys.length} 个密钥。`,
+        description: '记得按下「保存」来应用。',
+        isClosable: true,
+        status: 'success',
+      });
+    } else {
+      toast({
+        title: `不支持的文件：${file.name}`,
+        isClosable: true,
+        status: 'error',
+      });
+    }
   };
 
   return (
@@ -82,12 +103,12 @@ export function PanelKWMv2Key() {
       </Box>
 
       <ImportSecretModal
-        clientName="QQ 音乐"
+        clientName="酷我音乐"
         show={showImportModal}
         onClose={() => setShowImportModal(false)}
         onImport={handleSecretImport}
       >
-        尚未实现
+        文档缺失
       </ImportSecretModal>
     </Flex>
   );
