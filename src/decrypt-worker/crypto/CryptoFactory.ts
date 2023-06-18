@@ -8,6 +8,7 @@ import { NCMCrypto } from './ncm/ncm_pc';
 import { XimalayaAndroidCrypto } from './xmly/xmly_android';
 import { KWMCrypto } from './kwm/kwm';
 import { MiguCrypto } from './migu/migu3d_keyless';
+import { TransparentCrypto } from './transparent/transparent';
 
 export const allCryptoFactories: CryptoFactory[] = [
   // Xiami (*.xm)
@@ -38,4 +39,7 @@ export const allCryptoFactories: CryptoFactory[] = [
   // Ximalaya (Android)
   XimalayaAndroidCrypto.makeX2M,
   XimalayaAndroidCrypto.makeX3M,
+
+  // Transparent crypto (not encrypted)
+  TransparentCrypto.make,
 ];
