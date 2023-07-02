@@ -110,7 +110,7 @@ export function PanelQMCv2Key() {
             <MenuButton as={IconButton} icon={<MdExpandMore />}></MenuButton>
             <MenuList>
               <MenuItem onClick={() => setShowImportModal(true)} icon={<Icon as={MdFileUpload} boxSize={5} />}>
-                从文件导入密钥
+                从文件导入密钥…
               </MenuItem>
               <MenuDivider />
               <MenuItem color="red" onClick={clearAll} icon={<Icon as={MdDeleteForever} boxSize={5} />}>
