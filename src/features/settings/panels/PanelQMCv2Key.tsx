@@ -147,6 +147,7 @@ export function PanelQMCv2Key() {
                   」算法计算相似程度。
                 </Text>
                 <Text>若密钥数量过多，匹配时可能会造成浏览器卡顿或无响应一段时间。</Text>
+                <Text>若不确定，请勾选该项。</Text>
               </Box>
             }
           >
