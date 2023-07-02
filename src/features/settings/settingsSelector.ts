@@ -1,4 +1,4 @@
-import { parseKuwoHeader } from '~/crypto/pasreKuwo';
+import { parseKuwoHeader } from '~/crypto/parseKuwo';
 import type { RootState } from '~/store';
 import { closestByLevenshtein } from '~/util/levenshtein';
 import { hasOwn } from '~/util/objects';
