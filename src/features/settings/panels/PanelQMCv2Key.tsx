@@ -71,14 +71,20 @@ export function PanelQMCv2Key() {
         qmc2Keys = Array.from(map.entries(), ([name, ekey]) => ({ name: getFileName(name), ekey }));
       }
 
-      if (qmc2Keys) {
+      if (qmc2Keys?.length === 0) {
+        toast({
+          title: '未导入密钥',
+          description: '选择的密钥数据库文件未发现任何可用的密钥。',
+          isClosable: true,
+          status: 'warning',
+        });
+      } else if (qmc2Keys) {
         dispatch(qmc2ImportKeys(qmc2Keys));
         setShowImportModal(false);
         toast({
           title: `导入成功 (${qmc2Keys.length})`,
           description: '记得保存更改来应用。',
           isClosable: true,
-          duration: 5000,
           status: 'success',
         });
       } else {

@@ -49,8 +49,14 @@ export function PanelKWMv2Key() {
       const fileBuffer = await file.arrayBuffer();
       keys = MMKVParser.parseKuwoEKey(new DataView(fileBuffer));
     }
-
-    if (keys) {
+    if (keys?.length === 0) {
+      toast({
+        title: '未导入密钥',
+        description: '选择的密钥数据库文件未发现任何可用的密钥。',
+        isClosable: true,
+        status: 'warning',
+      });
+    } else if (keys) {
       dispatch(kwm2ImportKeys(keys));
       setShowImportModal(false);
       toast({
