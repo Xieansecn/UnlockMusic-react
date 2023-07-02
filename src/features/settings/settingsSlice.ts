@@ -37,16 +37,18 @@ export interface ProductionSettings {
 }
 
 export interface SettingsState {
+  dirty: boolean;
   staging: StagingSettings;
   production: ProductionSettings;
 }
 const initialState: SettingsState = {
+  dirty: false,
   staging: {
-    qmc2: { allowFuzzyNameSearch: false, keys: [] },
+    qmc2: { allowFuzzyNameSearch: true, keys: [] },
     kwm2: { keys: [] },
   },
   production: {
-    qmc2: { allowFuzzyNameSearch: false, keys: {} },
+    qmc2: { allowFuzzyNameSearch: true, keys: {} },
     kwm2: { keys: {} },
   },
 };
@@ -77,6 +79,7 @@ export const settingsSlice = createSlice({
   reducers: {
     setProductionChanges: (_state, { payload }: PayloadAction<ProductionSettings>) => {
       return {
+        dirty: false,
         production: payload,
         staging: productionToStaging(payload),
       };
@@ -84,14 +87,17 @@ export const settingsSlice = createSlice({
     //
     qmc2AddKey(state) {
       state.staging.qmc2.keys.push({ id: nanoid(), name: '', ekey: '' });
+      state.dirty = true;
     },
     qmc2ImportKeys(state, { payload }: PayloadAction<Omit<StagingQMCv2Key, 'id'>[]>) {
       const newItems = payload.map((item) => ({ id: nanoid(), ...item }));
       state.staging.qmc2.keys.push(...newItems);
+      state.dirty = true;
     },
     qmc2DeleteKey(state, { payload: { id } }: PayloadAction<{ id: string }>) {
       const qmc2 = state.staging.qmc2;
       qmc2.keys = qmc2.keys.filter((item) => item.id !== id);
+      state.dirty = true;
     },
     qmc2UpdateKey(
       state,
@@ -100,25 +106,31 @@ export const settingsSlice = createSlice({
       const keyItem = state.staging.qmc2.keys.find((item) => item.id === id);
       if (keyItem) {
         keyItem[field] = value;
+        state.dirty = true;
       }
     },
     qmc2ClearKeys(state) {
       state.staging.qmc2.keys = [];
+      state.dirty = true;
     },
     qmc2AllowFuzzyNameSearch(state, { payload: { enable } }: PayloadAction<{ enable: boolean }>) {
       state.staging.qmc2.allowFuzzyNameSearch = enable;
+      state.dirty = true;
     },
     // TODO: reuse the logic somehow?
     kwm2AddKey(state) {
       state.staging.kwm2.keys.push({ id: nanoid(), ekey: '', quality: '', rid: '' });
+      state.dirty = true;
     },
     kwm2ImportKeys(state, { payload }: PayloadAction<Omit<StagingKWMv2Key, 'id'>[]>) {
       const newItems = payload.map((item) => ({ id: nanoid(), ...item }));
       state.staging.kwm2.keys.push(...newItems);
+      state.dirty = true;
     },
     kwm2DeleteKey(state, { payload: { id } }: PayloadAction<{ id: string }>) {
       const kwm2 = state.staging.kwm2;
       kwm2.keys = kwm2.keys.filter((item) => item.id !== id);
+      state.dirty = true;
     },
     kwm2UpdateKey(
       state,
@@ -127,18 +139,22 @@ export const settingsSlice = createSlice({
       const keyItem = state.staging.kwm2.keys.find((item) => item.id === id);
       if (keyItem) {
         keyItem[field] = value;
+        state.dirty = true;
       }
     },
     kwm2ClearKeys(state) {
       state.staging.kwm2.keys = [];
+      state.dirty = true;
     },
     //
     discardStagingChanges: (state) => {
+      state.dirty = false;
       state.staging = productionToStaging(state.production);
     },
     commitStagingChange: (state) => {
       const production = stagingToProduction(state.staging);
       return {
+        dirty: false,
         // Sync back to staging
         staging: productionToStaging(production),
         production,

@@ -5,7 +5,7 @@ name: default
 
 steps:
   - name: test & build
-    image: node:18.16.0-bullseye
+    image: node:18.16.1-bookworm
     commands:
       # - git config --global --add safe.directory "/drone/src"
       - corepack enable
@@ -17,7 +17,7 @@ steps:
       npm_config_registry: https://registry.npmmirror.com
 
   - name: publish
-    image: node:18.16.0-bullseye
+    image: node:18.16.1-bookworm
     environment:
       DRONE_GITEA_SERVER: https://git.unlock-music.dev
       GITEA_API_KEY:

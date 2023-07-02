@@ -71,14 +71,20 @@ export function PanelQMCv2Key() {
         qmc2Keys = Array.from(map.entries(), ([name, ekey]) => ({ name: getFileName(name), ekey }));
       }
 
-      if (qmc2Keys) {
+      if (qmc2Keys?.length === 0) {
+        toast({
+          title: '未导入密钥',
+          description: '选择的密钥数据库文件未发现任何可用的密钥。',
+          isClosable: true,
+          status: 'warning',
+        });
+      } else if (qmc2Keys) {
         dispatch(qmc2ImportKeys(qmc2Keys));
         setShowImportModal(false);
         toast({
           title: `导入成功 (${qmc2Keys.length})`,
           description: '记得保存更改来应用。',
           isClosable: true,
-          duration: 5000,
           status: 'success',
         });
       } else {
@@ -93,7 +99,7 @@ export function PanelQMCv2Key() {
   return (
     <Flex minH={0} flexDir="column" flex={1}>
       <Heading as="h2" size="lg">
-        QMCv2 密钥
+        QMCv2 解密密钥
       </Heading>
 
       <Text>
@@ -110,7 +116,7 @@ export function PanelQMCv2Key() {
             <MenuButton as={IconButton} icon={<MdExpandMore />}></MenuButton>
             <MenuList>
               <MenuItem onClick={() => setShowImportModal(true)} icon={<Icon as={MdFileUpload} boxSize={5} />}>
-                从文件导入密钥
+                从文件导入密钥…
               </MenuItem>
               <MenuDivider />
               <MenuItem color="red" onClick={clearAll} icon={<Icon as={MdDeleteForever} boxSize={5} />}>
@@ -141,6 +147,7 @@ export function PanelQMCv2Key() {
                   」算法计算相似程度。
                 </Text>
                 <Text>若密钥数量过多，匹配时可能会造成浏览器卡顿或无响应一段时间。</Text>
+                <Text>若不确定，请勾选该项。</Text>
               </Box>
             }
           >

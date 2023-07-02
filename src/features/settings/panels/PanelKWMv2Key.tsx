@@ -49,8 +49,14 @@ export function PanelKWMv2Key() {
       const fileBuffer = await file.arrayBuffer();
       keys = MMKVParser.parseKuwoEKey(new DataView(fileBuffer));
     }
-
-    if (keys) {
+    if (keys?.length === 0) {
+      toast({
+        title: '未导入密钥',
+        description: '选择的密钥数据库文件未发现任何可用的密钥。',
+        isClosable: true,
+        status: 'warning',
+      });
+    } else if (keys) {
       dispatch(kwm2ImportKeys(keys));
       setShowImportModal(false);
       toast({
@@ -88,7 +94,7 @@ export function PanelKWMv2Key() {
             <MenuButton as={IconButton} icon={<MdExpandMore />}></MenuButton>
             <MenuList>
               <MenuItem onClick={() => setShowImportModal(true)} icon={<Icon as={MdFileUpload} boxSize={5} />}>
-                从文件导入密钥
+                从文件导入密钥…
               </MenuItem>
               <MenuDivider />
               <MenuItem color="red" onClick={clearAll} icon={<Icon as={MdDeleteForever} boxSize={5} />}>

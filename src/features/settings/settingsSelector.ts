@@ -1,8 +1,10 @@
-import { parseKuwoHeader } from '~/crypto/pasreKuwo';
+import { parseKuwoHeader } from '~/crypto/parseKuwo';
 import type { RootState } from '~/store';
 import { closestByLevenshtein } from '~/util/levenshtein';
 import { hasOwn } from '~/util/objects';
 import { kwm2StagingToProductionKey } from './keyFormats';
+
+export const selectIsSettingsNotSaved = (state: RootState) => state.settings.dirty;
 
 export const selectStagingQMCv2Settings = (state: RootState) => state.settings.staging.qmc2;
 export const selectFinalQMCv2Settings = (state: RootState) => state.settings.production.qmc2;

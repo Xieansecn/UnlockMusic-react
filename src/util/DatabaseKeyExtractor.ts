@@ -32,7 +32,12 @@ export class DatabaseKeyExtractor {
         return null;
       }
 
-      const keys = db.exec('select file_path, ekey from `audio_file_ekey_table`')[0].values;
+      const result = db.exec('select file_path, ekey from audio_file_ekey_table');
+      if (result.length === 0) {
+        return [];
+      }
+
+      const keys = result[0].values;
       return keys.map(([path, ekey]) => ({
         // strip dir name
         name: getFileName(String(path)),

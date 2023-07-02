@@ -28,7 +28,7 @@ export function ImportSecretModal({ clientName, children, show, onClose, onImpor
     <Modal isOpen={show} onClose={onClose} closeOnOverlayClick={false} scrollBehavior="inside" size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>导入密钥数据库</ModalHeader>
+        <ModalHeader>从文件导入密钥</ModalHeader>
         <ModalCloseButton />
         <Flex as={ModalBody} gap={2} flexDir="column" flex={1}>
           <Center>

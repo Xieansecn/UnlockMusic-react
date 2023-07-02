@@ -1,4 +1,5 @@
 import {
+  chakra,
   Box,
   Button,
   Center,
@@ -20,13 +21,15 @@ import {
   Text,
   VStack,
   useBreakpointValue,
+  useToast,
 } from '@chakra-ui/react';
 import { PanelQMCv2Key } from './panels/PanelQMCv2Key';
 import { useState } from 'react';
 import { MdExpandMore, MdMenu, MdOutlineSettingsBackupRestore } from 'react-icons/md';
-import { useAppDispatch } from '~/hooks';
+import { useAppDispatch, useAppSelector } from '~/hooks';
 import { commitStagingChange, discardStagingChanges } from './settingsSlice';
 import { PanelKWMv2Key } from './panels/PanelKWMv2Key';
+import { selectIsSettingsNotSaved } from './settingsSelector';
 
 const TABS: { name: string; Tab: () => JSX.Element }[] = [
   { name: 'QMCv2 密钥', Tab: PanelQMCv2Key },
@@ -38,6 +41,7 @@ const TABS: { name: string; Tab: () => JSX.Element }[] = [
 ];
 
 export function Settings() {
+  const toast = useToast();
   const dispatch = useAppDispatch();
   const isLargeWidthDevice =
     useBreakpointValue({
@@ -49,8 +53,25 @@ export function Settings() {
   const handleTabChange = (idx: number) => {
     setTabIndex(idx);
   };
-  const handleResetSettings = () => dispatch(discardStagingChanges());
-  const handleApplySettings = () => dispatch(commitStagingChange());
+  const handleResetSettings = () => {
+    dispatch(discardStagingChanges());
+
+    toast({
+      status: 'info',
+      title: '未储存的设定已舍弃',
+      description: '已还原到更改前的状态。',
+      isClosable: true,
+    });
+  };
+  const handleApplySettings = () => {
+    dispatch(commitStagingChange());
+    toast({
+      status: 'success',
+      title: '设定已应用',
+      isClosable: true,
+    });
+  };
+  const isSettingsNotSaved = useAppSelector(selectIsSettingsNotSaved);
 
   return (
     <Flex flexDir="column" flex={1}>
@@ -104,7 +125,16 @@ export function Settings() {
               <VStack mt="4" alignItems="flex-start" w="full">
                 <Flex flexDir="row" gap="2" w="full">
                   <Center>
-                    <Box color="gray">设置会在保存后生效。</Box>
+                    {isSettingsNotSaved ? (
+                      <Box color="gray">
+                        有未储存的更改{' '}
+                        <chakra.span color="red" wordBreak="keep-all">
+                          设定将在保存后生效
+                        </chakra.span>
+                      </Box>
+                    ) : (
+                      <Box color="gray">设定将在保存后生效</Box>
+                    )}
                   </Center>
                   <Spacer />
                   <HStack gap="2" justifyContent="flex-end">
