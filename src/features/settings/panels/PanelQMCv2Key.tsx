@@ -99,7 +99,7 @@ export function PanelQMCv2Key() {
   return (
     <Flex minH={0} flexDir="column" flex={1}>
       <Heading as="h2" size="lg">
-        QMCv2 密钥
+        QMCv2 解密密钥
       </Heading>
 
       <Text>
