@@ -30,13 +30,23 @@ export const QMCv2EKeyItem = memo(({ id, name, ekey, i }: { id: string; name: st
         </Text>
 
         <VStack flex={1}>
-          <Input variant="flushed" placeholder="文件名" value={name} onChange={(e) => updateKey('name', e)} />
+          <Input
+            variant="flushed"
+            placeholder="文件名，包括后缀名。如 “AAA - BBB.mflac”"
+            value={name}
+            onChange={(e) => updateKey('name', e)}
+          />
 
           <InputGroup size="xs">
             <InputLeftElement pr="2">
               <Icon as={MdVpnKey} />
             </InputLeftElement>
-            <Input variant="flushed" placeholder="密钥" value={ekey} onChange={(e) => updateKey('ekey', e)} />
+            <Input
+              variant="flushed"
+              placeholder="密钥，通常包含 364 或 704 位字符，没有空格。"
+              value={ekey}
+              onChange={(e) => updateKey('ekey', e)}
+            />
             <InputRightElement>
               <Text pl="2" color={ekey.length ? 'green.500' : 'red.500'}>
                 <code>{ekey.length || '?'}</code>
