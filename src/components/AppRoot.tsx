@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { MdSettings, MdHome } from 'react-icons/md';
+import { MdSettings, MdHome, MdQuestionAnswer } from 'react-icons/md';
 import { ChakraProvider, Tabs, TabList, TabPanels, Tab, TabPanel, Icon, chakra } from '@chakra-ui/react';
 
 import { MainTab } from '~/tabs/MainTab';
@@ -10,6 +10,7 @@ import { theme } from '~/theme';
 import { persistSettings } from '~/features/settings/persistSettings';
 import { setupStore } from '~/store';
 import { Footer } from '~/components/Footer';
+import { FaqTab } from '~/tabs/FaqTab';
 
 // Private to this file only.
 const store = setupStore();
@@ -30,6 +31,10 @@ export function AppRoot() {
               <Icon as={MdSettings} mr="1" />
               <chakra.span>设置</chakra.span>
             </Tab>
+            <Tab>
+              <Icon as={MdQuestionAnswer} mr="1" />
+              <chakra.span>问答</chakra.span>
+            </Tab>
           </TabList>
 
           <TabPanels overflow="auto" minW={0} flexDir="column" flex={1} display="flex">
@@ -38,6 +43,9 @@ export function AppRoot() {
             </TabPanel>
             <TabPanel flex={1} display="flex">
               <SettingsTab />
+            </TabPanel>
+            <TabPanel>
+              <FaqTab />
             </TabPanel>
           </TabPanels>
         </Tabs>

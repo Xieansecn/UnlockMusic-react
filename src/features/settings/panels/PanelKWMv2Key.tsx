@@ -14,10 +14,6 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
   Text,
   useToast,
 } from '@chakra-ui/react';
@@ -32,8 +28,7 @@ import { kwm2AddKey, kwm2ClearKeys, kwm2ImportKeys } from '../settingsSlice';
 import { selectStagingKWMv2Keys } from '../settingsSelector';
 import { KWMv2EKeyItem } from './KWMv2/KWMv2EKeyItem';
 import type { StagingKWMv2Key } from '../keyFormats';
-import { InstructionsPC } from './KWMv2/InstructionsPC';
-import { AndroidADBPullInstruction } from '~/components/AndroidADBPullInstruction/AndroidADBPullInstruction';
+import { KWMv2AllInstructions } from './KWMv2/KWMv2AllInstructions';
 
 export function PanelKWMv2Key() {
   const toast = useToast();
@@ -120,21 +115,7 @@ export function PanelKWMv2Key() {
         onClose={() => setShowImportModal(false)}
         onImport={handleSecretImport}
       >
-        <TabList>
-          <Tab>安卓</Tab>
-          <Tab>Windows</Tab>
-        </TabList>
-        <TabPanels flex={1} overflow="auto">
-          <TabPanel>
-            <AndroidADBPullInstruction
-              dir="/data/data/cn.kuwo.player/files/mmkv"
-              file="cn.kuwo.player.mmkv.defaultconfig"
-            />
-          </TabPanel>
-          <TabPanel>
-            <InstructionsPC />
-          </TabPanel>
-        </TabPanels>
+        <KWMv2AllInstructions />
       </ImportSecretModal>
     </Flex>
   );

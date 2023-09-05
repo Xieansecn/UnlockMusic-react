@@ -14,10 +14,6 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
   Text,
   Tooltip,
   useToast,
@@ -34,10 +30,7 @@ import { StagingQMCv2Key } from '../keyFormats';
 import { DatabaseKeyExtractor } from '~/util/DatabaseKeyExtractor';
 import { MMKVParser } from '~/util/MMKVParser';
 import { getFileName } from '~/util/pathHelper';
-import { InstructionsIOS } from './QMCv2/InstructionsIOS';
-import { InstructionsMac } from './QMCv2/InstructionsMac';
-import { InstructionsPC } from './QMCv2/InstructionsPC';
-import { AndroidADBPullInstruction } from '~/components/AndroidADBPullInstruction/AndroidADBPullInstruction';
+import { QMCv2AllInstructions } from './QMCv2/QMCv2AllInstructions';
 
 export function PanelQMCv2Key() {
   const toast = useToast();
@@ -171,26 +164,7 @@ export function PanelQMCv2Key() {
         onClose={() => setShowImportModal(false)}
         onImport={handleSecretImport}
       >
-        <TabList>
-          <Tab>安卓</Tab>
-          <Tab>iOS</Tab>
-          <Tab>Mac</Tab>
-          <Tab>Windows</Tab>
-        </TabList>
-        <TabPanels flex={1} overflow="auto">
-          <TabPanel>
-            <AndroidADBPullInstruction dir="/data/data/com.tencent.qqmusic/databases" file="player_process_db" />
-          </TabPanel>
-          <TabPanel>
-            <InstructionsIOS />
-          </TabPanel>
-          <TabPanel>
-            <InstructionsMac />
-          </TabPanel>
-          <TabPanel>
-            <InstructionsPC />
-          </TabPanel>
-        </TabPanels>
+        <QMCv2AllInstructions />
       </ImportSecretModal>
     </Flex>
   );
