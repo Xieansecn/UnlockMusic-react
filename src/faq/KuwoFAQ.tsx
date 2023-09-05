@@ -1,4 +1,4 @@
-import { Alert, AlertIcon, Container, List, ListItem, Text, VStack, chakra } from '@chakra-ui/react';
+import { Alert, AlertIcon, Container, Flex, List, ListItem, Text, chakra } from '@chakra-ui/react';
 import { Header4 } from '~/components/HelpText/Header4';
 import { VQuote } from '~/components/HelpText/VQuote';
 import { SegmentTryOfficialPlayer } from './SegmentTryOfficialPlayer';
@@ -35,10 +35,10 @@ export function KuwoFAQ() {
           <Container p={2}>
             <Alert status="warning" borderRadius={5}>
               <AlertIcon />
-              <VStack>
-                <Text>Android 用户提取密钥需要 root 权限，或注入文件提供器。</Text>
+              <Flex flexDir="column">
+                <Text>安卓用户提取密钥需要 root 权限，或注入文件提供器。</Text>
                 <Text>请注意：项目组不提倡使用第三方修改版应用亦不会提供，使用前请自行评估风险。</Text>
-              </VStack>
+              </Flex>
             </Alert>
           </Container>
 

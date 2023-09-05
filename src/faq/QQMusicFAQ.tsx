@@ -1,4 +1,4 @@
-import { Alert, AlertIcon, Container, List, ListItem, Text, chakra } from '@chakra-ui/react';
+import { Alert, AlertIcon, Container, Flex, List, ListItem, Text, chakra } from '@chakra-ui/react';
 import { Header4 } from '~/components/HelpText/Header4';
 import { SegmentTryOfficialPlayer } from './SegmentTryOfficialPlayer';
 import { QMCv2AllInstructions } from '~/features/settings/panels/QMCv2/QMCv2AllInstructions';
@@ -21,7 +21,10 @@ export function QQMusicFAQ() {
           <Container p={2}>
             <Alert status="warning" borderRadius={5}>
               <AlertIcon />
-              iOS用户提取歌曲困难，建议换用电脑操作；Android用户提取密钥需要root，也建议用电脑操作。
+              <Flex flexDir="column">
+                <Text>iOS 用户提取歌曲困难，建议换用电脑操作；</Text>
+                <Text>安卓用户提取密钥需要root，也建议用电脑操作。</Text>
+              </Flex>
             </Alert>
           </Container>
 

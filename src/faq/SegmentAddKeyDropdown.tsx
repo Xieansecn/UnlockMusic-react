@@ -5,7 +5,7 @@ import { VQuote } from '~/components/HelpText/VQuote';
 
 export function SegmentAddKeyDropdown() {
   return (
-    <Flex as="span" alignItems="center">
+    <Flex as="span" alignItems="center" flexWrap="wrap">
       按下<VQuote>添加一条密钥</VQuote>按钮
       <HiWord>右侧</HiWord>的
       <IconButton
