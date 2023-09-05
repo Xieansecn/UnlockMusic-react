@@ -1,3 +1,5 @@
+import { Link } from '@chakra-ui/react';
+
 export interface ProjectIssueProps {
   id: number | string;
   title?: string;
@@ -5,13 +7,9 @@ export interface ProjectIssueProps {
 
 export function ProjectIssue({ id, title }: ProjectIssueProps) {
   return (
-    <a
-      rel="noopener noreferrer nofollow"
-      target="_blank"
-      href={`https://git.unlock-music.dev/um/um-react/issues/${id}`}
-    >
+    <Link isExternal target="_blank" href={`https://git.unlock-music.dev/um/um-react/issues/${id}`}>
       {`#${id}`}
       {title && ` - ${title}`}
-    </a>
+    </Link>
   );
 }
