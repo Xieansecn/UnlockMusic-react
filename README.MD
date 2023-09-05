@@ -7,6 +7,7 @@
 - Unlock Music 的 CLI 版本可以在 [unlock-music/cli] 找到，大批量转换建议使用 CLI 版本。
 - 我们新建了 Telegram 群组 [`@unlock_music_chat`] ，欢迎加入！
 - CI 自动构建已经部署，可以在 [Packages][um-react-packages] 下载。
+- [常见问题参考](./docs/faq_zh-hans.md)
 
 [授权协议]: https://git.unlock-music.dev/um/um-react/src/branch/main/LICENSE
 [unlock-music/cli]: https://git.unlock-music.dev/um/cli
