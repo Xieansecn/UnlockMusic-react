@@ -65,8 +65,8 @@
 > QQ 音乐导入密钥的图片教程
 
 1. 选择【设定】
-   ![选择【设定】](./assets/faq_1_home.webp)
+   <br/>![选择【设定】](./assets/faq_1_home.webp)
 2. 点击下拉菜单，选择【从文件导入密钥…】
-   ![点击下拉菜单，选择【从文件导入密钥…】](./assets/faq_2_import.webp)
+   <br/>![点击下拉菜单，选择【从文件导入密钥…】](./assets/faq_2_import.webp)
 3. 选择对应的客户端并查阅说明
-   ![选择对应的客户端并查阅说明](./assets/faq_3_instructions.webp)
+   <br/>![选择对应的客户端并查阅说明](./assets/faq_3_instructions.webp)
