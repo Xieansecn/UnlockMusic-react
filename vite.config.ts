@@ -1,4 +1,3 @@
-import cp from 'node:child_process';
 import url from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -10,15 +9,13 @@ import replace from '@rollup/plugin-replace';
 import topLevelAwait from 'vite-plugin-top-level-await';
 import { VitePWA } from 'vite-plugin-pwa';
 
-const gitRoot = url.fileURLToPath(new URL('.', import.meta.url));
-const pkg = JSON.parse(fs.readFileSync(gitRoot + '/package.json', 'utf-8'));
+import { tryCommand } from './support/command';
 
-function command(cmd, dir = '') {
-  return cp.execSync(cmd, { cwd: path.join(gitRoot, dir), encoding: 'utf-8' }).trim();
-}
+const projectRoot = url.fileURLToPath(new URL('.', import.meta.url));
+const pkg = JSON.parse(fs.readFileSync(projectRoot + '/package.json', 'utf-8'));
 
 const COMMAND_GIT_VERSION = 'git describe --long --dirty --tags --always';
-const shortCommit = command(COMMAND_GIT_VERSION);
+const shortCommit = tryCommand(COMMAND_GIT_VERSION, __dirname, 'unknown');
 const version = `${pkg.version}-${shortCommit}`;
 
 // https://vitejs.dev/config/
