@@ -16,7 +16,7 @@ class DecryptCommandHandler {
     label: string,
     private parakeet: Parakeet,
     private buffer: ArrayBuffer,
-    private options: DecryptCommandOptions
+    private options: DecryptCommandOptions,
   ) {
     this.label = `DecryptCommandHandler(${label})`;
   }
@@ -59,9 +59,12 @@ class DecryptCommandHandler {
     const decrypted = await this.log(`decrypt (${crypto.cryptoName})`, () => crypto.decrypt(this.buffer, this.options));
 
     // Check if we had a successful decryption
-    const audioExt = crypto.overrideExtension ?? (await this.detectAudioExtension(decrypted));
+    let audioExt = crypto.overrideExtension ?? (await this.detectAudioExtension(decrypted));
     if (crypto.checkByDecryptHeader && audioExt === 'bin') {
       return null;
+    }
+    if (audioExt.toLowerCase() === 'mp4') {
+      audioExt = 'm4a';
     }
 
     return { decrypted: URL.createObjectURL(toBlob(decrypted)), ext: audioExt };
@@ -82,7 +85,7 @@ class DecryptCommandHandler {
 
     // Check by decrypt max first 8MiB
     const decryptedBuffer = await this.log(`${crypto.cryptoName}/decrypt-header-test`, async () =>
-      toArrayBuffer(await crypto.decrypt(this.buffer.slice(0, TEST_FILE_HEADER_LEN), this.options))
+      toArrayBuffer(await crypto.decrypt(this.buffer.slice(0, TEST_FILE_HEADER_LEN), this.options)),
     );
 
     return this.parakeet.detectAudioExtension(decryptedBuffer) !== 'bin';
