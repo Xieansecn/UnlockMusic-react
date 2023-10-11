@@ -69,18 +69,21 @@ export class MMKVParser {
     return bytesToUTF8String(data).normalize();
   }
 
-  public readVariantString() {
+  public readOptionalString() {
     // Container [
     //   len: int,
     //   data: variant
     // ]
     const containerLen = this.readInt();
+    if (containerLen === 0) {
+      return null;
+    }
     const newOffset = this.offset + containerLen;
     const result = this.readString();
     if (newOffset !== this.offset) {
       const expected = formatHex(newOffset);
       const actual = formatHex(this.offset);
-      throw new Error(`readVariantString failed: offset does mismatch (expect: ${expected}, actual: ${actual})`);
+      throw new Error(`readVariantString failed: offset mismatch (expect: ${expected}, actual: ${actual})`);
     }
     return result;
   }
@@ -99,13 +102,15 @@ export class MMKVParser {
     const result = new Map<string, string>();
     while (!mmkv.eof) {
       const key = mmkv.readString();
-      const value = mmkv.readVariantString();
-      result.set(key, value);
+      const value = mmkv.readOptionalString();
+      if (value) {
+        result.set(key, value);
+      }
     }
     return result;
   }
 
-  public static parseKuwoEKey(view: DataView) {
+  public static parseKuwoEKey(view: DataView): Omit<StagingKWMv2Key, 'id'>[] {
     const mmkv = new MMKVParser(view);
     const result: Omit<StagingKWMv2Key, 'id'>[] = [];
     while (!mmkv.eof) {
@@ -117,8 +122,10 @@ export class MMKVParser {
       }
 
       const [_, rid, quality] = idMatch;
-      const ekey = mmkv.readVariantString();
-      result.push({ rid, quality, ekey });
+      const ekey = mmkv.readOptionalString();
+      if (ekey) {
+        result.push({ rid, quality, ekey });
+      }
     }
     return result;
   }
