@@ -33,8 +33,8 @@ dependencies:
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.28)(react@18.2.0)
   '@jixun/libparakeet':
-    specifier: 0.2.1
-    version: 0.2.1
+    specifier: 0.3.0
+    version: 0.3.0
   '@reduxjs/toolkit':
     specifier: ^1.9.7
     version: 1.9.7(react-redux@8.1.3)(react@18.2.0)
@@ -2861,8 +2861,8 @@ packages:
       '@sinclair/typebox': 0.27.8
     dev: true
 
-  /@jixun/libparakeet@0.2.1:
-    resolution: {integrity: sha512-OZRx72yKfRs8ZRZcNPAOBEAz9/v3jXK5V6ue4WomcW6HhNZy7JjdXZOF7lHqMgfB47d1CyLNJbaT0r0tiKGjbA==}
+  /@jixun/libparakeet@0.3.0:
+    resolution: {integrity: sha512-SG26GY0BeyH36yZcwghgzIXupfnAVH1WT/Gb8YhVRgqWXVenmtsCxEy4B0fUdscTJu28THjM0vNXCAvj5s9MBA==}
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:
