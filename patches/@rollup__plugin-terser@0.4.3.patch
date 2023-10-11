@@ -1,0 +1,22 @@
+diff --git a/dist/cjs/index.js b/dist/cjs/index.js
+index 23639c70ccd5ebbc4a12c1ba277e5ac81cf30513..aba3318977523785d02f3b8aa6e667a1aa46bf5d 100644
+--- a/dist/cjs/index.js
++++ b/dist/cjs/index.js
+@@ -227,5 +227,5 @@ function terser(input = {}) {
+ runWorker();
+ 
+ exports.default = terser;
+-module.exports = Object.assign(exports.default, exports);
++module.exports = Object.assign(exports.default, exports, { terser });
+ //# sourceMappingURL=index.js.map
+diff --git a/dist/es/index.js b/dist/es/index.js
+index 7296e677e6b2b38df9522b196fee24feec996793..4ca9052dd439ed22ff92cc72a79824b85e229678 100644
+--- a/dist/es/index.js
++++ b/dist/es/index.js
+@@ -222,5 +222,5 @@ function terser(input = {}) {
+ 
+ runWorker();
+ 
+-export { terser as default };
++export { terser as default, terser };
+ //# sourceMappingURL=index.js.map

@@ -78,6 +78,7 @@
   },
   "pnpm": {
     "patchedDependencies": {
+      "@rollup/plugin-terser@0.4.3": "patches/@rollup__plugin-terser@0.4.3.patch",
       "sql.js@1.8.0": "patches/sql.js@1.8.0.patch"
     },
     "overrides": {

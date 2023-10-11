@@ -9,6 +9,9 @@ overrides:
   sourcemap-codec: npm:@jridgewell/sourcemap-codec@1.4.15
 
 patchedDependencies:
+  '@rollup/plugin-terser@0.4.3':
+    hash: ztv2kzvfqbmz5mcxzgjd7ae7qy
+    path: patches/@rollup__plugin-terser@0.4.3.patch
   sql.js@1.8.0:
     hash: vzg36y5uoz6bb2m2utejemkdhy
     path: patches/sql.js@1.8.0.patch
@@ -3003,7 +3006,7 @@ packages:
       rollup: 2.79.1
     dev: true
 
-  /@rollup/plugin-terser@0.4.3(rollup@2.79.1):
+  /@rollup/plugin-terser@0.4.3(patch_hash=ztv2kzvfqbmz5mcxzgjd7ae7qy)(rollup@2.79.1):
     resolution: {integrity: sha512-EF0oejTMtkyhrkwCdg0HJ0IpkcaVg1MMSf2olHb2Jp+1mnLM04OhjpJWGma4HobiDTF0WCyViWuvadyE9ch2XA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -3017,6 +3020,7 @@ packages:
       smob: 1.4.1
       terser: 5.21.0
     dev: true
+    patched: true
 
   /@rollup/plugin-virtual@3.0.2(rollup@2.79.1):
     resolution: {integrity: sha512-10monEYsBp3scM4/ND4LNH5Rxvh3e/cVeL3jWTgZ2SrQ+BmUoQcopVQvnaMcOnykb1VkxUFuDAN+0FnpTFRy2A==}
@@ -7226,7 +7230,7 @@ packages:
       lodash: 4.17.21
       pretty-bytes: 5.6.0
       rollup: 2.79.1
-      rollup-plugin-terser: /@rollup/plugin-terser@0.4.3(rollup@2.79.1)
+      rollup-plugin-terser: /@rollup/plugin-terser@0.4.3(patch_hash=ztv2kzvfqbmz5mcxzgjd7ae7qy)(rollup@2.79.1)
       source-map: 0.8.0-beta.0
       stringify-object: 3.3.0
       strip-comments: 2.0.1
