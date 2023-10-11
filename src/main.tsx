@@ -1,3 +1,4 @@
+import './pwa';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -13,5 +14,5 @@ SyntaxHighlighter.registerLanguage('bash', hljsSyntaxBash);
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <AppRoot />
-  </React.StrictMode>
+  </React.StrictMode>,
 );
