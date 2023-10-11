@@ -163,6 +163,9 @@ devDependencies:
   vitest:
     specifier: ^0.34.6
     version: 0.34.6(@vitest/ui@0.34.6)(jsdom@22.1.0)(sass@1.69.2)
+  workbox-window:
+    specifier: ^7.0.0
+    version: 7.0.0
 
 packages:
 
