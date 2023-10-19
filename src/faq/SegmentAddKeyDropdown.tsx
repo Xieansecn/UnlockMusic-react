@@ -16,9 +16,8 @@ export function SegmentAddKeyDropdown() {
         ml="2"
         borderTopLeftRadius={0}
         borderBottomLeftRadius={0}
-        isDisabled
-        css={{ ':disabled': { opacity: 1 } }}
-        aria-label="示例按钮"
+        pointerEvents="none"
+        aria-label="下拉按钮"
       />
     </Flex>
   );
