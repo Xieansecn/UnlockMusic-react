@@ -14,6 +14,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Select,
   Text,
   Tooltip,
   useToast,
@@ -30,13 +31,15 @@ import { StagingQMCv2Key } from '../keyFormats';
 import { DatabaseKeyExtractor } from '~/util/DatabaseKeyExtractor';
 import { MMKVParser } from '~/util/MMKVParser';
 import { getFileName } from '~/util/pathHelper';
-import { QMCv2AllInstructions } from './QMCv2/QMCv2AllInstructions';
+import { QMCv2QQMusicAllInstructions } from './QMCv2/QMCv2QQMusicAllInstructions';
+import { QMCv2DoubanAllInstructions } from './QMCv2/QMCv2DoubanAllInstructions';
 
 export function PanelQMCv2Key() {
   const toast = useToast();
   const dispatch = useDispatch();
   const { keys: qmc2Keys, allowFuzzyNameSearch } = useSelector(selectStagingQMCv2Settings);
   const [showImportModal, setShowImportModal] = useState(false);
+  const [secretType, setSecretType] = useState<'qm' | 'douban'>('qm');
 
   const addKey = () => dispatch(qmc2AddKey());
   const clearAll = () => dispatch(qmc2ClearKeys());
@@ -51,11 +54,11 @@ export function PanelQMCv2Key() {
 
       let qmc2Keys: null | Omit<StagingQMCv2Key, 'id'>[] = null;
 
-      if (/[_.]db$/i.test(file.name)) {
+      if (/(player_process[_.]db|music_audio_play)(\.db)?$/i.test(file.name)) {
         const extractor = await DatabaseKeyExtractor.getInstance();
-        qmc2Keys = extractor.extractQmAndroidDbKeys(fileBuffer);
+        qmc2Keys = extractor.extractQmcV2KeysFromSqliteDb(fileBuffer);
         if (!qmc2Keys) {
-          alert(`不是支持的 SQLite 数据库文件。\n表名：${qmc2Keys}`);
+          alert(`不是支持的 SQLite 数据库文件。`);
           return;
         }
       } else if (/MMKVStreamEncryptId|filenameEkeyMap/i.test(file.name)) {
@@ -96,8 +99,8 @@ export function PanelQMCv2Key() {
       </Heading>
 
       <Text>
-        QQ 音乐目前采用的加密方案（QMCv2）。在使用「QQ 音乐」安卓、Mac 或 iOS
-        客户端的情况下，其「离线加密文件」对应的「密钥」储存在独立的数据库文件内。
+        QQ 音乐、豆瓣 FM 目前采用的加密方案（QMCv2）。在使用「QQ 音乐」安卓、Mac 或 iOS 客户端，以及在使用「豆瓣
+        FM」安卓客户端的情况下，其「离线加密文件」对应的「密钥」储存在独立的数据库文件内。
       </Text>
 
       <HStack pb={2} pt={2}>
@@ -155,16 +158,28 @@ export function PanelQMCv2Key() {
             <QMCv2EKeyItem key={id} id={id} ekey={ekey} name={name} i={i} />
           ))}
         </List>
-        {qmc2Keys.length === 0 && <Text>还没有添加密钥。</Text>}
+        {qmc2Keys.length === 0 && <Text>还没有密钥。</Text>}
       </Box>
 
       <ImportSecretModal
-        clientName="QQ 音乐"
+        clientName={
+          <Select
+            value={secretType}
+            onChange={(e) => setSecretType(e.target.value as 'qm' | 'douban')}
+            variant="flushed"
+            display="inline"
+            css={{ paddingLeft: '0.75rem', width: 'auto' }}
+          >
+            <option value="qm">QQ 音乐</option>
+            <option value="douban">豆瓣 FM</option>
+          </Select>
+        }
         show={showImportModal}
         onClose={() => setShowImportModal(false)}
         onImport={handleSecretImport}
       >
-        <QMCv2AllInstructions />
+        {secretType === 'qm' && <QMCv2QQMusicAllInstructions />}
+        {secretType === 'douban' && <QMCv2DoubanAllInstructions />}
       </ImportSecretModal>
     </Flex>
   );

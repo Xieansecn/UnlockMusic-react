@@ -23,16 +23,21 @@ export class DatabaseKeyExtractor {
     return tables.includes(name);
   }
 
-  extractQmAndroidDbKeys(buffer: ArrayBuffer): null | QMAndroidKeyEntry[] {
+  extractQmcV2KeysFromSqliteDb(buffer: ArrayBuffer): null | QMAndroidKeyEntry[] {
     let db: SQLDatabase | null = null;
 
     try {
       db = new this.SQL.Database(new Uint8Array(buffer));
-      if (!this.hasTable(db, 'audio_file_ekey_table')) {
-        return null;
-      }
 
-      const result = db.exec('select file_path, ekey from audio_file_ekey_table');
+      let sql: undefined | string;
+      if (this.hasTable(db, 'audio_file_ekey_table')) {
+        sql = 'select file_path, ekey from audio_file_ekey_table';
+      } else if (this.hasTable(db, 'EKeyFileInfo')) {
+        sql = 'select filePath, eKey from EKeyFileInfo';
+      }
+      if (!sql) return null;
+
+      const result = db.exec(sql);
       if (result.length === 0) {
         return [];
       }
