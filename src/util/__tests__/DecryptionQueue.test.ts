@@ -18,15 +18,16 @@ test('should be able to forward request to worker client bus', async () => {
   vi.spyOn(bus, 'request').mockImplementation(
     async (actionName: DECRYPTION_WORKER_ACTION_NAME, payload: unknown): Promise<unknown> => {
       return { actionName, payload };
-    }
+    },
   );
 
   const queue = new DecryptionQueue(bus, 1);
-  await expect(queue.add({ id: 'file://1', blobURI: 'blob://mock-file' })).resolves.toEqual({
+  await expect(queue.add({ id: 'file://1', blobURI: 'blob://mock-file', options: {} })).resolves.toEqual({
     actionName: DECRYPTION_WORKER_ACTION_NAME.DECRYPT,
     payload: {
       blobURI: 'blob://mock-file',
       id: 'file://1',
+      options: {},
     },
   });
 });
