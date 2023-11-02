@@ -36,10 +36,19 @@ export function AndroidADBPullInstruction({ dir, file }: AndroidADBPullInstructi
   return (
     <>
       <Text>
-        你需要 <code>root</code> 访问权限来访问安卓应用的私有数据。
+        你需要
+        <ruby>
+          超级管理员
+          <rp> (</rp>
+          <rt>
+            <code>root</code>
+          </rt>
+          <rp>)</rp>
+        </ruby>
+        访问权限来访问安卓应用的私有数据。
       </Text>
       <Text>
-        ⚠️ 请注意，获取 <code>root</code> 通常意味着你的安卓设备
+        ⚠️ 请注意，获取管理员权限通常意味着你的安卓设备
         <chakra.span color="red.400">将失去保修资格</chakra.span>。
       </Text>
 
@@ -92,7 +101,7 @@ export function AndroidADBPullInstruction({ dir, file }: AndroidADBPullInstructi
             <OrderedList>
               <ListItem>
                 <Text>
-                  确保 <code>adb</code> 命令可用。
+                  确保 <Code>adb</Code> 命令可用。
                 </Text>
                 <Text>
                   💡 如果没有，可以
@@ -134,6 +143,11 @@ export function AndroidADBPullInstruction({ dir, file }: AndroidADBPullInstructi
           </Heading>
           <AccordionPanel pb={4}>
             <OrderedList>
+              <ListItem>
+                <Text>
+                  确保 <Code>adb</Code> 命令可用。
+                </Text>
+              </ListItem>
               <ListItem>
                 <Text>将安卓设备连接到电脑，并允许调试。</Text>
               </ListItem>

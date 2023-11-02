@@ -4,7 +4,7 @@ import { InstructionsIOS } from './InstructionsIOS';
 import { InstructionsMac } from './InstructionsMac';
 import { InstructionsPC } from './InstructionsPC';
 
-export function QMCv2AllInstructions() {
+export function QMCv2QQMusicAllInstructions() {
   return (
     <>
       <TabList>

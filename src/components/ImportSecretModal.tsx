@@ -35,7 +35,9 @@ export function ImportSecretModal({ clientName, children, show, onClose, onImpor
             <FileInput onReceiveFiles={handleFileReceived}>拖放或点我选择含有密钥的数据库文件</FileInput>
           </Center>
 
-          <Text mt={2}>选择你的{clientName && <>「{clientName}」</>}客户端平台以查看对应说明：</Text>
+          <Text as="div" mt={2}>
+            选择你的{clientName && <>「{clientName}」</>}客户端平台以查看对应说明：
+          </Text>
           <Flex as={Tabs} variant="enclosed" flexDir="column" flex={1} minH={0}>
             {children}
           </Flex>

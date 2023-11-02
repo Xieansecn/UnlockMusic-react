@@ -1,7 +1,7 @@
 import { Alert, AlertIcon, Container, Flex, List, ListItem, Text, UnorderedList, chakra } from '@chakra-ui/react';
 import { Header4 } from '~/components/HelpText/Header4';
 import { SegmentTryOfficialPlayer } from './SegmentTryOfficialPlayer';
-import { QMCv2AllInstructions } from '~/features/settings/panels/QMCv2/QMCv2AllInstructions';
+import { QMCv2QQMusicAllInstructions } from '~/features/settings/panels/QMCv2/QMCv2QQMusicAllInstructions';
 import { SegmentKeyImportInstructions } from './SegmentKeyImportInstructions';
 import { ExtLink } from '~/components/ExtLink';
 
@@ -55,7 +55,7 @@ export function QQMusicFAQ() {
             </Alert>
           </Container>
 
-          <SegmentKeyImportInstructions tab="QMCv2 密钥" clientInstructions={<QMCv2AllInstructions />} />
+          <SegmentKeyImportInstructions tab="QMCv2 密钥" clientInstructions={<QMCv2QQMusicAllInstructions />} />
         </ListItem>
       </List>
     </>
