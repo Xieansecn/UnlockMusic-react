@@ -7,7 +7,6 @@ import {
   Box,
   Code,
   Heading,
-  Link,
   ListItem,
   OrderedList,
   Text,
@@ -19,6 +18,7 @@ import hljsStyleGitHub from 'react-syntax-highlighter/dist/esm/styles/hljs/githu
 
 import PowerShellAdbDumpCommandTemplate from './adb_dump.ps1?raw';
 import ShellAdbDumpCommandTemplate from './adb_dump.sh?raw';
+import { ExtLink } from '../ExtLink';
 
 const applyTemplate = (tpl: string, values: Record<string, unknown>) => {
   return tpl.replace(/\{\{\s*(\w+)\s*\}\}/g, (_, key) => (Object.hasOwn(values, key) ? String(values[key]) : '<nil>'));
@@ -96,9 +96,9 @@ export function AndroidADBPullInstruction({ dir, file }: AndroidADBPullInstructi
                 </Text>
                 <Text>
                   💡 如果没有，可以
-                  <Link href="https://scoop.sh/#/apps?q=adb" isExternal>
+                  <ExtLink href="https://scoop.sh/#/apps?q=adb">
                     使用 Scoop 安装 <ExternalLinkIcon />
-                  </Link>
+                  </ExtLink>
                   。
                 </Text>
               </ListItem>

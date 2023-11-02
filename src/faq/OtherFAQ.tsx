@@ -1,5 +1,5 @@
-import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { Link, Text } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
+import { ExtLink } from '~/components/ExtLink';
 import { Header4 } from '~/components/HelpText/Header4';
 import { ProjectIssue } from '~/components/ProjectIssue';
 
@@ -17,10 +17,7 @@ export function OtherFAQ() {
       <Header4>有更多问题？</Header4>
       <Text>
         {'欢迎进入 '}
-        <Link href={'https://t.me/unlock_music_chat'} isExternal>
-          Telegram “音乐解锁-交流” 交流群
-          <ExternalLinkIcon />
-        </Link>
+        <ExtLink href={'https://t.me/unlock_music_chat'}>Telegram “音乐解锁-交流” 交流群</ExtLink>
         {' 一起探讨。'}
       </Text>
     </>

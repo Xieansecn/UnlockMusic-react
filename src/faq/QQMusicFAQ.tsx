@@ -1,8 +1,9 @@
-import { Alert, AlertIcon, Container, Flex, List, ListItem, Text, chakra } from '@chakra-ui/react';
+import { Alert, AlertIcon, Container, Flex, List, ListItem, Text, UnorderedList, chakra } from '@chakra-ui/react';
 import { Header4 } from '~/components/HelpText/Header4';
 import { SegmentTryOfficialPlayer } from './SegmentTryOfficialPlayer';
 import { QMCv2AllInstructions } from '~/features/settings/panels/QMCv2/QMCv2AllInstructions';
 import { SegmentKeyImportInstructions } from './SegmentKeyImportInstructions';
+import { ExtLink } from '~/components/ExtLink';
 
 export function QQMusicFAQ() {
   return (
@@ -16,7 +17,26 @@ export function QQMusicFAQ() {
           <Text>
             <chakra.strong>2、检查您的平台</chakra.strong>
           </Text>
-          <Text>日前，仅Windows客户端下载的歌曲无需密钥，其余平台的官方正式版本均需要提取密钥。</Text>
+          <Text>
+            日前，仅 Windows 客户端 19.43 或更低版本下载的歌曲文件无需密钥，其余平台的官方正式版本均需要提取密钥。
+            你可以通过下方的链接获取 QQ 音乐 Windows 客户端 v19.43 的安装程序：
+          </Text>
+          <UnorderedList pl={3}>
+            <ListItem>
+              <Text>
+                <ExtLink href="https://dldir1v6.qq.com/music/clntupate/QQMusic_Setup_1943.exe">
+                  <code>qq.com</code> 官方下载地址（推荐）
+                </ExtLink>
+              </Text>
+            </ListItem>
+            <ListItem>
+              <Text>
+                <ExtLink href="https://web.archive.org/web/2023/https://dldir1v6.qq.com/music/clntupate/QQMusic_Setup_1943.exe">
+                  <code>Archive.org</code> 存档
+                </ExtLink>
+              </Text>
+            </ListItem>
+          </UnorderedList>
 
           <Container p={2}>
             <Alert status="warning" borderRadius={5}>
