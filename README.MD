@@ -18,8 +18,12 @@
 
 ## 支持的格式
 
-- [x] QQ 音乐 QMCv1 (.qmc0/.qmc2/.qmc3/.qmcflac/.qmcogg/.tkm)
-- [x] QQ 音乐 QMCv2 PC 端 (.mflac/.mgg/.mflac0/.mgg1/.mggl)
+- [x] QQ 音乐 QMCv1 (..qmc3/.qmcflac 等)
+- [x] QQ 音乐 QMCv2
+  - PC 客户端 (.mflac/.mgg 等) [^qm-key-pc]
+  - 安卓客户端 (.mflac0/.mgg1/.mggl 等) [^qm-key-android]
+  - iOS 客户端 (.mgalaxy 等) [^qm-key-ios]
+  - Mac 客户端 (.mflach 等) [^qm-key-mac]
 - [x] 网易云音乐 (.ncm)
 - [x] 虾米音乐 (.xm)
 - [x] 酷我音乐 (.kwm)
@@ -27,6 +31,11 @@
 - [x] 喜马拉雅 Android 端 (.x2m/.x3m)
 - [x] 咪咕音乐格式 (.mg3d)
 - [ ] ~~<ruby>QQ 音乐海外版<rt>JOOX Music</rt></ruby> (.ofl_en)~~
+
+[^qm-key-pc]: PC 客户端仅支持 v19.43 或更低版本。
+[^qm-key-android]: 需要获取超级管理员权限后提取密钥数据库，并导入后使用。
+[^qm-key-ios]: 需要越狱获取密钥数据库，或对设备进行完整备份后提取密钥数据库，并导入后使用。
+[^qm-key-mac]: 需要导入密钥数据库。
 
 不支持的格式？请提交样本（加密文件）与客户端信息（或一并上传其安装包）到[仓库的问题追踪区][project-issues]。如果文件太大，请上传到不需要登入下载的网盘，如 [mega.nz](https://mega.nz)、[OneDrive](https://www.onedrive.com/) 等。
 
