@@ -7,9 +7,11 @@ export interface KuwoHeader {
   quality: string;
 }
 
+const KUWO_MAGIC_HDRS = new Set(['yeelion-kuwo\x00\x00\x00\x00', 'yeelion-kuwo-tme']);
+
 export function parseKuwoHeader(view: DataView): KuwoHeader | null {
   const magic = view.buffer.slice(view.byteOffset, view.byteOffset + 0x10);
-  if (bytesToUTF8String(magic) !== 'yeelion-kuwo-tme') {
+  if (!KUWO_MAGIC_HDRS.has(bytesToUTF8String(magic))) {
     return null; // not kuwo-encrypted file
   }
 

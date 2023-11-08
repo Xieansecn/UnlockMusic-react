@@ -9,6 +9,11 @@ export const theme = extendTheme({
       'Segoe UI,Helvetica,Arial,sans-serif',
       'Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol',
     ].join(','),
+    mono: [
+      'SFMono-Regular,Menlo,Monaco',
+      '"Sarasa Mono CJK SC",',
+      'Consolas,"Liberation Mono","Courier New",monospace',
+    ].join(','),
   },
   components: {
     Button: {

@@ -3,7 +3,7 @@ import { objectify } from 'radash';
 
 export function productionKeyToStaging<S, P extends Record<string, unknown>>(
   src: P,
-  make: (k: keyof P, v: P[keyof P]) => null | S
+  make: (k: keyof P, v: P[keyof P]) => null | S,
 ): S[] {
   const result: S[] = [];
   for (const [key, value] of Object.entries(src)) {
@@ -31,7 +31,7 @@ export const qmc2StagingToProductionKey = (key: StagingQMCv2Key) => key.name.nor
 export const qmc2StagingToProductionValue = (key: StagingQMCv2Key) => key.ekey.trim();
 export const qmc2ProductionToStaging = (
   key: keyof ProductionQMCv2Keys,
-  value: ProductionQMCv2Keys[keyof ProductionQMCv2Keys]
+  value: ProductionQMCv2Keys[keyof ProductionQMCv2Keys],
 ): StagingQMCv2Key => {
   return {
     id: nanoid(),
@@ -44,7 +44,13 @@ export const qmc2ProductionToStaging = (
 
 export interface StagingKWMv2Key {
   id: string;
+  /**
+   * Resource ID
+   */
   rid: string;
+  /**
+   * Quality String
+   */
   quality: string;
   ekey: string;
 }
@@ -58,16 +64,17 @@ export const parseKwm2ProductionKey = (key: string): null | { rid: string; quali
 
   return { rid, quality };
 };
-export const kwm2StagingToProductionKey = (key: StagingKWMv2Key) => `${key.rid}-${key.quality}`;
+export const kwm2StagingToProductionKey = (key: StagingKWMv2Key) => `${key.rid}-${key.quality.replace(/[\D]/g, '')}`;
 export const kwm2StagingToProductionValue = (key: StagingKWMv2Key) => key.ekey;
 export const kwm2ProductionToStaging = (
   key: keyof ProductionKWMv2Keys,
-  value: ProductionKWMv2Keys[keyof ProductionKWMv2Keys]
+  value: ProductionKWMv2Keys[keyof ProductionKWMv2Keys],
 ): null | StagingKWMv2Key => {
   if (typeof value !== 'string') return null;
 
   const parsed = parseKwm2ProductionKey(key);
   if (!parsed) return null;
+  const { quality, rid } = parsed;
 
-  return { id: nanoid(), rid: parsed.rid, quality: parsed.quality, ekey: value };
+  return { id: nanoid(), rid, quality, ekey: value };
 };
