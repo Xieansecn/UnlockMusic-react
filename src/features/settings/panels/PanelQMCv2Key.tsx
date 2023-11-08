@@ -29,7 +29,7 @@ import { InfoOutlineIcon } from '@chakra-ui/icons';
 import { ImportSecretModal } from '~/components/ImportSecretModal';
 import { StagingQMCv2Key } from '../keyFormats';
 import { DatabaseKeyExtractor } from '~/util/DatabaseKeyExtractor';
-import { MMKVParser } from '~/util/MMKVParser';
+import { parseAndroidQmEKey } from '~/util/mmkv/qm';
 import { getFileName } from '~/util/pathHelper';
 import { QMCv2QQMusicAllInstructions } from './QMCv2/QMCv2QQMusicAllInstructions';
 import { QMCv2DoubanAllInstructions } from './QMCv2/QMCv2DoubanAllInstructions';
@@ -63,7 +63,7 @@ export function PanelQMCv2Key() {
         }
       } else if (/MMKVStreamEncryptId|filenameEkeyMap/i.test(file.name)) {
         const fileBuffer = await file.arrayBuffer();
-        const map = MMKVParser.toStringMap(new DataView(fileBuffer));
+        const map = parseAndroidQmEKey(new DataView(fileBuffer));
         qmc2Keys = Array.from(map.entries(), ([name, ekey]) => ({ name: getFileName(name), ekey }));
       }
 
