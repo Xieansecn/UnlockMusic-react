@@ -1,4 +1,3 @@
-import type { StagingKWMv2Key } from '~/features/settings/keyFormats';
 import { bytesToUTF8String } from '~/decrypt-worker/util/utf8Encoder';
 import { formatHex } from './formatHex';
 
@@ -69,7 +68,11 @@ export class MMKVParser {
     return bytesToUTF8String(data).normalize();
   }
 
-  public readOptionalString() {
+  public readKey() {
+    return this.readString();
+  }
+
+  public readStringValue(): string | null {
     // Container [
     //   len: int,
     //   data: variant
@@ -95,38 +98,5 @@ export class MMKVParser {
     // ]
     const containerLen = this.readInt();
     this.offset += containerLen;
-  }
-
-  public static toStringMap(view: DataView): Map<string, string> {
-    const mmkv = new MMKVParser(view);
-    const result = new Map<string, string>();
-    while (!mmkv.eof) {
-      const key = mmkv.readString();
-      const value = mmkv.readOptionalString();
-      if (value) {
-        result.set(key, value);
-      }
-    }
-    return result;
-  }
-
-  public static parseKuwoEKey(view: DataView): Omit<StagingKWMv2Key, 'id'>[] {
-    const mmkv = new MMKVParser(view);
-    const result: Omit<StagingKWMv2Key, 'id'>[] = [];
-    while (!mmkv.eof) {
-      const key = mmkv.readString();
-      const idMatch = key.match(/^sec_ekey#(\d+)-(.+)/);
-      if (!idMatch) {
-        mmkv.skipContainer();
-        continue;
-      }
-
-      const [_, rid, quality] = idMatch;
-      const ekey = mmkv.readOptionalString();
-      if (ekey) {
-        result.push({ rid, quality, ekey });
-      }
-    }
-    return result;
   }
 }

@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MdAdd, MdDeleteForever, MdExpandMore, MdFileUpload } from 'react-icons/md';
 
 import { ImportSecretModal } from '~/components/ImportSecretModal';
-import { MMKVParser } from '~/util/MMKVParser';
+import { parseAndroidKuwoEKey, parseIosKuwoEKey } from '~/util/mmkv/kuwo';
 
 import { kwm2AddKey, kwm2ClearKeys, kwm2ImportKeys } from '../settingsSlice';
 import { selectStagingKWMv2Keys } from '../settingsSelector';
@@ -41,9 +41,11 @@ export function PanelKWMv2Key() {
   const handleSecretImport = async (file: File) => {
     let keys: Omit<StagingKWMv2Key, 'id'>[] | null = null;
     if (/cn\.kuwo\.player\.mmkv/i.test(file.name)) {
-      const fileBuffer = await file.arrayBuffer();
-      keys = MMKVParser.parseKuwoEKey(new DataView(fileBuffer));
+      keys = parseAndroidKuwoEKey(new DataView(await file.arrayBuffer()));
+    } else if (/kw_ekey/.test(file.name)) {
+      keys = parseIosKuwoEKey(new DataView(await file.arrayBuffer()));
     }
+
     if (keys?.length === 0) {
       toast({
         title: '未导入密钥',
