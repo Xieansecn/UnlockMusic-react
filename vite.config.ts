@@ -114,7 +114,6 @@ export default defineConfig({
     ],
     // workaround: sql.js is not ESModule friendly, yet...
     deps: {
-      // inline: ['sql.js'],
       optimizer: {
         web: {
           include: ['sql.js'],
