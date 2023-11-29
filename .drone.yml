@@ -29,5 +29,5 @@ steps:
     commands:
       # - git config --global --add safe.directory "/drone/src"
       - python3 -m zipfile -c um-react.zip dist/.
-      - ./scripts/publish.sh
+      # - ./scripts/publish.sh
       - ./scripts/deploy.sh
