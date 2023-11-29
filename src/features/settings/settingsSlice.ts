@@ -1,3 +1,4 @@
+import type { QingTingDeviceInfo } from '@jixun/libparakeet';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { nanoid } from 'nanoid';
@@ -16,6 +17,24 @@ import {
   stagingKeyToProduction,
 } from './keyFormats';
 
+export const QINGTING_DEVICE_INFO_KEY: (keyof QingTingDeviceInfo)[] = [
+  'product',
+  'device',
+  'manufacturer',
+  'brand',
+  'board',
+  'model',
+];
+
+const DEFAULT_QINGTING_ANDROID_DEVICE_INFO: QingTingDeviceInfo = {
+  product: '',
+  device: '',
+  manufacturer: '',
+  brand: '',
+  board: '',
+  model: '',
+};
+
 export interface StagingSettings {
   qmc2: {
     keys: StagingQMCv2Key[];
@@ -23,6 +42,9 @@ export interface StagingSettings {
   };
   kwm2: {
     keys: StagingKWMv2Key[];
+  };
+  qtfm: {
+    android: QingTingDeviceInfo;
   };
 }
 
@@ -33,6 +55,9 @@ export interface ProductionSettings {
   };
   kwm2: {
     keys: ProductionKWMv2Keys; // { [`${rid}-${quality}`]: ekey }
+  };
+  qtfm: {
+    android: QingTingDeviceInfo;
   };
 }
 
@@ -46,10 +71,12 @@ const initialState: SettingsState = {
   staging: {
     qmc2: { allowFuzzyNameSearch: true, keys: [] },
     kwm2: { keys: [] },
+    qtfm: { android: DEFAULT_QINGTING_ANDROID_DEVICE_INFO },
   },
   production: {
     qmc2: { allowFuzzyNameSearch: true, keys: {} },
     kwm2: { keys: {} },
+    qtfm: { android: DEFAULT_QINGTING_ANDROID_DEVICE_INFO },
   },
 };
 
@@ -61,6 +88,7 @@ const stagingToProduction = (staging: StagingSettings): ProductionSettings => ({
   kwm2: {
     keys: stagingKeyToProduction(staging.kwm2.keys, kwm2StagingToProductionKey, kwm2StagingToProductionValue),
   },
+  qtfm: staging.qtfm,
 });
 
 const productionToStaging = (production: ProductionSettings): StagingSettings => ({
@@ -71,6 +99,7 @@ const productionToStaging = (production: ProductionSettings): StagingSettings =>
   kwm2: {
     keys: productionKeyToStaging(production.kwm2.keys, kwm2ProductionToStaging),
   },
+  qtfm: production.qtfm,
 });
 
 export const settingsSlice = createSlice({
@@ -101,7 +130,7 @@ export const settingsSlice = createSlice({
     },
     qmc2UpdateKey(
       state,
-      { payload: { id, field, value } }: PayloadAction<{ id: string; field: keyof StagingQMCv2Key; value: string }>
+      { payload: { id, field, value } }: PayloadAction<{ id: string; field: keyof StagingQMCv2Key; value: string }>,
     ) {
       const keyItem = state.staging.qmc2.keys.find((item) => item.id === id);
       if (keyItem) {
@@ -134,13 +163,20 @@ export const settingsSlice = createSlice({
     },
     kwm2UpdateKey(
       state,
-      { payload: { id, field, value } }: PayloadAction<{ id: string; field: keyof StagingKWMv2Key; value: string }>
+      { payload: { id, field, value } }: PayloadAction<{ id: string; field: keyof StagingKWMv2Key; value: string }>,
     ) {
       const keyItem = state.staging.kwm2.keys.find((item) => item.id === id);
       if (keyItem) {
         keyItem[field] = value;
         state.dirty = true;
       }
+    },
+    qtfmAndroidUpdateKey(
+      state,
+      { payload: { field, value } }: PayloadAction<{ field: keyof QingTingDeviceInfo; value: string }>,
+    ) {
+      state.staging.qtfm.android[field] = value;
+      state.dirty = true;
     },
     kwm2ClearKeys(state) {
       state.staging.kwm2.keys = [];
@@ -182,6 +218,8 @@ export const {
   kwm2DeleteKey,
   kwm2ClearKeys,
   kwm2ImportKeys,
+
+  qtfmAndroidUpdateKey,
 
   commitStagingChange,
   discardStagingChanges,

@@ -2,10 +2,11 @@ import { debounce } from 'radash';
 import { produce } from 'immer';
 
 import type { AppStore } from '~/store';
-import { settingsSlice, setProductionChanges, ProductionSettings } from './settingsSlice';
+import { settingsSlice, setProductionChanges, ProductionSettings, QINGTING_DEVICE_INFO_KEY } from './settingsSlice';
 import { enumObject } from '~/util/objects';
 import { getLogger } from '~/util/logUtils';
 import { parseKwm2ProductionKey } from './keyFormats';
+import type { QingTingDeviceInfo } from '@jixun/libparakeet';
 
 const DEFAULT_STORAGE_KEY = 'um-react-settings';
 
@@ -33,6 +34,16 @@ function mergeSettings(settings: ProductionSettings): ProductionSettings {
         }
       }
     }
+
+    if (settings?.qtfm?.android) {
+      const qtfmAndroid = settings.qtfm.android;
+      draft.qtfm.android = Object.fromEntries(
+        QINGTING_DEVICE_INFO_KEY.map((key) => {
+          const value = qtfmAndroid[key];
+          return [key, typeof value === 'string' ? value : ''];
+        }),
+      ) as unknown as QingTingDeviceInfo;
+    }
   });
 }
 
@@ -58,6 +69,6 @@ export function persistSettings(store: AppStore, storageKey = DEFAULT_STORAGE_KE
         localStorage.setItem(storageKey, JSON.stringify(currentSettings));
         getLogger().debug('settings saved');
       }
-    })
+    }),
   );
 }
