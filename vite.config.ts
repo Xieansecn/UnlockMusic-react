@@ -86,6 +86,8 @@ export default defineConfig({
     alias: {
       '~': path.resolve(__dirname, 'src'),
       '@nm': path.resolve(__dirname, 'node_modules'),
+
+      // workaround for vite, workbox (PWA) and Emscripten transpiled parakeet lib (use of `import("module")`)
       module: path.resolve(__dirname, 'src', 'dummy.mjs'),
     },
   },

@@ -1,12 +1,11 @@
 diff --git a/dist/sql-wasm.js b/dist/sql-wasm.js
-index e0da60ba096433d9af1c7025d2ffb9c521f190ed..89a5da6af23e1a644106d38dafe7cfa85500a8c4 100644
+index d29af3624109025e59966cf25cb357111bb459de..1b028e3d91ec37108f775627f31f1134aec47476 100644
 --- a/dist/sql-wasm.js
 +++ b/dist/sql-wasm.js
-@@ -192,3 +192,7 @@ else if (typeof define === 'function' && define['amd']) {
+@@ -190,3 +190,6 @@ else if (typeof define === 'function' && define['amd']) {
  else if (typeof exports === 'object'){
      exports["Module"] = initSqlJs;
  }
 +
 +var module;
 +export default initSqlJs;
-+
