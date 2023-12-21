@@ -108,12 +108,6 @@ export default defineConfig({
     mockReset: true,
     environment: 'jsdom',
     setupFiles: ['src/test-utils/setup-jest.ts'],
-    alias: [
-      {
-        find: /^~\/(.*)/,
-        replacement: 'src/$1',
-      },
-    ],
     // workaround: sql.js is not ESModule friendly, yet...
     deps: {
       optimizer: {
