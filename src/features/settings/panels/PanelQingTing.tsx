@@ -92,7 +92,7 @@ export function PanelQingTing() {
 
       <Box mt={3} mb={3}>
         <FormControl>
-          <FormLabel>解密密钥</FormLabel>
+          <FormLabel>设备密钥</FormLabel>
           <Input type="text" onPaste={handleDataPaste} value={secretKey} onChange={handleDataInput} />
           <FormHelperText>
             {'粘贴含有密钥的信息时将自动提取密钥（如通过 '}
