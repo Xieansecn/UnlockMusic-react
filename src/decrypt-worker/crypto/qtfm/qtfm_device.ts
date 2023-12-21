@@ -7,16 +7,16 @@ export class QingTingFM$Device implements CryptoBase {
   checkByDecryptHeader = false;
 
   async checkBySignature(_buffer: ArrayBuffer, options: DecryptCommandOptions) {
-    return Boolean(/^\.p~?!.*\.qta$/.test(options.fileName) && options.qingTingAndroidDevice);
+    return Boolean(/^\.p~?!.*\.qta$/.test(options.fileName) && options.qingTingAndroidKey);
   }
 
   async decrypt(buffer: ArrayBuffer, options: DecryptCommandOptions): Promise<Blob> {
-    const { fileName: name, qingTingAndroidDevice: qingTingDevice } = options;
-    if (!qingTingDevice) {
-      throw new Error('QingTingFM Device Info was not provided');
+    const { fileName: name, qingTingAndroidKey } = options;
+    if (!qingTingAndroidKey) {
+      throw new Error('QingTingFM Android Device Key was not provided');
     }
 
-    return transformBlob(buffer, (p) => p.make.QingTingFM(name, qingTingDevice));
+    return transformBlob(buffer, (p) => p.make.QingTingFM(name, qingTingAndroidKey));
   }
 
   public static make() {

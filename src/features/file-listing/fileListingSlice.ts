@@ -6,7 +6,7 @@ import type { DecryptionResult } from '~/decrypt-worker/constants';
 import type { DecryptCommandOptions } from '~/decrypt-worker/types';
 import { decryptionQueue } from '~/decrypt-worker/client';
 import { DecryptErrorType } from '~/decrypt-worker/util/DecryptError';
-import { selectQMCv2KeyByFileName, selectKWMv2Key, selectQtfmAndroidDevice } from '../settings/settingsSelector';
+import { selectQMCv2KeyByFileName, selectKWMv2Key, selectQtfmAndroidKey } from '../settings/settingsSelector';
 
 export enum ProcessState {
   QUEUED = 'QUEUED',
@@ -76,7 +76,7 @@ export const processFile = createAsyncThunk<
     fileName: file.fileName,
     qmc2Key: selectQMCv2KeyByFileName(state, file.fileName),
     kwm2key: selectKWMv2Key(state, new DataView(fileHeader)),
-    qingTingAndroidDevice: selectQtfmAndroidDevice(state),
+    qingTingAndroidKey: selectQtfmAndroidKey(state),
   };
   return decryptionQueue.add({ id: fileId, blobURI: file.raw, options }, onPreProcess);
 });
