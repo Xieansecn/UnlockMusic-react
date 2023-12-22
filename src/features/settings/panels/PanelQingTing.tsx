@@ -1,20 +1,19 @@
 import {
   Box,
-  Button,
   Code,
   Flex,
   FormControl,
   FormHelperText,
   FormLabel,
   Heading,
-  Icon,
   Input,
+  ListItem,
   Text,
+  UnorderedList,
 } from '@chakra-ui/react';
 
 import { useAppDispatch, useAppSelector } from '~/hooks';
 import { fetchParakeet } from '@jixun/libparakeet';
-import { MdLock } from 'react-icons/md';
 import { ExtLink } from '~/components/ExtLink';
 import { ChangeEvent, ClipboardEvent } from 'react';
 import { VQuote } from '~/components/HelpText/VQuote';
@@ -79,40 +78,56 @@ export function PanelQingTing() {
       </Heading>
 
       <Text>
-        <VQuote>蜻蜓 FM</VQuote>安卓版本需要获取设备密钥，并以此来生成解密密钥。
+        <VQuote>蜻蜓 FM</VQuote>的安卓版本需要获取设备密钥，并以此来生成解密密钥。
       </Text>
-      <Box display="none">
-        {/* TODO: 解密弹窗、带步骤说明 */}
-        <Box p={2} pt={4} pb={4}>
-          <Button onClick={() => {}} leftIcon={<Icon as={MdLock} boxSize={5} />} variant="outline">
-            获取解密密钥
-          </Button>
-        </Box>
-      </Box>
-
       <Box mt={3} mb={3}>
         <FormControl>
           <FormLabel>设备密钥</FormLabel>
           <Input type="text" onPaste={handleDataPaste} value={secretKey} onChange={handleDataInput} />
           <FormHelperText>
-            {'粘贴含有密钥的信息时将自动提取密钥（如通过 '}
+            {'粘贴含有设备密钥的信息的内容时将自动提取密钥（如通过 '}
             <ExtLink href={QTFM_DEVICE_ID_URL}>
               <Code>qtfm-device-id</Code>
             </ExtLink>
-            {' 获取的内容）。'}
+            {' 获取的设备信息）。'}
           </FormHelperText>
         </FormControl>
       </Box>
 
-      {/* TODO: 填入内部储存开始的完整路径 */}
-      <Text>
-        注：<VQuote>蜻蜓 FM</VQuote>下载的文件储存在 <Code>QTDownloadRadio</Code> 目录下，并使用
-        <VQuote>
-          <Code>.</Code>
-        </VQuote>
-        开始的文件名。
-      </Text>
-      <Text>因为解密密钥与文件名相关，因此解密前请不要更改文件名。</Text>
+      <Heading as="h3" size="md" pt={3} pb={2}>
+        注意事项
+      </Heading>
+      <UnorderedList>
+        <ListItem>
+          <Text>
+            下载的文件位于
+            <Code>[内部储存]/Android/data/fm.qingting.qtradio/files/Music/</Code>
+          </Text>
+
+          <UnorderedList>
+            <ListItem>
+              <Text>
+                你可能需要使用有
+                <ruby>
+                  特权
+                  <rp> (</rp>
+                  <rt>root</rt>
+                  <rp>)</rp>
+                </ruby>
+                的文件浏览器访问。
+              </Text>
+            </ListItem>
+          </UnorderedList>
+        </ListItem>
+        <ListItem>
+          <Text>
+            音频文件文件名为「<Code>.p~!</Code>」前缀。
+          </Text>
+        </ListItem>
+        <ListItem>
+          <Text>因为解密密钥与文件名相关，因此解密前请不要更改文件名。</Text>
+        </ListItem>
+      </UnorderedList>
     </Flex>
   );
 }
