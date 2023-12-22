@@ -37,7 +37,8 @@ export function KuwoFAQ() {
               <AlertIcon />
               <Flex flexDir="column">
                 <Text>安卓用户提取密钥需要 root 权限，或注入文件提供器。</Text>
-                <Text>请注意：项目组不提倡使用第三方修改版应用亦不会提供，使用前请自行评估风险。</Text>
+                <Text>注意：已知部分第三方修改版会破坏密钥写入功能，导致无法正常导入密钥。</Text>
+                <Text>注意：项目组不提倡使用第三方修改版应用亦不会提供，使用前请自行评估风险。</Text>
               </Flex>
             </Alert>
           </Container>
