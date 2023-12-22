@@ -86,6 +86,8 @@ export default defineConfig({
     alias: {
       '~': path.resolve(__dirname, 'src'),
       '@nm': path.resolve(__dirname, 'node_modules'),
+
+      // workaround for vite, workbox (PWA) and Emscripten transpiled parakeet lib (use of `import("module")`)
       module: path.resolve(__dirname, 'src', 'dummy.mjs'),
     },
   },
@@ -106,12 +108,6 @@ export default defineConfig({
     mockReset: true,
     environment: 'jsdom',
     setupFiles: ['src/test-utils/setup-jest.ts'],
-    alias: [
-      {
-        find: /^~\/(.*)/,
-        replacement: 'src/$1',
-      },
-    ],
     // workaround: sql.js is not ESModule friendly, yet...
     deps: {
       optimizer: {

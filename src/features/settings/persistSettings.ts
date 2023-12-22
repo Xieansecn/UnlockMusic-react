@@ -33,6 +33,10 @@ function mergeSettings(settings: ProductionSettings): ProductionSettings {
         }
       }
     }
+
+    if (typeof settings?.qtfm?.android === 'string') {
+      draft.qtfm.android = settings.qtfm.android.replace(/[^0-9a-fA-F]/g, '');
+    }
   });
 }
 
@@ -58,6 +62,6 @@ export function persistSettings(store: AppStore, storageKey = DEFAULT_STORAGE_KE
         localStorage.setItem(storageKey, JSON.stringify(currentSettings));
         getLogger().debug('settings saved');
       }
-    })
+    }),
   );
 }

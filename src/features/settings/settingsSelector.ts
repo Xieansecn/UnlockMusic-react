@@ -47,3 +47,6 @@ export const selectKWMv2Key = (state: RootState, headerView: DataView): string |
 
   return ekey;
 };
+
+export const selectStagingQtfmAndroidKey = (state: RootState) => state.settings.staging.qtfm.android;
+export const selectQtfmAndroidKey = (state: RootState) => state.settings.production.qtfm.android;

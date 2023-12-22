@@ -24,6 +24,9 @@ export interface StagingSettings {
   kwm2: {
     keys: StagingKWMv2Key[];
   };
+  qtfm: {
+    android: string;
+  };
 }
 
 export interface ProductionSettings {
@@ -33,6 +36,9 @@ export interface ProductionSettings {
   };
   kwm2: {
     keys: ProductionKWMv2Keys; // { [`${rid}-${quality}`]: ekey }
+  };
+  qtfm: {
+    android: string;
   };
 }
 
@@ -46,10 +52,12 @@ const initialState: SettingsState = {
   staging: {
     qmc2: { allowFuzzyNameSearch: true, keys: [] },
     kwm2: { keys: [] },
+    qtfm: { android: '' },
   },
   production: {
     qmc2: { allowFuzzyNameSearch: true, keys: {} },
     kwm2: { keys: {} },
+    qtfm: { android: '' },
   },
 };
 
@@ -61,6 +69,7 @@ const stagingToProduction = (staging: StagingSettings): ProductionSettings => ({
   kwm2: {
     keys: stagingKeyToProduction(staging.kwm2.keys, kwm2StagingToProductionKey, kwm2StagingToProductionValue),
   },
+  qtfm: staging.qtfm,
 });
 
 const productionToStaging = (production: ProductionSettings): StagingSettings => ({
@@ -71,6 +80,7 @@ const productionToStaging = (production: ProductionSettings): StagingSettings =>
   kwm2: {
     keys: productionKeyToStaging(production.kwm2.keys, kwm2ProductionToStaging),
   },
+  qtfm: production.qtfm,
 });
 
 export const settingsSlice = createSlice({
@@ -101,7 +111,7 @@ export const settingsSlice = createSlice({
     },
     qmc2UpdateKey(
       state,
-      { payload: { id, field, value } }: PayloadAction<{ id: string; field: keyof StagingQMCv2Key; value: string }>
+      { payload: { id, field, value } }: PayloadAction<{ id: string; field: keyof StagingQMCv2Key; value: string }>,
     ) {
       const keyItem = state.staging.qmc2.keys.find((item) => item.id === id);
       if (keyItem) {
@@ -134,13 +144,17 @@ export const settingsSlice = createSlice({
     },
     kwm2UpdateKey(
       state,
-      { payload: { id, field, value } }: PayloadAction<{ id: string; field: keyof StagingKWMv2Key; value: string }>
+      { payload: { id, field, value } }: PayloadAction<{ id: string; field: keyof StagingKWMv2Key; value: string }>,
     ) {
       const keyItem = state.staging.kwm2.keys.find((item) => item.id === id);
       if (keyItem) {
         keyItem[field] = value;
         state.dirty = true;
       }
+    },
+    qtfmAndroidUpdateKey(state, { payload: { deviceKey } }: PayloadAction<{ deviceKey: string }>) {
+      state.staging.qtfm.android = deviceKey;
+      state.dirty = true;
     },
     kwm2ClearKeys(state) {
       state.staging.kwm2.keys = [];
@@ -182,6 +196,8 @@ export const {
   kwm2DeleteKey,
   kwm2ClearKeys,
   kwm2ImportKeys,
+
+  qtfmAndroidUpdateKey,
 
   commitStagingChange,
   discardStagingChanges,

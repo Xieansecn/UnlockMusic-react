@@ -11,8 +11,9 @@ export const theme = extendTheme({
     ].join(','),
     mono: [
       'SFMono-Regular,Menlo,Monaco',
-      '"Sarasa Mono CJK SC",',
+      '"Sarasa Mono CJK SC"',
       'Consolas,"Liberation Mono","Courier New",monospace',
+      '"Microsoft YaHei UI"',
     ].join(','),
   },
   components: {
