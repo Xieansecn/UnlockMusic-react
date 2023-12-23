@@ -16,21 +16,24 @@
 [`@unlock_music_chat`]: https://t.me/unlock_music_chat
 [um-react-packages]: https://git.unlock-music.dev/um/-/packages/generic/um-react/
 
+⚠️ 手机端浏览器支持有限，请使用最新版本的 Chrome 或 Firefox 官方浏览器。
+
 ## 支持的格式
 
-- [x] QQ 音乐 QMCv1 (..qmc3/.qmcflac 等)
+- [x] QQ 音乐 QMCv1 (`.qmc3` / `.qmcflac` 等)
 - [x] QQ 音乐 QMCv2
-  - PC 客户端 (.mflac/.mgg 等) [^qm-key-pc]
-  - 安卓客户端 (.mflac0/.mgg1/.mggl 等) [^qm-key-android]
-  - iOS 客户端 (.mgalaxy 等) [^qm-key-ios]
-  - Mac 客户端 (.mflach 等) [^qm-key-mac]
-- [x] 网易云音乐 (.ncm)
-- [x] 虾米音乐 (.xm)
-- [x] 酷我音乐 (.kwm)
-- [x] 酷狗音乐 (.kgm/.vpr)
-- [x] 喜马拉雅 Android 端 (.x2m/.x3m)
-- [x] 咪咕音乐格式 (.mg3d)
-- [ ] ~~<ruby>QQ 音乐海外版<rt>JOOX Music</rt></ruby> (.ofl_en)~~
+  - PC 客户端 (`.mflac` / `.mgg` 等) [^qm-key-pc]
+  - 安卓客户端 (`.mflac0` / `.mgg1` / `.mggl` 等) [^qm-key-android]
+  - iOS 客户端 (`.mgalaxy` 等) [^qm-key-ios]
+  - Mac 客户端 (`.mflach` 等) [^qm-key-mac]
+- [x] 网易云音乐 (`.ncm`)
+- [x] 虾米音乐 (`.xm`)
+- [x] 酷我音乐 (`.kwm`)
+- [x] 酷狗音乐 (`.kgm` / `.vpr`)
+- [x] 喜马拉雅 Android 端 (`.x2m` / `.x3m`)
+- [x] 咪咕音乐格式 (`.mg3d`)
+- [x] 蜻蜓 FM (`.qta`)
+- [ ] ~~<ruby>QQ 音乐海外版<rt>JOOX Music</rt></ruby> (`.ofl_en`)~~
 
 [^qm-key-pc]: PC 客户端仅支持 v19.43 或更低版本。
 [^qm-key-android]: 需要获取超级管理员权限后提取密钥数据库，并导入后使用。
