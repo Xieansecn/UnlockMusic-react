@@ -31,6 +31,16 @@ export const theme = extendTheme({
         color: 'blue.600',
       },
     },
+    Text: {
+      baseStyle: {
+        mt: 1,
+      },
+    },
+    Header: {
+      baseStyle: {
+        mt: 3,
+      },
+    },
   },
   styles: {
     global: {
