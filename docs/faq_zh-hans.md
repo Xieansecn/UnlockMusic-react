@@ -66,7 +66,7 @@
 目前常见的带有 root 特权支持的的安卓模拟器方案，分别是雷电模拟器（※ 官方版有内置广告）和微软在 Windows 11 开始支援的适用于 Android™ 的 Windows 子系统 (WSA)。
 
 - WSA 可以参考 [MagiskOnWSALocal](https://github.com/LSPosed/MagiskOnWSALocal) 的说明操作。
-- 雷电模拟器可以在「模拟器设置」 → 「其他设置」中启用。
+- 雷电模拟器可以在「模拟器设置」 → 「其他设置」中启用 root 特权。
   ![雷电模拟器 其他设置](../src/faq/assets/ld_settings_misc.webp)
 
 ### Via 等浏览器无法正常解密/下载

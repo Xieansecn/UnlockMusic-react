@@ -67,7 +67,7 @@ export function OtherFAQ() {
         </ListItem>
         <ListItem>
           <Text>
-            雷电模拟器可以在<VQuote>模拟器设置</VQuote> → <VQuote>其他设置</VQuote>中启用。
+            雷电模拟器可以在<VQuote>模拟器设置</VQuote> → <VQuote>其他设置</VQuote>中启用 root 特权。
           </Text>
           <Img borderRadius={5} border="1px solid #ccc" src={LdPlayerSettingsScreen}></Img>
         </ListItem>
