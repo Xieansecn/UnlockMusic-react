@@ -11,6 +11,22 @@ export function OtherFAQ() {
       <Header4>解密后没有封面等信息</Header4>
       <Text>该项目进行解密处理。如果加密前的资源没有内嵌元信息或封面，解密的文件也没有。</Text>
       <Text>请使用第三方工具进行编辑或管理元信息。</Text>
+
+      <Header4>安卓: 浏览器支持说明</Header4>
+      <Text>⚠️ 手机端浏览器支持有限，请使用最新版本的 Chrome 或 Firefox 官方浏览器。</Text>
+      <Text>已知有问题的浏览器：</Text>
+      <UnorderedList>
+        <ListItem>Via 浏览器</ListItem>
+        <ListItem>夸克浏览器</ListItem>
+        <ListItem>UC 浏览器</ListItem>
+      </UnorderedList>
+      <Text>可能会遇到的问题包括：</Text>
+      <UnorderedList>
+        <ListItem>网页白屏</ListItem>
+        <ListItem>无法下载解密后内容</ListItem>
+        <ListItem>下载的文件名错误</ListItem>
+      </UnorderedList>
+
       <Header4>如何批量下载</Header4>
       <Text>
         {'暂时没有实现，不过你可以在 '}
@@ -19,6 +35,7 @@ export function OtherFAQ() {
         <ProjectIssue id={43} title="批量下载" />
         {' 追踪该问题。'}
       </Text>
+
       <Header4>安卓 root 相关</Header4>
       <Text>
         对安卓设备获取 root 特权通常会破坏系统的完整性并导致部分功能无法使用。
@@ -55,6 +72,7 @@ export function OtherFAQ() {
           <Img borderRadius={5} border="1px solid #ccc" src={LdPlayerSettingsScreen}></Img>
         </ListItem>
       </UnorderedList>
+
       <Header4>有更多问题？</Header4>
       <Text>
         {'欢迎进入 '}
