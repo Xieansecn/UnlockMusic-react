@@ -57,7 +57,7 @@ export default defineConfig({
       registerType: 'prompt',
       workbox: {
         // Cache everything from dist
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,wasm}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,wasm,webp}'],
       },
       manifest: {
         display: 'standalone',
