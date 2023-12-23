@@ -12,6 +12,15 @@ export function OtherFAQ() {
       <Text>该项目进行解密处理。如果加密前的资源没有内嵌元信息或封面，解密的文件也没有。</Text>
       <Text>请使用第三方工具进行编辑或管理元信息。</Text>
 
+      <Header4>批量下载</Header4>
+      <Text>
+        {'暂时没有实现，不过你可以在 '}
+        <ProjectIssue id={34} title="[UI] 全部下载功能" />
+        {' 以及 '}
+        <ProjectIssue id={43} title="批量下载" />
+        {' 追踪该问题。'}
+      </Text>
+
       <Header4>安卓: 浏览器支持说明</Header4>
       <Text>⚠️ 手机端浏览器支持有限，请使用最新版本的 Chrome 或 Firefox 官方浏览器。</Text>
       <Text>已知有问题的浏览器：</Text>
@@ -27,16 +36,7 @@ export function OtherFAQ() {
         <ListItem>下载的文件名错误</ListItem>
       </UnorderedList>
 
-      <Header4>如何批量下载</Header4>
-      <Text>
-        {'暂时没有实现，不过你可以在 '}
-        <ProjectIssue id={34} title="[UI] 全部下载功能" />
-        {' 以及 '}
-        <ProjectIssue id={43} title="批量下载" />
-        {' 追踪该问题。'}
-      </Text>
-
-      <Header4>安卓 root 相关</Header4>
+      <Header4>安卓: root 相关说明</Header4>
       <Text>
         对安卓设备获取 root 特权通常会破坏系统的完整性并导致部分功能无法使用。
         例如部分厂商的安卓设备会在解锁后丧失保修资格，或导致无法使用 NFC 移动支付功能等限制。
