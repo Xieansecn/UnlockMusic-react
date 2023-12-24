@@ -33,17 +33,14 @@ dependencies:
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.45)(react@18.2.0)
   '@jixun/libparakeet':
-    specifier: 0.4.2
-    version: 0.4.2
+    specifier: 0.4.3
+    version: 0.4.3
   '@reduxjs/toolkit':
     specifier: ^2.0.1
     version: 2.0.1(react-redux@9.0.4)(react@18.2.0)
   framer-motion:
     specifier: ^10.16.16
     version: 10.16.16(react-dom@18.2.0)(react@18.2.0)
-  immer:
-    specifier: ^10.0.3
-    version: 10.0.3
   nanoid:
     specifier: ^5.0.4
     version: 5.0.4
@@ -2885,8 +2882,8 @@ packages:
       '@sinclair/typebox': 0.27.8
     dev: true
 
-  /@jixun/libparakeet@0.4.2:
-    resolution: {integrity: sha512-E6XXrHeOOIexKSyWUgQwHUpZNMh5I1IoC9gbwyVQjJhBLiURy6KU7U2Fgsg62Q3BSkdi7NwbdbPERrygUFmA7Q==}
+  /@jixun/libparakeet@0.4.3:
+    resolution: {integrity: sha512-Y+h65ZXbJ604sO1RyXA+2kx1WQoA6xJSlIIFWLcmAJpbj34XY6eCpyRXnltgkzcOLsLaO89jjGqMPS7MBC4XqA==}
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:

@@ -98,7 +98,7 @@ export default defineConfig({
           reacts: ['react', 'react-dom', 'react-dropzone', 'react-promise-suspense', 'react-redux', '@reduxjs/toolkit'],
           chakra: ['@chakra-ui/react', '@emotion/react', '@emotion/styled', 'framer-motion'],
           icons: ['react-icons', '@chakra-ui/icons'],
-          utility: ['radash', 'nanoid', 'immer', 'react-syntax-highlighter'],
+          utility: ['radash', 'nanoid', 'react-syntax-highlighter'],
         },
       },
     },

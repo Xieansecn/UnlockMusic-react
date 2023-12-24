@@ -1,10 +1,9 @@
 import { transformBlob } from '~/decrypt-worker/util/transformBlob';
 import type { CryptoBase } from '../CryptoBase';
 import type { DecryptCommandOptions } from '~/decrypt-worker/types.ts';
-import { SEED, ENC_V2_KEY_1, ENC_V2_KEY_2 } from './qmc_v2.key.ts';
 import { fetchParakeet } from '@jixun/libparakeet';
 import { stringToUTF8Bytes } from '~/decrypt-worker/util/utf8Encoder.ts';
-import { makeQMCv2KeyCrypto } from '~/decrypt-worker/util/qmc2KeyCrypto.ts';
+import { makeQMCv2FooterParser, makeQMCv2KeyCrypto } from '~/decrypt-worker/util/qmc2KeyCrypto.ts';
 
 export class QMC2Crypto implements CryptoBase {
   cryptoName = 'QMC/v2';
@@ -12,7 +11,7 @@ export class QMC2Crypto implements CryptoBase {
 
   async decrypt(buffer: ArrayBuffer): Promise<Blob> {
     const parakeet = await fetchParakeet();
-    const footerParser = parakeet.make.QMCv2FooterParser(SEED, ENC_V2_KEY_1, ENC_V2_KEY_2);
+    const footerParser = makeQMCv2FooterParser(parakeet);
     return transformBlob(buffer, (p) => p.make.QMCv2(footerParser), {
       parakeet,
       cleanup: () => footerParser.delete(),

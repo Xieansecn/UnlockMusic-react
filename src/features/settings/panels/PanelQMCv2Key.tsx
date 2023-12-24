@@ -61,7 +61,7 @@ export function PanelQMCv2Key() {
           alert(`不是支持的 SQLite 数据库文件。`);
           return;
         }
-      } else if (/MMKVStreamEncryptId|filenameEkeyMap/i.test(file.name)) {
+      } else if (/MMKVStreamEncryptId|filenameEkeyMap|qmpc-mmkv-v1/i.test(file.name)) {
         const fileBuffer = await file.arrayBuffer();
         const map = parseAndroidQmEKey(new DataView(fileBuffer));
         qmc2Keys = Array.from(map.entries(), ([name, ekey]) => ({ name: getFileName(name), ekey }));

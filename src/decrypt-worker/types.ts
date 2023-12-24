@@ -10,3 +10,8 @@ export interface DecryptCommandPayload {
   blobURI: string;
   options: DecryptCommandOptions;
 }
+
+export interface FetchMusicExNamePayload {
+  id: string;
+  blobURI: string;
+}

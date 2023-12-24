@@ -1,43 +1,44 @@
 import { debounce } from 'radash';
-import { produce } from 'immer';
 
 import type { AppStore } from '~/store';
 import { settingsSlice, setProductionChanges, ProductionSettings } from './settingsSlice';
 import { enumObject } from '~/util/objects';
 import { getLogger } from '~/util/logUtils';
 import { parseKwm2ProductionKey } from './keyFormats';
+import { deepClone } from '~/util/deepClone';
 
 const DEFAULT_STORAGE_KEY = 'um-react-settings';
 
 function mergeSettings(settings: ProductionSettings): ProductionSettings {
-  return produce(settingsSlice.getInitialState().production, (draft) => {
-    if (settings?.qmc2) {
-      const { allowFuzzyNameSearch, keys } = settings.qmc2;
-      for (const [k, v] of enumObject(keys)) {
-        if (typeof v === 'string') {
-          draft.qmc2.keys[k] = v;
-        }
-      }
-
-      if (typeof allowFuzzyNameSearch === 'boolean') {
-        draft.qmc2.allowFuzzyNameSearch = allowFuzzyNameSearch;
+  const draft = deepClone(settingsSlice.getInitialState().production);
+  if (settings?.qmc2) {
+    const { allowFuzzyNameSearch, keys } = settings.qmc2;
+    for (const [k, v] of enumObject(keys)) {
+      if (typeof v === 'string') {
+        draft.qmc2.keys[k] = v;
       }
     }
 
-    if (settings?.kwm2) {
-      const { keys } = settings.kwm2;
+    if (typeof allowFuzzyNameSearch === 'boolean') {
+      draft.qmc2.allowFuzzyNameSearch = allowFuzzyNameSearch;
+    }
+  }
 
-      for (const [k, v] of enumObject(keys)) {
-        if (typeof v === 'string' && parseKwm2ProductionKey(k)) {
-          draft.kwm2.keys[k] = v;
-        }
+  if (settings?.kwm2) {
+    const { keys } = settings.kwm2;
+
+    for (const [k, v] of enumObject(keys)) {
+      if (typeof v === 'string' && parseKwm2ProductionKey(k)) {
+        draft.kwm2.keys[k] = v;
       }
     }
+  }
 
-    if (typeof settings?.qtfm?.android === 'string') {
-      draft.qtfm.android = settings.qtfm.android.replace(/[^0-9a-fA-F]/g, '');
-    }
-  });
+  if (typeof settings?.qtfm?.android === 'string') {
+    draft.qtfm.android = settings.qtfm.android.replace(/[^0-9a-fA-F]/g, '');
+  }
+
+  return draft;
 }
 
 export function persistSettings(store: AppStore, storageKey = DEFAULT_STORAGE_KEY) {

@@ -2,9 +2,9 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '~/store';
 
-import type { DecryptionResult } from '~/decrypt-worker/constants';
-import type { DecryptCommandOptions } from '~/decrypt-worker/types';
-import { decryptionQueue } from '~/decrypt-worker/client';
+import { DECRYPTION_WORKER_ACTION_NAME, type DecryptionResult } from '~/decrypt-worker/constants';
+import type { DecryptCommandOptions, FetchMusicExNamePayload } from '~/decrypt-worker/types';
+import { decryptionQueue, workerClientBus } from '~/decrypt-worker/client';
 import { DecryptErrorType } from '~/decrypt-worker/util/DecryptError';
 import { selectQMCv2KeyByFileName, selectKWMv2Key, selectQtfmAndroidKey } from '../settings/settingsSelector';
 
@@ -44,7 +44,7 @@ export interface FileListingState {
   displayMode: ListingMode;
 }
 const initialState: FileListingState = {
-  files: Object.create(null),
+  files: {},
   displayMode: ListingMode.LIST,
 };
 
@@ -64,17 +64,27 @@ export const processFile = createAsyncThunk<
     thunkAPI.dispatch(setFileAsProcessing({ id: fileId }));
   };
 
-  const fileHeader = await fetch(file.raw, {
-    headers: {
-      Range: 'bytes=0-1023',
-    },
-  })
+  const fileHeader = await fetch(file.raw, { headers: { Range: 'bytes=0-1023' } })
     .then((r) => r.blob())
-    .then((r) => r.arrayBuffer());
+    .then((r) => r.arrayBuffer())
+    .then((r) => {
+      if (r.byteLength > 1024) {
+        return r.slice(0, 1024);
+      }
+      return r;
+    });
+
+  const qmcv2MusicExMediaFile = await workerClientBus.request<string, FetchMusicExNamePayload>(
+    DECRYPTION_WORKER_ACTION_NAME.FIND_QMC_MUSICEX_NAME,
+    {
+      id: fileId,
+      blobURI: file.raw,
+    },
+  );
 
   const options: DecryptCommandOptions = {
     fileName: file.fileName,
-    qmc2Key: selectQMCv2KeyByFileName(state, file.fileName),
+    qmc2Key: selectQMCv2KeyByFileName(state, qmcv2MusicExMediaFile || file.fileName),
     kwm2key: selectKWMv2Key(state, new DataView(fileHeader)),
     qingTingAndroidKey: selectQtfmAndroidKey(state),
   };
