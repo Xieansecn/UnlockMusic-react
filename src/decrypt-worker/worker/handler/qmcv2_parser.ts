@@ -10,6 +10,7 @@ export const workerParseMusicExMediaName = async ({ id, blobURI }: FetchMusicExN
     const blob = await timedLogger(`${label}/fetch-src`, async () =>
       fetch(blobURI, { headers: { Range: 'bytes=-1024' } }).then((r) => r.blob()),
     );
+
     const buffer = await timedLogger(`${label}/read-src`, async () => {
       // Firefox: the range header does not work...?
       const blobBuffer = await blob.arrayBuffer();
@@ -18,10 +19,12 @@ export const workerParseMusicExMediaName = async ({ id, blobURI }: FetchMusicExN
       }
       return blobBuffer;
     });
+
     const parsed = makeQMCv2FooterParser(parakeet).parse(buffer);
     if (parsed.state === FooterParserState.OK) {
       return parsed.mediaName;
     }
-    return '# N/A';
+
+    return null;
   });
 };
