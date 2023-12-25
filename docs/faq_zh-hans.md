@@ -63,6 +63,8 @@
 
 如果希望不破坏系统完整性，你可以考虑使用模拟器。
 
+※ **注意**：根据应用厂商的风控策略，使用模拟器登录的账号**有可能会被封锁**；使用前请自行评估风险。
+
 目前常见的带有 root 特权支持的的安卓模拟器方案，分别是雷电模拟器（※ 官方版有内置广告）和微软在 Windows 11 开始支援的适用于 Android™ 的 Windows 子系统 (WSA)。
 
 - WSA 可以参考 [MagiskOnWSALocal](https://github.com/LSPosed/MagiskOnWSALocal) 的说明操作。

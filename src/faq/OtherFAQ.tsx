@@ -1,4 +1,4 @@
-import { Img, ListItem, Text, UnorderedList } from '@chakra-ui/react';
+import { Alert, AlertIcon, Container, Flex, Img, ListItem, Text, UnorderedList } from '@chakra-ui/react';
 import { ExtLink } from '~/components/ExtLink';
 import { Header4 } from '~/components/HelpText/Header4';
 import { VQuote } from '~/components/HelpText/VQuote';
@@ -57,6 +57,19 @@ export function OtherFAQ() {
         </ExtLink>
         。
       </Text>
+
+      <Container p={2}>
+        <Alert status="warning" borderRadius={5}>
+          <AlertIcon />
+          <Flex flexDir="column">
+            <Text>
+              <strong>注意</strong>：根据应用厂商的风控策略，使用模拟器登录的账号<strong>有可能会被封锁</strong>
+              {'；使用前请自行评估风险。'}
+            </Text>
+          </Flex>
+        </Alert>
+      </Container>
+
       <UnorderedList>
         <ListItem>
           <Text>
