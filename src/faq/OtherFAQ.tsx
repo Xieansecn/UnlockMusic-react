@@ -95,8 +95,36 @@ export function OtherFAQ() {
                 <Code>um-react-electron</Code>
               </strong>
             </ExtLink>
-            : 利用 Electron 框架打包的本地版，提供适用于 Windows、Linux 和 Mac 平台的可执行文件。
+            ：利用 Electron 框架打包的本地版，提供适用于 Windows、Linux 和 Mac 平台的可执行文件。
           </Text>
+          <UnorderedList>
+            <ListItem>
+              <Text>
+                <ExtLink href="https://github.com/CarlGao4/um-react-electron/releases/latest">GitHub 下载</ExtLink>
+              </Text>
+            </ListItem>
+          </UnorderedList>
+        </ListItem>
+        <ListItem>
+          <Text>
+            <ExtLink href="https://git.unlock-music.dev/um/um-react-wry">
+              <strong>
+                <Code>um-react-wry</Code>
+              </strong>
+            </ExtLink>
+            : 使用 WRY 框架封装的 Win64 单文件（需要
+            <ExtLink href="https://go.microsoft.com/fwlink/p/?LinkId=2124703">安装 Edge WebView2 运行时</ExtLink>
+            {'，Win10+ 操作系统自带）'}
+          </Text>
+          <UnorderedList>
+            <ListItem>
+              <Text>
+                <ExtLink href="https://git.unlock-music.dev/um/um-react/releases/latest">仓库下载</ExtLink>
+                {' | 寻找文件名为 '}
+                <Code>um-react-win64-</Code> 开头的附件
+              </Text>
+            </ListItem>
+          </UnorderedList>
         </ListItem>
       </UnorderedList>
 

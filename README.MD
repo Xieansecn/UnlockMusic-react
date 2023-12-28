@@ -79,6 +79,10 @@
 - [Unlock Music (Cli)](https://git.unlock-music.dev/um/cli) - 命令行批量处理版
 - [um-react (Electron 前端)](https://github.com/CarlGao4/um-react-electron) - 使用 Electron 框架封装的本地可执行文件。
   - [GitHub 下载](https://github.com/CarlGao4/um-react-electron/releases/latest) | [仓库镜像](https://git.unlock-music.dev/CarlGao4/um-react-electron)
+- [um-react-wry](https://git.unlock-music.dev/um/um-react-wry) - 使用 WRY 框架封装的 Win64 单文件 (需要[安装 Edge WebView2 运行时][webview2_redist]，Win10+ 操作系统自带)
+  - [本地下载](https://git.unlock-music.dev/um/um-react/releases/latest) | 寻找文件名为 `um-react-win64-` 开头的附件
+
+[webview2_redist]: https://go.microsoft.com/fwlink/p/?LinkId=2124703
 
 有新的项目提交？欢迎[提交 issue][project-issues]，请带上项目名称和链接。
 
