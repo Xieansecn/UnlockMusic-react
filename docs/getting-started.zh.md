@@ -58,4 +58,4 @@ pnpm build
    ```sh
    ./scripts/make-win64.sh
    ```
-4. 等待提示 `done!` 即可。
+4. 等待提示 `[Build OK]` 即可。
