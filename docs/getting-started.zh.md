@@ -47,8 +47,10 @@ pnpm build
 
 ## 打包 win64 单文件
 
-利用 Windows 系统自带的 [WebView2 组件（Edge 浏览器运行时）](https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/)
+利用 Windows 系统自带的 [Edge WebView2 组件](https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/)
 和 [wry](https://github.com/tauri-apps/wry) 进行一个单文件的打包。
+
+大部分 Windows 10 或以上版本的操作系统已经集成了 WebView2 运行时。若无法正常启动，请[下载并安装 Edge WebView2 运行时](https://go.microsoft.com/fwlink/p/?LinkId=2124703)。
 
 其它系统兼容性未知。
 
