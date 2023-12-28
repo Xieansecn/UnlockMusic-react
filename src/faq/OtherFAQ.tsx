@@ -1,4 +1,4 @@
-import { Alert, AlertIcon, Container, Flex, Img, ListItem, Text, UnorderedList } from '@chakra-ui/react';
+import { Alert, AlertIcon, Code, Container, Flex, Img, ListItem, Text, UnorderedList } from '@chakra-ui/react';
 import { ExtLink } from '~/components/ExtLink';
 import { Header4 } from '~/components/HelpText/Header4';
 import { VQuote } from '~/components/HelpText/VQuote';
@@ -83,6 +83,20 @@ export function OtherFAQ() {
             雷电模拟器可以在<VQuote>模拟器设置</VQuote> → <VQuote>其他设置</VQuote>中启用 root 特权。
           </Text>
           <Img borderRadius={5} border="1px solid #ccc" src={LdPlayerSettingsScreen}></Img>
+        </ListItem>
+      </UnorderedList>
+
+      <Header4>相关项目</Header4>
+      <UnorderedList>
+        <ListItem>
+          <Text>
+            <ExtLink href="https://github.com/CarlGao4/um-react-electron">
+              <strong>
+                <Code>um-react-electron</Code>
+              </strong>
+            </ExtLink>
+            : 利用 Electron 框架打包的本地版，提供适用于 Windows、Linux 和 Mac 平台的可执行文件。
+          </Text>
         </ListItem>
       </UnorderedList>
 

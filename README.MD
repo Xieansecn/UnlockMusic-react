@@ -73,6 +73,15 @@
 
 满足上述条件后发起 Pull Request，仓库管理员审阅后将合并到主分支。
 
+## 相关项目
+
+- [Unlock Music (Web)](https://git.unlock-music.dev/um/web) - 原始项目
+- [Unlock Music (Cli)](https://git.unlock-music.dev/um/cli) - 命令行批量处理版
+- [um-react (Electron 前端)](https://github.com/CarlGao4/um-react-electron) - 使用 Electron 框架封装的本地可执行文件。
+  - [GitHub 下载](https://github.com/CarlGao4/um-react-electron/releases/latest) | [仓库镜像](https://git.unlock-music.dev/CarlGao4/um-react-electron)
+
+有新的项目提交？欢迎[提交 issue][project-issues]，请带上项目名称和链接。
+
 ## TODO
 
 - 待定
