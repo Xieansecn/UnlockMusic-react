@@ -33,3 +33,29 @@ pnpm build
 如果需要预览构建版本，运行 `pnpm preview` 然后打开[项目预览页面][vite-preview-url]即可。
 
 [vite-preview-url]: http://localhost:4173/
+
+## 打包 `.zip`
+
+建议在 Linux 环境下执行，可参考 `.drone.yml` CI 文件。
+
+1. 确保上述的构建步骤已完成。
+2. 确保 `python3` 已安装。
+3. 执行下述代码
+   ```sh
+   python3 -m zipfile -c um-react.zip dist/.
+   ```
+
+## 打包 win64 单文件
+
+利用 Windows 系统自带的 [WebView2 组件（Edge 浏览器运行时）](https://learn.microsoft.com/zh-cn/microsoft-edge/webview2/)
+和 [wry](https://github.com/tauri-apps/wry) 进行一个单文件的打包。
+
+其它系统兼容性未知。
+
+1. 确保你现在在 `linux-amd64` 环境下。
+2. 确保上述的 `um-react.zip` 构建已完成。
+3. 执行下述代码
+   ```sh
+   ./scripts/make-win64.sh
+   ```
+4. 等待提示 `done!` 即可。

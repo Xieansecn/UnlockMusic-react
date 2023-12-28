@@ -27,3 +27,6 @@ dist-ssr
 # Files created when running "drone exec" locally
 /.pnpm-store/
 /*.zip
+
+/um-react-wry-*
+/um-react*.exe
