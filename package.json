@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "tsc -p tsconfig.prod.json && vite build && node scripts/write-version.mjs",
+    "build": "tsc -p tsconfig.prod.json && vite build && pnpm build:finalize",
+    "build:finalize": "node scripts/write-version.mjs && node scripts/minify-mjs.mjs",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier -w .",
     "test": "vitest run",
@@ -59,6 +60,7 @@
     "jsdom": "^23.0.1",
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
+    "terser": "^5.27.0",
     "typescript": "^5.3.3",
     "vite": "^5.0.10",
     "vite-plugin-pwa": "^0.17.4",
