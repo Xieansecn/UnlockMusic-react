@@ -30,3 +30,5 @@ dist-ssr
 
 /um-react-wry-*
 /um-react*.exe
+
+/win64/
