@@ -1,3 +1,5 @@
+on: push
+
 on:
   push:
     branches:
