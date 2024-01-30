@@ -16,7 +16,7 @@ steps:
       # 让 npm 使用淘宝源
       npm_config_registry: https://registry.npmmirror.com
 
-  - name: public
+  - name: publish
     image: node:20.10.0-bookworm
     environment:
       DRONE_GITEA_SERVER: https://git.unlock-music.dev
@@ -35,5 +35,10 @@ steps:
       - ./scripts/deploy.sh
   - name: Check out repository code
     uses: actions/checkout@v3
+    with:
+        fetch-depth: 0
+
   - name: setup-node
     uses: actions/setup-node@v3
+    with:
+        fetch-depth: 0
