@@ -3,6 +3,9 @@ kind: pipeline
 type: docker
 name: default
 
+on:
+  push:
+    
 steps:
   - name: test & build
     image: node:20.10.0-bookworm
