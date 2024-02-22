@@ -1,8 +1,10 @@
 
 -name: setup
 on:
-  push:
-
+  workflow_dispatch:
+    push:
+      branches:
+        - main
 
 - name: Setup Go environment
   uses: actions/setup-go@v5.0.0
