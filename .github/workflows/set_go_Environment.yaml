@@ -1,5 +1,5 @@
+name: "setup go Environment"
 
--name: setup
 on:
   workflow_dispatch:
     push:
