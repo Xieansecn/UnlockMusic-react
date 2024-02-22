@@ -19,7 +19,7 @@ jobs:
          - pnpm build
        environment:
        # 让 npm 使用淘宝源
-       npm_config_registry: http://registry.npmmirror.com
+       npm_config_set_registry: http://registry.npmmirror.com
      - name: publish
        image: node:20.10.0-bookworm
        environment:
